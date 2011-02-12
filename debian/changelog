@@ -3,6 +3,7 @@ debootstrap (1.0.26squeeze1) UNRELEASED; urgency=low
   [ Miguel Figueiredo ]
   * Fix bug and typo on --private-key
     Patch by Jonathan Klee. 
+  * Fix for ar usage, thanks to Guillem Jover. Closes: #598729
 
  -- Miguel Figueiredo <elmig@debianpt.org>  Tue, 04 Jan 2011 21:16:28 +0000
 
