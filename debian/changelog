@@ -1,4 +1,4 @@
-debootstrap (1.0.26squeeze1) UNRELEASED; urgency=low
+debootstrap (1.0.26+squeeze1) UNRELEASED; urgency=low
 
   [ Miguel Figueiredo ]
   * Fix bug and typo on --private-key
