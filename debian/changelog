@@ -1,3 +1,11 @@
+debootstrap (1.0.48+deb7u3) wheezy; urgency=medium
+
+  [ Colin Watson ]
+  * Resolve mount point symlinks relative to the target chroot before
+    unmounting them (closes: #702861, #703037, #704744, #753442).
+
+ -- Cyril Brulebois <kibi@debian.org>  Wed, 08 Apr 2015 21:41:26 +0200
+
 debootstrap (1.0.48+deb7u2) wheezy; urgency=low
 
   [ Cyril Brulebois ]
