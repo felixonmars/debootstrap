@@ -1,3 +1,10 @@
+debootstrap (1.0.48+deb7u1) wheezy; urgency=low
+
+  [ Joey Hess ]
+  * Add support for jessie. Closes: #706788
+
+ -- Cyril Brulebois <kibi@debian.org>  Mon, 03 Jun 2013 11:49:50 +0200
+
 debootstrap (1.0.48) unstable; urgency=low
 
   * Team upload
