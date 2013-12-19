@@ -1,3 +1,16 @@
+debootstrap (1.0.48+deb7u2) wheezy; urgency=low
+
+  [ Cyril Brulebois ]
+  * Backport the following change from 1.0.56 (Closes: #766459).
+
+  [ Tollef Fog Heen ]
+  * Install base-passwd and base-files in two calls rather than one to
+    avoid problems with home-built media with different ordering in
+    Packages.  Thanks to Jo Shields for pointing this out and providing
+    the workaround.  Closes: #601670.  LP: #1001131.
+
+ -- Cyril Brulebois <kibi@debian.org>  Thu, 23 Oct 2014 17:36:06 +0200
+
 debootstrap (1.0.48+deb7u1) wheezy; urgency=low
 
   [ Joey Hess ]
