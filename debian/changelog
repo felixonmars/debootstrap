@@ -1,7 +1,8 @@
 debootstrap (1.0.48+deb7u2) wheezy; urgency=low
 
   [ Cyril Brulebois ]
-  * Backport the following change from 1.0.56 (Closes: #766459).
+  * Backport the following change from 1.0.56 (Closes: #766459). More
+    details can be found in #767999, see Guillem's comments.
 
   [ Tollef Fog Heen ]
   * Install base-passwd and base-files in two calls rather than one to
