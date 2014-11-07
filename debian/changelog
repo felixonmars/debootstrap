@@ -10,7 +10,7 @@ debootstrap (1.0.48+deb7u2) wheezy; urgency=low
     Packages.  Thanks to Jo Shields for pointing this out and providing
     the workaround.  Closes: #601670.  LP: #1001131.
 
- -- Cyril Brulebois <kibi@debian.org>  Thu, 23 Oct 2014 17:36:06 +0200
+ -- Cyril Brulebois <kibi@debian.org>  Fri, 07 Nov 2014 12:43:19 +0000
 
 debootstrap (1.0.48+deb7u1) wheezy; urgency=low
 
