@@ -1,8 +1,8 @@
-debootstrap (1.0.48+deb7u4) UNRELEASED; urgency=medium
+debootstrap (1.0.48+deb7u4) wheezy; urgency=medium
 
   * Add support for stretch (Closes: #783361).
 
- -- Cyril Brulebois <kibi@debian.org>  Fri, 15 May 2015 05:52:46 +0200
+ -- Cyril Brulebois <kibi@debian.org>  Fri, 15 May 2015 05:53:44 +0200
 
 debootstrap (1.0.48+deb7u3) wheezy; urgency=medium
 
