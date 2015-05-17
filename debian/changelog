@@ -1,6 +1,7 @@
-debootstrap (1.0.67+kfreebsd1) UNRELEASED; urgency=medium
+debootstrap (1.0.67+kbsd8u1) jessie-kfreebsd; urgency=medium
 
-  * Support the jessie-kfreebsd suite.
+  * Support the jessie-kfreebsd suite, by using the same script as
+    jessie (a symlink to sid) (Closes: #784927).
 
  -- Steven Chamberlain <steven@pyro.eu.org>  Tue, 28 Apr 2015 00:10:03 +0000
 
