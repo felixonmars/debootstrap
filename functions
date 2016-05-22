@@ -1021,6 +1021,10 @@ setup_proc () {
 		fi
 		;;
 	    hurd*)
+		# firmlink $TARGET/{dev,servers,proc} to the system ones.
+		settrans -a "$TARGET/dev" /hurd/firmlink /dev
+		settrans -a "$TARGET/servers" /hurd/firmlink /servers
+	        settrans -a "$TARGET/proc" /hurd/firmlink /proc
 		;;
 	    *)
 		umount_on_exit /dev/pts
@@ -1046,9 +1050,35 @@ setup_proc_fakechroot () {
 	ln -s /proc "$TARGET"
 }
 
+# create the static device nodes
 setup_devices () {
 	if doing_variant fakechroot; then
 		setup_devices_fakechroot
+		return 0
+	fi
+
+	case "$HOST_OS" in
+	    kfreebsd*)
+		;;
+	    freebsd)
+		;;
+	    hurd*)
+		;;
+	    *)
+		if true; then
+			setup_devices_simple
+		elif [ -e "$DEVICES_TARGZ" ]; then
+			zcat "$DEVICES_TARGZ" | (cd "$TARGET"; tar -xf -)
+		else
+			error 1 NODEVTGZ "no %s. cannot create devices" "$DEVICES_TARGZ"
+		fi
+		;;
+	esac
+}
+
+# enable the dynamic device nodes
+setup_dynamic_devices () {
+	if doing_variant fakechroot; then
 		return 0
 	fi
 
@@ -1058,27 +1088,26 @@ setup_devices () {
 	    freebsd)
 		mount -t devfs devfs $TARGET/dev ;;
 	    hurd*)
-		setup_devices_hurd ;;
-	    *)
-		if [ -e "$DEVICES_TARGZ" ]; then
-			zcat "$DEVICES_TARGZ" | (cd "$TARGET"; tar -xf -)
-		else
-			if [ -e /dev/.devfsd ] ; then
-				in_target mount -t devfs devfs /dev
-			else
-				error 1 NODEVTGZ "no %s. cannot create devices" "$DEVICES_TARGZ"
-			fi
-		fi
-		;;
+	        # Use the setup-translators of the hurd package
+	        in_target /usr/lib/hurd/setup-translators -k ;;
 	esac
 }
 
-setup_devices_hurd () {
-	# Use the setup-translators of the hurd package, and firmlink
-	# $TARGET/{dev,servers} to the system ones.
-	in_target /usr/lib/hurd/setup-translators -k
-	settrans -a $TARGET/dev /hurd/firmlink /dev
-	settrans -a $TARGET/servers /hurd/firmlink /servers
+setup_devices_simple () {
+	# The list of devices that can be created in a container comes from
+	# src/core/cgroup.c in the systemd source tree.
+	mknod -m 666 $TARGET/dev/null	c 1 3
+	mknod -m 666 $TARGET/dev/zero	c 1 5
+	mknod -m 666 $TARGET/dev/full	c 1 7
+	mknod -m 666 $TARGET/dev/random	c 1 8
+	mknod -m 666 $TARGET/dev/urandom	c 1 9
+	mknod -m 666 $TARGET/dev/tty	c 5 0
+	mkdir $TARGET/dev/pts/ $TARGET/dev/shm/
+	ln -s pts/ptmx $TARGET/dev/ptmx
+	ln -s /proc/self/fd   $TARGET/dev/fd
+	ln -s /proc/self/fd/0 $TARGET/dev/stdin
+	ln -s /proc/self/fd/1 $TARGET/dev/stdout
+	ln -s /proc/self/fd/2 $TARGET/dev/stderr
 }
 
 setup_devices_fakechroot () {

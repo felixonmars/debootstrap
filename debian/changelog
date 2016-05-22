@@ -1,3 +1,91 @@
+debootstrap (1.0.81) unstable; urgency=medium
+
+  [ Luca Falavigna ]
+  * Add (Ubuntu) yakkety as a symlink to gutsy.
+
+ -- Christian Perrier <bubulle@debian.org>  Tue, 03 May 2016 06:51:57 +0200
+
+debootstrap (1.0.80) unstable; urgency=medium
+
+  [ Jon Boden ]
+  * scripts/gutsy: Support kfreebsd & hurd arches on Ubuntu targets
+    (closes: #818748)
+
+ -- Christian Perrier <bubulle@debian.org>  Tue, 22 Mar 2016 19:27:45 +0100
+
+debootstrap (1.0.79) unstable; urgency=medium
+
+  [ Samuel Thibault ]
+  * hurd: move setting up dev and servers firmlink to setup_proc stage. Also
+    firmlink proc there.  Thanks Gabriele Giacone for all the investigation!
+    (Closes: #768102)
+
+ -- Christian Perrier <bubulle@debian.org>  Fri, 19 Feb 2016 07:23:59 +0100
+
+debootstrap (1.0.78+nmu1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Split setup_devices in setup_devices (which now only deals with static
+    device nodes) and setup_dynamic_devices, and move the calls to
+    setup_devices from the beginning of the second stage to the end of the
+    first stage.
+    setup_dynamic_devices mounts the appropriate filesystems which provide
+    dynamic device nodes for the architectures which need one in
+    debootstrap (kfreebsd and hurd).
+    This fixes a bug in --second-stage introduced in 1.0.34 and exposed
+    by the devices-related changes of 1.0.76: the second stage debootstrap
+    runs "dpkg --print-architecture >/dev/null" at the very beginning of
+    the program when /dev is still empty, so it creates an empty regular
+    file in place of /dev/null and this will cause mknod to fail later.
+    (Closes: #813232)
+
+ -- Marco d'Itri <md@linux.it>  Wed, 17 Feb 2016 01:23:23 +0100
+
+debootstrap (1.0.78) unstable; urgency=high
+
+  * Use HTTPS for Vcs-* URLs, and link to cgit rather than gitweb.
+  * Don't call mknod with the --mode option, it's not supported in
+    busybox. Use -m instead - fixes the broken fix for #812811.
+    Closes: #813124. Urgency high to get this fix propagated quickly -
+    it's breaking d-i installs right now. Adding myself to uploaders and
+    uploading.
+
+ -- Steve McIntyre <93sam@debian.org>  Fri, 29 Jan 2016 16:36:00 +0000
+
+debootstrap (1.0.77) unstable; urgency=medium
+
+  [ Marco d'Itri ]
+  * Fix permissions on device nodes (Closes: #812811).
+
+ -- Cyril Brulebois <kibi@debian.org>  Wed, 27 Jan 2016 20:22:05 +0100
+
+debootstrap (1.0.76) unstable; urgency=medium
+
+  [ Marco d'Itri ]
+  * Stop creating useless device nodes (Closes: #571136).
+
+ -- Cyril Brulebois <kibi@debian.org>  Sun, 24 Jan 2016 08:55:18 +0100
+
+debootstrap (1.0.75) unstable; urgency=medium
+
+  * Stop cleaning KEEP_DEBOOTSTRAP_DIR twice, as spotted by Chris Lamb
+    (Closes: #804415).
+  * Add Tanglu support (Closes: #771687), thanks to Matthias Klumpp. At
+    the moment, the following extra suites are recognized:
+     - aequorea
+     - bartholomea
+     - chromodoris
+     - dasyatis
+
+ -- Cyril Brulebois <kibi@debian.org>  Wed, 11 Nov 2015 18:49:28 +0100
+
+debootstrap (1.0.74) unstable; urgency=medium
+
+  [ Colin Watson ]
+  * Add (Ubuntu) xenial as a symlink to gutsy.
+
+ -- Christian Perrier <bubulle@debian.org>  Tue, 03 Nov 2015 07:09:23 +0100
+
 debootstrap (1.0.73~bpo8+1) jessie-backports; urgency=medium
 
   * Rebuild for jessie-backports.

@@ -2,7 +2,8 @@ mirror_style release
 download_style apt
 finddebs_style from-indices
 variants - buildd fakechroot minbase scratchbox
-keyring /usr/share/keyrings/debian-archive-keyring.gpg
+keyring /usr/share/keyrings/tanglu-archive-keyring.gpg
+default_mirror http://archive.tanglu.org/tanglu
 
 if doing_variant fakechroot; then
 	test "$FAKECHROOT" = "true" || error 1 FAKECHROOTREQ "This variant requires fakechroot environment to be started"
@@ -22,6 +23,9 @@ work_out_debs () {
 		#required="$required $(get_debs Priority: important)"
 		#  ^^ should be getting debconf here somehow maybe
 		base="$(get_debs Priority: important)"
+
+		# we want the Tanglu minimal dependency set to be installed
+		base="$base tanglu-minimal"
 	elif doing_variant buildd || doing_variant scratchbox; then
 		base="apt build-essential"
 	elif doing_variant minbase; then
@@ -148,11 +152,6 @@ second_stage_install () {
 
 	info CONFREQ "Configuring required packages..."
 
-	echo \
-"#!/bin/sh
-exit 101" > "$TARGET/usr/sbin/policy-rc.d"
-	chmod 755 "$TARGET/usr/sbin/policy-rc.d"
-
 	mv "$TARGET/sbin/start-stop-daemon" "$TARGET/sbin/start-stop-daemon.REAL"
 	echo \
 "#!/bin/sh
@@ -199,7 +198,6 @@ echo \"Warning: Fake start-stop-daemon called, doing nothing\"" > "$TARGET/sbin/
 		dpkg_progress $baseprog $bases CONFBASE "Configuring base system" CONFIGURING
 
 	mv "$TARGET/sbin/start-stop-daemon.REAL" "$TARGET/sbin/start-stop-daemon"
-	rm -f "$TARGET/usr/sbin/policy-rc.d"
 
 	progress $bases $bases CONFBASE "Configuring base system"
 	info BASESUCCESS "Base system installed successfully."
