@@ -1,11 +1,11 @@
-debootstrap (1.0.86) UNRELEASED; urgency=medium
+debootstrap (1.0.86) unstable; urgency=high
 
   * Rework split_inline_sig by using shell built-ins instead of trying to
     mix sed and tr together, which might work on regular systems but not
     from inside the Debian Installer (Closes: #842591). Thanks to Ansgar
     Burchardt for the proof of concept!
 
- -- Cyril Brulebois <kibi@debian.org>  Sun, 30 Oct 2016 23:10:40 +0100
+ -- Cyril Brulebois <kibi@debian.org>  Sun, 30 Oct 2016 23:35:45 +0100
 
 debootstrap (1.0.85) unstable; urgency=medium
 
