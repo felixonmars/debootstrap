@@ -531,14 +531,42 @@ split_inline_sig () {
 	local reldest="$2"
 	local relsigdest="$3"
 
-	sed -n '/^-----BEGIN PGP SIGNATURE-----$/,/^-----END PGP SIGNATURE-----$/p' < \
-	    "$inreldest" > "$relsigdest"
-	# We assume \a does not appear in the Release file, and strip
-	# the last \n through the tr round-trip.
-	sed '/^-----BEGIN PGP SIGNED MESSAGE-----$/,/^$/ d
-	     /^-----BEGIN PGP SIGNATURE-----$/,/^-----END PGP SIGNATURE-----$/ d
-	    ' < "$inreldest" |
-	tr '\n' '\a' | sed 's/\a$//' | tr '\a' '\n' > "$reldest"
+	# Note: InRelease files are fun since one needs to remove the
+	# last newline from the PGP SIGNED MESSAGE part, while keeping
+	# the PGP SIGNATURE part intact. This shell implementation
+	# should work on most if not all systems, instead of trying to
+	# sed/tr/head, etc.
+	rm -f "$reldest" "$relsigdest"
+	nl=""
+	state=pre-begin
+	while IFS= read -r line; do
+		case "${state}" in
+		    pre-begin)
+			if [ "x${line}" = "x-----BEGIN PGP SIGNED MESSAGE-----" ]; then
+				state=begin
+			fi
+			;;
+		    begin)
+			if [ "x${line}" = "x" ]; then
+				state=data
+			fi
+			;;
+		    data)
+			if [ "x${line}" = "x-----BEGIN PGP SIGNATURE-----" ]; then
+				printf "%s\n" "${line}" > "$relsigdest"
+				state=signature
+			else
+				printf "${nl}%s" "${line}" >> "$reldest"
+				nl="\n"
+			fi
+			;;
+		    signature)
+			printf "%s\n" "${line}" >> "$relsigdest"
+			if [ "x${line}" = "x-----END PGP SIGNATURE-----" ]; then
+				break
+			fi
+		esac
+	done < "$inreldest"
 }
 
 download_release_sig () {
