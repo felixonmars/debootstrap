@@ -1,3 +1,9 @@
+debootstrap (1.0.86~bpo8+1) jessie-backports; urgency=medium
+
+  * Rebuild for jessie-backports.
+
+ -- Luca Falavigna <dktrkranz@debian.org>  Fri, 04 Nov 2016 09:45:04 +0100
+
 debootstrap (1.0.86) unstable; urgency=high
 
   * Rework split_inline_sig by using shell built-ins instead of trying to
