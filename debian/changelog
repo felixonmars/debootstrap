@@ -1,7 +1,11 @@
 debootstrap (1.0.87) UNRELEASED; urgency=high
 
+  [ Julien Cristau ]
   * Default to split /usr again, as merged-/usr breaks dpkg-shlibdeps
     (closes: #844221).
+
+  [ Riku Voipio ]
+  * remove scratchbox2 support (closes: #796189)
 
  -- Julien Cristau <jcristau@debian.org>  Sun, 13 Nov 2016 08:05:35 -0800
 

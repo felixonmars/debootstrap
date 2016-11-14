@@ -100,7 +100,7 @@ usage()
                              archive
       --variant=X            use variant X of the bootstrap scripts
                              (currently supported variants: buildd, fakechroot,
-                              scratchbox, minbase)
+                              minbase)
       --merged-usr           make /{bin,sbin,lib}/ symlinks to /usr/
       --keyring=K            check Release files against keyring K
       --no-check-gpg         avoid checking Release file signatures
@@ -464,16 +464,6 @@ fi
 
 if [ "$TARGET" = "/" ]; then
 	CHROOT_CMD=""
-elif doing_variant scratchbox; then
-	for config in ~/.scratchbox2/*/sb2.config;
-	do
-		export `grep ^SBOX_TARGET_ROOT= $config`
-		if [ "x$SBOX_TARGET_ROOT" = "x$TARGET" ]; then
-			SB2_TARGET=$(basename $(dirname $config))
-		fi
-	done
-	[ "x$SB2_TARGET" != "x" ] || error 1 SBOXTARGETREQ "No scratchbox target configured for $TARGET"
-	CHROOT_CMD="sb2 -eR -t $SB2_TARGET"
 else
 	CHROOT_CMD="chroot $TARGET"
 fi
