@@ -1,4 +1,4 @@
-debootstrap (1.0.87) UNRELEASED; urgency=high
+debootstrap (1.0.87) unstable; urgency=high
 
   [ Julien Cristau ]
   * Default to split /usr again, as merged-/usr breaks dpkg-shlibdeps
@@ -7,7 +7,7 @@ debootstrap (1.0.87) UNRELEASED; urgency=high
   [ Riku Voipio ]
   * remove scratchbox2 support (closes: #796189)
 
- -- Julien Cristau <jcristau@debian.org>  Sun, 13 Nov 2016 08:05:35 -0800
+ -- Christian Perrier <bubulle@debian.org>  Wed, 16 Nov 2016 06:47:27 +0100
 
 debootstrap (1.0.86) unstable; urgency=high
 
