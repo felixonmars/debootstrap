@@ -1173,7 +1173,12 @@ setup_devices_simple () {
 	mknod -m 666 $TARGET/dev/urandom	c 1 9
 	mknod -m 666 $TARGET/dev/tty	c 5 0
 	mkdir $TARGET/dev/pts/ $TARGET/dev/shm/
-	ln -s pts/ptmx $TARGET/dev/ptmx
+	# Inside a container, we might not be allowed to create /dev/ptmx.
+	# If not, do the next best thing.
+	if ! mknod -m 666 $TARGET/dev/ptmx c 5 2; then
+		warning MKNOD "Could not create /dev/ptmx, falling back to symlink. This chroot will require /dev/pts mounted with ptmxmode=666"
+		ln -s pts/ptmx $TARGET/dev/ptmx
+	fi
 	ln -s /proc/self/fd   $TARGET/dev/fd
 	ln -s /proc/self/fd/0 $TARGET/dev/stdin
 	ln -s /proc/self/fd/1 $TARGET/dev/stdout
