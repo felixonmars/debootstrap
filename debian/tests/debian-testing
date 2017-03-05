@@ -113,6 +113,9 @@ sub check_chroot {
         $reference);
 
     check_fake_schroot(%params, reference => $reference);
+    check_fake_schroot(%params, reference => $reference, version => 'proposed');
+    check_fake_schroot(%params, reference => $reference, version => 'proposed',
+        extra_argv => ['--sbuild']);
 
     # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=817236
     if (Dpkg::Version->new($params{kernel}) < Dpkg::Version->new('4.7') &&
