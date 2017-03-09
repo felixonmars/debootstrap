@@ -3,7 +3,7 @@
 # and in particular that using it with early 2017 versions of schroot and
 # pbuilder results in working pseudo-terminals (#817236)
 #
-# Copyright © 2017 Simon McVittie
+# Copyright Â© 2017 Simon McVittie
 # SPDX-License-Identifier: MIT
 # (see debian/copyright)
 

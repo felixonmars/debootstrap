@@ -2,7 +2,7 @@
 # fake/pbuilder-proposed -- emulate how pbuilder is proposed to chroot in
 # future.
 #
-# Copyright © 2017 Simon McVittie
+# Copyright Â© 2017 Simon McVittie
 # SPDX-License-Identifier: MIT
 # (see debian/copyright)
 

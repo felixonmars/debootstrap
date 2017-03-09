@@ -5,7 +5,7 @@
 # (There is of course a lot more that it does, but these are the parts that
 # affect pty users like script(1).)
 #
-# Copyright © 2017 Simon McVittie
+# Copyright Â© 2017 Simon McVittie
 # SPDX-License-Identifier: MIT
 # (see debian/copyright)
 
