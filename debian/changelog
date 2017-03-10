@@ -1,4 +1,4 @@
-debootstrap (1.0.89) UNRELEASED; urgency=medium
+debootstrap (1.0.89) unstable; urgency=medium
 
   [ Simon McVittie ]
   * Instead of creating a /dev/ptmx → pts/ptmx symlink unconditionally,
@@ -10,7 +10,7 @@ debootstrap (1.0.89) UNRELEASED; urgency=medium
   [ Cyril Brulebois ]
   * Uniformize COMPONENTS/USE_COMPONENTS handling.
 
- -- Cyril Brulebois <kibi@debian.org>  Fri, 10 Mar 2017 12:52:11 +0100
+ -- Cyril Brulebois <kibi@debian.org>  Fri, 10 Mar 2017 13:10:56 +0100
 
 debootstrap (1.0.88) unstable; urgency=high
 
