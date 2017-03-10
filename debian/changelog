@@ -7,6 +7,9 @@ debootstrap (1.0.89) UNRELEASED; urgency=medium
     sbuild, and schroot (Closes: #817236).
   * Add autopkgtest support to test various scenarios.
 
+  [ Cyril Brulebois ]
+  * Uniformize COMPONENTS/USE_COMPONENTS handling.
+
  -- Cyril Brulebois <kibi@debian.org>  Fri, 10 Mar 2017 12:52:11 +0100
 
 debootstrap (1.0.88) unstable; urgency=high
