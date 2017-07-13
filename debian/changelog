@@ -1,3 +1,9 @@
+debootstrap (1.0.90~bpo9+1) stretch-backports; urgency=medium
+
+  * Rebuild for stretch-backports.
+
+ -- Luca Falavigna <dktrkranz@debian.org>  Thu, 13 Jul 2017 20:10:09 +0200
+
 debootstrap (1.0.90) unstable; urgency=medium
 
   [ Mattia Rizzolo ]
