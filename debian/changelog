@@ -1,9 +1,9 @@
-debootstrap (1.0.91) UNRELEASED; urgency=medium
+debootstrap (1.0.91) unstable; urgency=medium
 
   [ Sven Joachim ]
   * Avoid the 'type' shell command (closes: #860545).
 
- -- Colin Watson <cjwatson@debian.org>  Mon, 24 Jul 2017 15:39:46 +0100
+ -- Christian Perrier <bubulle@debian.org>  Wed, 26 Jul 2017 06:53:10 +0200
 
 debootstrap (1.0.90) unstable; urgency=medium
 
