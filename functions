@@ -1413,19 +1413,11 @@ while (read STDIN, $x, 1) {
 		elif [ "$1" = "GETDEPS" ]; then
 			local pkgdest="$2"; shift; shift
 			perl -e '
-$prevpkg = "";
-@d = ();
 %seen = map { $_ => 1 } @ARGV;
 while (<STDIN>) {
 	if (/^Package: (.*)$/) {
 		$pkg = $1;
-		if ($pkg ne $prevpkg) {
-			for my $d (@d) {
-				print "$d\n";
-			}
-		}
-		$prevpkg = $1;
-		@d = ();
+		next;
 	} elsif (/^$/) {
                 $in = 0;
                 next;
@@ -1436,13 +1428,14 @@ while (<STDIN>) {
 			$d =~ s/\s*[|].*$//;
 			$d =~ s/\s*[(].*[)]\s*//;
 			$d =~ s/:.*//;
-			push @d, $d;
+			$depends{$d} = 1;
 		}
 	}
 }
-for my $d (@d) {
-	print "$d\n";
-}' <"$pkgdest" "$@" | sort | uniq
+	foreach (sort keys %depends) {
+	  print "$_\n";
+	}
+' <"$pkgdest" "$@"
 		elif [ "$1" = "PKGS" ]; then
 			local m="$2"
 			local p="$3"
