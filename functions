@@ -1349,7 +1349,6 @@ $unique = shift @ARGV; $field = lc(shift @ARGV); $mirror = shift @ARGV;
 $prevpkg = "";
 $chksumfield = lc($ENV{DEBOOTSTRAP_CHECKSUM_FIELD}).":";
 while (<STDIN>) {
-	next if (/^ /);
 	if (/^([^:]*:)\s*(.*)$/) {
 		$f = lc($1); $v = $2;
 		if ($f eq "package:") {
@@ -1412,7 +1411,7 @@ while (read STDIN, $x, 1) {
 }' "$@"
 		elif [ "$1" = "GETDEPS" ]; then
 			local pkgdest="$2"; shift; shift
-			perl -e '
+egrep '^$|^Package:|^Depends:|^Pre-Depends:'  $pkgdest | perl -e '
 %seen = map { $_ => 1 } @ARGV;
 while (<STDIN>) {
 	if (/^Package: (.*)$/) {
@@ -1435,18 +1434,18 @@ while (<STDIN>) {
 	foreach (sort keys %depends) {
 	  print "$_\n";
 	}
-' <"$pkgdest" "$@"
+' "$@"
 		elif [ "$1" = "PKGS" ]; then
 			local m="$2"
 			local p="$3"
 			shift; shift; shift
-			pkgdetails_field 1 Package: "$m" "$@" < "$p"
+			egrep '^$|^Architecture:|^Filename:|^MD5sum:|^Package:|^Priority:|^SHA256:|^Size:|^Version:|^Depends:|^Pre-Depends:' "$p" | pkgdetails_field 1 Package: "$m" "$@"
 		elif [ "$1" = "FIELD" ]; then
 			local f="$2"
 			local m="$3"
 			local p="$4"
 			shift; shift; shift; shift
-			pkgdetails_field 0 "$f" "$m" "$@" < "$p"
+			egrep '^$|^Architecture:|^Filename:|^MD5sum:|^Package:|^Priority:|^SHA256:|^Size:|^Version:|^Depends:|^Pre-Depends:' "$p" | pkgdetails_field 0 "$f" "$m" "$@"
 		elif [ "$1" = "STANZAS" ]; then
 			local pkgdest="$2"; shift; shift
 			perl -e '
