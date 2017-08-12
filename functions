@@ -1415,6 +1415,7 @@ while (read STDIN, $x, 1) {
 			perl -e '
 $prevpkg = "";
 @d = ();
+%seen = map { $_ => 1 } @ARGV;
 while (<STDIN>) {
 	if (/^Package: (.*)$/) {
 		$pkg = $1;
@@ -1426,7 +1427,7 @@ while (<STDIN>) {
 		$prevpkg = $1;
 		@d = ();
 	}
-	$in = 1 if (grep {$_ eq $pkg} @ARGV);
+	$in = 1 if $seen{$pkg};
 	$in = 0 if (/^$/);
 	if ($in and (/^Depends: (.*)$/ or /^Pre-Depends: (.*)$/)) {
 		for $d (split /\s*,\s*/, $1) {
@@ -1455,9 +1456,10 @@ for my $d (@d) {
 			local pkgdest="$2"; shift; shift
 			perl -e '
 my $accum = "";
+%seen = map { $_ => 1 } @ARGV;
 while (<STDIN>) {
 	$accum .= $_;
-	$in = 1 if (/^Package: (.*)$/ && grep {$_ eq $1} @ARGV);
+	$in = 1 if (/^Package: (.*)$/ && $seen{$1});
 	if ($in and /^$/) {
 		print $accum;
 		if (substr($accum, -1) != "\n") {
