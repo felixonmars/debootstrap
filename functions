@@ -1426,9 +1426,11 @@ while (<STDIN>) {
 		}
 		$prevpkg = $1;
 		@d = ();
-	}
+	} elsif (/^$/) {
+                $in = 0;
+                next;
+        }
 	$in = 1 if $seen{$pkg};
-	$in = 0 if (/^$/);
 	if ($in and (/^Depends: (.*)$/ or /^Pre-Depends: (.*)$/)) {
 		for $d (split /\s*,\s*/, $1) {
 			$d =~ s/\s*[|].*$//;
