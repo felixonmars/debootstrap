@@ -1347,8 +1347,8 @@ if in_path perl; then
 $unique = shift @ARGV; $field = lc(shift @ARGV); $mirror = shift @ARGV;
 %fields = map { $_, 0 } @ARGV;
 $prevpkg = "";
+$chksumfield = lc($ENV{DEBOOTSTRAP_CHECKSUM_FIELD}).":";
 while (<STDIN>) {
-	chomp;
 	next if (/^ /);
 	if (/^([^:]*:)\s*(.*)$/) {
 		$f = lc($1); $v = $2;
@@ -1370,7 +1370,7 @@ while (<STDIN>) {
 		$ver = $v if ($f eq "version:");
 		$arc = $v if ($f eq "architecture:");
 		$fil = $v if ($f eq "filename:");
-		$chk = $v if (lc $f eq lc($ENV{DEBOOTSTRAP_CHECKSUM_FIELD}).":");
+		$chk = $v if ($f eq $chksumfield);
 		$siz = $v if ($f eq "size:");
 		$val = $v if ($f eq $field);
 	} elsif (/^$/) {
@@ -1416,7 +1416,6 @@ while (read STDIN, $x, 1) {
 $prevpkg = "";
 @d = ();
 while (<STDIN>) {
-	chomp;
 	if (/^Package: (.*)$/) {
 		$pkg = $1;
 		if ($pkg ne $prevpkg) {
