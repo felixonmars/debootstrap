@@ -1,3 +1,9 @@
+debootstrap (1.0.67+deb8u1) jessie; urgency=medium
+
+  * Add support for buster and bullseye.
+
+ -- Mattia Rizzolo <mattia@debian.org>  Sun, 18 Jun 2017 13:48:43 +0200
+
 debootstrap (1.0.67) unstable; urgency=medium
 
   [ Cyril Brulebois ]
