@@ -1411,7 +1411,7 @@ while (read STDIN, $x, 1) {
 }' "$@"
 		elif [ "$1" = "GETDEPS" ]; then
 			local pkgdest="$2"; shift; shift
-egrep '^$|^Package:|^Depends:|^Pre-Depends:'  $pkgdest | perl -e '
+LC_ALL=C grep -P '^$|^Package:|^Depends:|^Pre-Depends:'  $pkgdest | perl -e '
 %seen = map { $_ => 1 } @ARGV;
 while (<STDIN>) {
 	if (/^Package: (.*)$/) {
@@ -1439,13 +1439,13 @@ while (<STDIN>) {
 			local m="$2"
 			local p="$3"
 			shift; shift; shift
-			egrep '^$|^Architecture:|^Filename:|^MD5sum:|^Package:|^Priority:|^SHA256:|^Size:|^Version:|^Depends:|^Pre-Depends:' "$p" | pkgdetails_field 1 Package: "$m" "$@"
+			LC_ALL=C grep -P '^$|^Architecture:|^Filename:|^MD5sum:|^Package:|^Priority:|^SHA256:|^Size:|^Version:|^Depends:|^Pre-Depends:' "$p" | pkgdetails_field 1 Package: "$m" "$@"
 		elif [ "$1" = "FIELD" ]; then
 			local f="$2"
 			local m="$3"
 			local p="$4"
 			shift; shift; shift; shift
-			egrep '^$|^Architecture:|^Filename:|^MD5sum:|^Package:|^Priority:|^SHA256:|^Size:|^Version:|^Depends:|^Pre-Depends:' "$p" | pkgdetails_field 0 "$f" "$m" "$@"
+			LC_ALL=C grep -P '^$|^Architecture:|^Filename:|^MD5sum:|^Package:|^Priority:|^SHA256:|^Size:|^Version:|^Depends:|^Pre-Depends:' "$p" | pkgdetails_field 0 "$f" "$m" "$@"
 		elif [ "$1" = "STANZAS" ]; then
 			local pkgdest="$2"; shift; shift
 			perl -e '
