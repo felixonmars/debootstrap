@@ -2,7 +2,8 @@ debootstrap (1.0.92) UNRELEASED; urgency=medium
 
   * Team upload.
   * Add (Ubuntu) bionic as a symlink to gutsy.
-  * As Priority:extra is deprecated, change to optional.
+  * Bump Standards-Version to 4.1.1:
+    + Priority:extra is deprecated, change to optional.
 
  -- Mattia Rizzolo <mattia@debian.org>  Fri, 27 Oct 2017 11:19:02 +0200
 
