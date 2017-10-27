@@ -1,6 +1,6 @@
 Source: debootstrap
 Section: admin
-Priority: extra
+Priority: optional
 Maintainer: Debian Install System Team <debian-boot@lists.debian.org>
 Uploaders: Junichi Uekawa <dancer@debian.org>, Colin Watson <cjwatson@debian.org>, Christian Perrier <bubulle@debian.org>, Steve McIntyre <93sam@debian.org>
 Build-Depends: debhelper (>= 9)
