@@ -1,3 +1,10 @@
+debootstrap (1.0.92) UNRELEASED; urgency=medium
+
+  * Team upload.
+  * Add (Ubuntu) bionic as a symlink to gutsy.
+
+ -- Mattia Rizzolo <mattia@debian.org>  Fri, 27 Oct 2017 11:19:02 +0200
+
 debootstrap (1.0.91) unstable; urgency=medium
 
   [ Sven Joachim ]
