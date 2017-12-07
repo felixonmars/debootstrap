@@ -1,12 +1,13 @@
-debootstrap (1.0.93) UNRELEASED; urgency=medium
+debootstrap (1.0.93) unstable; urgency=medium
 
+  [ Mattia Rizzolo ]
   * Team upload.
   * scripts/gutsy: incorporate changes from Ubuntu:
     + Sync from scripts/sid.
     + Fix debootstrap --variant=fakechroot failure because initscripts is no
       longer part of the base system.
 
- -- Mattia Rizzolo <mattia@debian.org>  Sat, 28 Oct 2017 13:56:13 +0200
+ -- Christian Perrier <bubulle@debian.org>  Thu, 07 Dec 2017 09:25:07 +0100
 
 debootstrap (1.0.92) unstable; urgency=medium
 
