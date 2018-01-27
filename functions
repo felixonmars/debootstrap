@@ -976,7 +976,7 @@ extract () { (
 ); }
 
 in_target_nofail () {
-	if ! $CHROOT_CMD "$@" 2>/dev/null; then
+	if ! PATH=/sbin:/usr/sbin:/bin:/usr/bin $CHROOT_CMD "$@" 2>/dev/null; then
 		true
 	fi
 	return 0
@@ -987,7 +987,7 @@ in_target_failmsg () {
 	local msg="$2"
 	local arg="$3"
 	shift; shift; shift
-	if ! $CHROOT_CMD "$@"; then
+	if ! PATH=/sbin:/usr/sbin:/bin:/usr/bin $CHROOT_CMD "$@"; then
 		warning "$code" "$msg" "$arg"
 		# Try to point user at actual failing package.
 		msg="See %s for details"
