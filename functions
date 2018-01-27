@@ -1132,6 +1132,11 @@ setup_devices () {
 		return 0
 	fi
 
+	if grep -q container=lxc-libvirt /proc/1/environ; then
+		setup_devices_bind
+		return 0
+	fi
+
 	case "$HOST_OS" in
 	    kfreebsd*)
 		;;
@@ -1203,6 +1208,26 @@ setup_devices_simple () {
 setup_devices_fakechroot () {
 	rm -rf "$TARGET/dev"
 	ln -s /dev "$TARGET"
+}
+
+setup_devices_bind () {
+	mount -t tmpfs nodev $TARGET/dev
+	umount_on_exit /dev
+	for device in null zero full random urandom tty pts shm ptmx; do
+		if [ -d /dev/$device ]; then
+			mkdir $TARGET/dev/$device
+		elif [ -c /dev/$device ]; then
+			touch $TARGET/dev/$device
+		else
+			continue
+		fi
+		mount -o bind /dev/$device $TARGET/dev/$device
+		umount_on_exit /dev/$device
+	done
+	ln -s /proc/self/fd   $TARGET/dev/fd
+	ln -s /proc/self/fd/0 $TARGET/dev/stdin
+	ln -s /proc/self/fd/1 $TARGET/dev/stdout
+	ln -s /proc/self/fd/2 $TARGET/dev/stderr
 }
 
 setup_dselect_method () {
@@ -1467,12 +1492,14 @@ check_sane_mount () {
 	    *freebsd*|hurd*)
 		;;
 	    *)
-		mknod "$1/test-dev-null" c 1 3 || return 1
-		if ! echo test > "$1/test-dev-null"; then
+		if ! grep -q container=lxc-libvirt /proc/1/environ; then
+			mknod "$1/test-dev-null" c 1 3 || return 1
+			if ! echo test > "$1/test-dev-null"; then
+				rm -f "$1/test-dev-null"
+				return 1
+			fi
 			rm -f "$1/test-dev-null"
-			return 1
 		fi
-		rm -f "$1/test-dev-null"
 		;;
 	esac
 
