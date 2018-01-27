@@ -1018,7 +1018,7 @@ conditional_cp () {
 		if [ -L "$1" ] && [ -e "$1" ]; then
 			cat "$1" >"$2/$1"
 		elif [ -e "$1" ]; then
-			cp -a "$1" "$2/$1"
+			cp "$1" "$2/$1"
 		fi
 	fi
 }
