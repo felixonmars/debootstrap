@@ -1070,7 +1070,7 @@ umount_exit_function () {
 
 umount_on_exit () {
 	if [ "$UMOUNT_DIRS" ]; then
-		UMOUNT_DIRS="$UMOUNT_DIRS $1"
+		UMOUNT_DIRS="$1 $UMOUNT_DIRS"
 	else
 		UMOUNT_DIRS="$1"
 		on_exit umount_exit_function
@@ -1104,8 +1104,8 @@ setup_proc () {
 	    *)
 		umount_on_exit /dev/pts
 		umount_on_exit /dev/shm
-		umount_on_exit /proc/bus/usb
 		umount_on_exit /proc
+		umount_on_exit /proc/bus/usb
 		umount "$TARGET/proc" 2>/dev/null || true
 		in_target mount -t proc proc /proc
 		if [ -d "$TARGET/sys" ] && \
