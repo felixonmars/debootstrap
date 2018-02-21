@@ -292,40 +292,45 @@ verify_checksum () {
 get () {
 	# args: from dest 'nocache'
 	# args: from dest [checksum size] [alt {checksum size type}]
-	local displayname versionname
-	if [ "${2%.deb}" != "$2" ]; then
-		displayname="$(echo "$2" | sed 's,^.*/,,;s,_.*$,,')"
-		versionname="$(echo "$2" | sed 's,^.*/,,' | cut -d_ -f2 | sed 's/%3a/:/')"
+	local displayname
+	local versionname
+	local from_base
+	local dest_base
+	local nocache=""
+	from_base="$1"; shift
+	dest_base="$1"; shift
+	if [ "$1" = "nocache" ]; then
+		nocache="true"; shift
+	fi
+	if [ "${dest_base%.deb}" != "$dest_base" ]; then
+		displayname="$(echo "$dest_base" | sed 's,^.*/,,;s,_.*$,,')"
+		versionname="$(echo "$dest_base" | sed 's,^.*/,,' | cut -d_ -f2 | sed 's/%3a/:/')"
 	else
-		displayname="$(echo "$1" | sed 's,^.*/,,')"
+		displayname="$(echo "$from_base" | sed 's,^.*/,,')"
 	fi
 
-	if [ -e "$2" ]; then
-		if [ -z "$3" ]; then
+	if [ -e "$dest_base" ]; then
+		if [ -z "$1" ]; then
 			return 0
-		elif [ "$3" = nocache ]; then
-			rm -f "$2"
+		elif [ -n "$nocache" ]; then
+			rm -f "$dest_base"
 		else
 			info VALIDATING "Validating %s %s" "$displayname" "$versionname"
-			if verify_checksum "$2" "$3" "$4"; then
+			if verify_checksum "$dest_base" "$1" "$2"; then
 				return 0
 			else
-				rm -f "$2"
+				rm -f "$dest_base"
 			fi
 		fi
 	fi
-	# Drop 'nocache' option
-	if [ "$3" = nocache ]; then
-		set "$1" "$2"
-	fi
 
-	if [ "$#" -gt 5 ]; then
-		local st=3
-		if [ "$5" = "-" ]; then st=6; fi
+	if [ "$#" -gt 3 ]; then
+		local st=1
+		if [ "$3" = "-" ]; then st=4; fi
 		local order="$(a=$st; while [ "$a" -le $# ]; do eval echo \"\${$(($a+1))}\" $a;
 		a=$(($a + 3)); done | sort -n | sed 's/.* //')"
 	else
-		local order=3
+		local order=1
 	fi
 	for a in $order; do
 		local checksum siz typ from dest iters
@@ -335,10 +340,10 @@ get () {
 		iters="0"
 
 		case "$typ" in
-		    xz)  from="$1.xz"; dest="$2.xz" ;;
-		    bz2) from="$1.bz2"; dest="$2.bz2" ;;
-		    gz)  from="$1.gz"; dest="$2.gz" ;;
-		    *)   from="$1"; dest="$2" ;;
+		    xz)  from="$from_base.xz"; dest="$dest_base.xz" ;;
+		    bz2) from="$from_base.bz2"; dest="$dest_base.bz2" ;;
+		    gz)  from="$from_base.gz"; dest="$dest_base.gz" ;;
+		    *)   from="$from_base"; dest="$dest_base" ;;
 		esac
 
 		if [ ! -z "$CACHE_DIR" ]; then
