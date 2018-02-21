@@ -1,6 +1,10 @@
 debootstrap (1.0.98) UNRELEASED; urgency=medium
 
+  [ Cyril Brulebois ]
   * Update Vcs-{Browser,Git} to point to salsa (alioth's replacement).
+
+  [ Julien Cristau ]
+  * Add Acquire-By-Hash support.
 
  -- Cyril Brulebois <kibi@debian.org>  Fri, 27 Apr 2018 03:43:00 +0200
 

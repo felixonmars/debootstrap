@@ -292,15 +292,19 @@ verify_checksum () {
 get () {
 	# args: from dest 'nocache'
 	# args: from dest [checksum size] [alt {checksum size type}]
+	# args: from dest 'byhash' [checksum size] [alt {checksum size type}]
 	local displayname
 	local versionname
 	local from_base
 	local dest_base
 	local nocache=""
+	local byhash=""
 	from_base="$1"; shift
 	dest_base="$1"; shift
 	if [ "$1" = "nocache" ]; then
 		nocache="true"; shift
+	elif [ "$1" = "byhash" ]; then
+		byhash="true"; shift
 	fi
 	if [ "${dest_base%.deb}" != "$dest_base" ]; then
 		displayname="$(echo "$dest_base" | sed 's,^.*/,,;s,_.*$,,')"
@@ -358,6 +362,10 @@ get () {
 
 		while [ "$iters" -lt 10 ]; do
 			info RETRIEVING "Retrieving %s %s" "$displayname" "$versionname"
+			if [ "$checksum" != "" ] && [ "$byhash" != "" ]; then
+				# assume we don't mix acquire-by-hash and md5
+				from="$(dirname "$from")/by-hash/SHA${SHA_SIZE}/$checksum"
+			fi
 			if [ ! -e "$dest2" ]; then
 				if ! just_get "$from" "$dest2"; then continue 2; fi
 			fi
@@ -624,7 +632,7 @@ download_release_sig () {
 download_release_indices () {
 	local m1 inreldest reldest relsigdest totalpkgs \
 	      subpath xzi bz2i gzi normi i ext \
-	      donepkgs pkgdest
+	      donepkgs pkgdest acquirebyhash
 	m1="${MIRRORS%% *}"
 	inreldest="$TARGET/$($DLDEST rel "$SUITE" "$m1" "dists/$SUITE/InRelease")"
 	reldest="$TARGET/$($DLDEST rel "$SUITE" "$m1" "dists/$SUITE/Release")"
@@ -636,6 +644,7 @@ download_release_indices () {
 
 	extract_release_components "$reldest"
 
+	acquirebyhash=$(grep "^Acquire-By-Hash: yes$" "$reldest" || true)
 	totalpkgs=0
 	for c in $COMPONENTS; do
 		subpath="$c/binary-$ARCH/Packages"
@@ -669,6 +678,9 @@ download_release_indices () {
 		bz2i="$(get_release_checksum "$reldest" "$subpath.bz2")"
 		gzi="$(get_release_checksum "$reldest" "$subpath.gz")"
 		normi="$(get_release_checksum "$reldest" "$subpath")"
+		if [ "$acquirebyhash" != "" ]; then
+			ext="$ext byhash"
+		fi
 		if [ "$normi" != "" ]; then
 			ext="$ext $normi ."
 			i="$normi"
