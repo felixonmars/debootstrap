@@ -12,6 +12,7 @@ Package: debootstrap
 Architecture: all
 Depends: ${misc:Depends}, wget
 Recommends: gnupg, ${keyring}
+Suggests: ubuntu-archive-keyring
 Description: Bootstrap a basic Debian system
  debootstrap is used to create a Debian base system from scratch,
  without requiring the availability of dpkg or apt. It does this by
