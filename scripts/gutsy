@@ -1,11 +1,16 @@
 case $ARCH in
   amd64|i386)
+	case $SUITE in
+	  gutsy|hardy|intrepid|jaunty|karmic|lucid|maverick|natty|oneiric|precise|quantal|raring|saucy|utopic|vivid|wily|yakkety|zesty)
+	default_mirror http://old-releases.ubuntu.com/ubuntu
+	  ;;
+	  *)
 	default_mirror http://archive.ubuntu.com/ubuntu
 	;;
   sparc)
 	case $SUITE in
 	  gutsy)
-	default_mirror http://archive.ubuntu.com/ubuntu
+	default_mirror http://old-releases.ubuntu.com/ubuntu
 	;;
 	  *)
 	default_mirror http://ports.ubuntu.com/ubuntu-ports
