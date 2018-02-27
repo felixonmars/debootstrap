@@ -361,13 +361,16 @@ get () {
 		fi
 
 		while [ "$iters" -lt 10 ]; do
+			local from2=""
 			info RETRIEVING "Retrieving %s %s" "$displayname" "$versionname"
 			if [ "$checksum" != "" ] && [ "$byhash" != "" ]; then
 				# assume we don't mix acquire-by-hash and md5
-				from="$(dirname "$from")/by-hash/SHA${SHA_SIZE}/$checksum"
+				from2="$(dirname "$from")/by-hash/SHA${SHA_SIZE}/$checksum"
 			fi
 			if [ ! -e "$dest2" ]; then
-				if ! just_get "$from" "$dest2"; then continue 2; fi
+				if [ -z "$from2" ] || ! just_get "$from2" "$dest2"; then
+					if ! just_get "$from" "$dest2"; then continue 2; fi
+				fi
 			fi
 			if [ "$checksum" != "" ]; then
 				info VALIDATING "Validating %s %s" "$displayname" "$versionname"
