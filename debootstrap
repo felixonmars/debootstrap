@@ -465,7 +465,7 @@ fi
 if [ "$TARGET" = "/" ]; then
 	CHROOT_CMD=""
 else
-	CHROOT_CMD="chroot $TARGET"
+	CHROOT_CMD="chroot \"$TARGET\""
 fi
 
 if [ -z "$SHA_SIZE" ]; then
@@ -618,7 +618,7 @@ if am_doing_phase dldebs; then
 fi
 
 if am_doing_phase maketarball; then
-	(cd $TARGET;
+	(cd "$TARGET";
 	 tar czf - var/lib/apt var/cache/apt) >$MAKE_TARBALL
 fi
 
