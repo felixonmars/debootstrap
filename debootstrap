@@ -634,6 +634,8 @@ if am_doing_phase first_stage; then
 		cp "$0"				 "$TARGET/debootstrap/debootstrap"
 		cp $DEBOOTSTRAP_DIR/functions	 "$TARGET/debootstrap/functions"
 		cp $SCRIPT			 "$TARGET/debootstrap/suite-script"
+		# pick up common setting scripts
+		cp "$DEBOOTSTRAP_DIR"/scripts/*-common	"$TARGET/debootstrap/"
 		echo "$ARCH"			>"$TARGET/debootstrap/arch"
 		echo "$SUITE"			>"$TARGET/debootstrap/suite"
 		[ "" = "$VARIANT" ] ||
