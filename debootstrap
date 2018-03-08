@@ -325,6 +325,9 @@ if [ $# != 0 ] ; then
 		else
 			error 1 NEEDARG "option requires an argument %s" "$1"
 		fi
+		if [ ! -e "$KEYRING" ]; then
+			error 1 KEYRING "specified keyring file ($KEYRING) not found"
+		fi
 		;;
 	    --no-check-gpg)
 			shift 1
