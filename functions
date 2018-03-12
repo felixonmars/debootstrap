@@ -196,7 +196,8 @@ download_style () {
 }
 
 keyring () {
-	if [ -z "$KEYRING" ]; then
+	# avoid unnecessary warning with --second-stage
+	if [ -z "$KEYRING" ] && [ "$SECOND_STAGE_ONLY" != true ]; then
 		if [ -e "$1" ]; then
 			KEYRING="$1"
 		elif [ -z "$DISABLE_KEYRING" ]; then
