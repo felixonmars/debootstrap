@@ -475,6 +475,7 @@ if [ -z "$SHA_SIZE" ]; then
 	SHA_SIZE=256
 fi
 if ! in_path "sha${SHA_SIZE}sum" && ! in_path "sha${SHA_SIZE}"; then
+	warning SHA_SIZE "Cannot find binary for checking sha%s checksums, falling back to sha1" "${SHA_SIZE}"
 	SHA_SIZE=1
 fi
 DEBOOTSTRAP_CHECKSUM_FIELD="SHA$SHA_SIZE"
