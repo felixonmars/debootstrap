@@ -423,7 +423,7 @@ fi
 ###########################################################################
 
 TARGET_EMPTY=true
-if [  -e "$TARGET"/* ]; then
+if [ "$(ls -A "$TARGET")" ]; then
 	TARGET_EMPTY=false
 fi
 
