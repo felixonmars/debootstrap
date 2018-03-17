@@ -1,3 +1,10 @@
+debootstrap (1.0.93+nmu2) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * fix regression with Ubuntu releases
+
+ -- Hideki Yamane <henrich@debian.org>  Sat, 17 Mar 2018 23:46:30 +0900
+
 debootstrap (1.0.93+nmu1) unstable; urgency=medium
 
   * Non-maintainer Upload.

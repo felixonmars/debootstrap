@@ -7,6 +7,8 @@ case $ARCH in
 	  *)
 	default_mirror http://archive.ubuntu.com/ubuntu
 	;;
+	esac
+	;;
   sparc)
 	case $SUITE in
 	  gutsy)
