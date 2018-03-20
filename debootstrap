@@ -490,6 +490,10 @@ else
 	CHROOT_CMD="chroot \"$TARGET\""
 fi
 
+if grep -q container=lxc-libvirt /proc/1/environ; then
+       CHROOT_CMD="unshare --net $CHROOT_CMD"
+fi
+
 if [ -z "$SHA_SIZE" ]; then
 	SHA_SIZE=256
 fi
