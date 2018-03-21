@@ -137,11 +137,12 @@ Don't delete the /debootstrap directory in the target after completing the
 installation.
 .IP
 .IP "\fB\-\-unpack\-tarball=FILE\fP"
-Acquire .debs from tarball FILE instead of downloading via http.
+Acquire .debs from gzipped tarball FILE (specified with absolute path)
+instead of downloading via http.
 .IP
 .IP "\fB\-\-make\-tarball=FILE\fP"
-Instead of bootstrapping, make a tarball (written to FILE) of the downloaded
-packages.
+Instead of bootstrapping, make a gzipped tarball (written to FILE) of the
+downloaded packages.
 The resulting tarball may be passed to a later
 .BR \-\-unpack\-tarball .
 .IP
