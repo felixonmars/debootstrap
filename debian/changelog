@@ -1,3 +1,10 @@
+debootstrap (1.0.94) UNRELEASED; urgency=medium
+
+  * debian/control
+    - add myself to Uploaders
+
+ -- Hideki Yamane <henrich@debian.org>  Fri, 30 Mar 2018 21:38:25 +0900
+
 debootstrap (1.0.93+nmu3) unstable; urgency=medium
 
   * Non-maintainer Upload.
