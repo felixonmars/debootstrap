@@ -1,7 +1,11 @@
 debootstrap (1.0.94) UNRELEASED; urgency=medium
 
   * debian/control
-    - add myself to Uploaders
+    - Add myself to Uploaders
+  * scripts/sid
+    - Regression fix with #798562 change, work on non-package enviroment.
+      Thanks to Nicolas Boichat <drinkcat@chromium.org> for the report
+      (Closes: #894415)
 
  -- Hideki Yamane <henrich@debian.org>  Fri, 30 Mar 2018 21:38:25 +0900
 
