@@ -9,6 +9,8 @@ force_md5
 # include common settings
 if [ -d /usr/share/debootstrap/scripts ]; then
  . /usr/share/debootstrap/scripts/debian-common
+elif [ -e "$DEBOOTSTRAP_DIR/scripts/debian-common" ]; then
+ . "$DEBOOTSTRAP_DIR/scripts/debian-common"
 else
  . /debootstrap/debian-common
 fi

@@ -1,3 +1,9 @@
+debootstrap (1.0.95) unstable; urgency=medium
+
+  * Really fix #894415 (Closes: #894415) 
+
+ -- Hideki Yamane <henrich@debian.org>  Sat, 31 Mar 2018 13:28:26 +0900
+
 debootstrap (1.0.94) unstable; urgency=medium
 
   * debian/control
