@@ -338,7 +338,9 @@ get () {
 		    *)   from="$1"; dest="$2" ;;
 		esac
 
-		if [ "${dest#/}" = "$dest" ]; then
+		if [ ! -z "$CACHE_DIR" ]; then
+			dest="${dest%%*/}"
+		elif [ "${dest#/}" = "$dest" ]; then
 			dest="./$dest"
 		fi
 		local dest2="$dest"
@@ -348,7 +350,9 @@ get () {
 
 		while [ "$iters" -lt 10 ]; do
 			info RETRIEVING "Retrieving %s %s" "$displayname" "$versionname"
-			if ! just_get "$from" "$dest2"; then continue 2; fi
+			if [ ! -e "$dest2" ]; then
+				if ! just_get "$from" "$dest2"; then continue 2; fi
+			fi
 			if [ "$checksum" != "" ]; then
 				info VALIDATING "Validating %s %s" "$displayname" "$versionname"
 				if verify_checksum "$dest2" "$checksum" "$siz"; then
@@ -718,10 +722,16 @@ download_debs () {
 			else
 				progress_next "$(($dloaddebs + $size))"
 				local debdest="$($DLDEST deb "$p" "$ver" "$arc" "$m" "$fil")"
-				if get "$m/$fil" "$TARGET/$debdest" "$checksum" "$size"; then
+				local debcache="$(echo "$p"_"$ver"_"$arc".deb | sed 's/:/%3a/')"
+				if [ -z "$CACHE_DIR" ] && get "$m/$fil" "$TARGET/$debdest" "$checksum" "$size"; then
 					dloaddebs="$(($dloaddebs + $size))"
 					echo >>"$TARGET/debootstrap/deburis" "$p $ver $m/$fil"
 					echo >>"$TARGET/debootstrap/debpaths" "$p $debdest"
+				elif [ -d "$CACHE_DIR" ] && get "$m/$fil" "$CACHE_DIR/$debcache" "$checksum" "$size"; then
+					dloaddebs="$(($dloaddebs + $size))"
+					echo >>"$TARGET/debootstrap/deburis" "$p $ver $m/$fil"
+					echo >>"$TARGET/debootstrap/debpaths" "$p $debdest"
+					cp "$CACHE_DIR/$debcache" "$TARGET/$debdest"
 				else
 					warning COULDNTDL "Couldn't download package %s (ver %s arch %s) at %s" "$p" "$ver" "$arc" "$m/$fil"
 					leftover="$leftover $p"

@@ -12,6 +12,7 @@ debootstrap (1.0.97) UNRELEASED; urgency=medium
     Thanks to phael Hertzog <hertzog@debian.org> for the patch
   * Use wget --non-verbose option instead of --quiet
   * Improve error message on Release signed by unknown key (Closes: #698677)
+  * Add --cache-dir feature (Closes: #844118)
 
   [ Adam Borowski ]
   * Use arch-test if installed to check whether second stage is possible.
@@ -20,7 +21,7 @@ debootstrap (1.0.97) UNRELEASED; urgency=medium
   [ Lubomir Rintel ]
   * Fix boostrapping libvirt LXC containers (Closes: #890419)
 
- -- Hideki Yamane <henrich@debian.org>  Sat, 07 Apr 2018 22:38:24 +0900
+ -- Hideki Yamane <henrich@debian.org>  Sun, 08 Apr 2018 13:32:17 +0900
 
 debootstrap (1.0.96) unstable; urgency=medium
 

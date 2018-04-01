@@ -45,6 +45,7 @@ VERBOSE=""
 CERTIFICATE=""
 CHECKCERTIF=""
 PRIVATEKEY=""
+CACHE_DIR=""
 
 DEF_MIRROR="http://deb.debian.org/debian"
 DEF_HTTPS_MIRROR="https://deb.debian.org/debian"
@@ -120,6 +121,8 @@ usage()
                              (also disables automatic fallback to HTTPS in case
                              of a missing keyring), aborting otherwise
       --no-resolve-deps      don't try to resolve dependencies automatically
+
+      --cache-dir=DIR        Use specified directory as package cache directory
 
       --unpack-tarball=T     acquire .debs from a tarball instead of http
       --make-tarball=T       download .debs and create a tarball (tgz format)
@@ -248,6 +251,23 @@ if [ $# != 0 ] ; then
 			fi
 		else
 			error 1 BADEXTRACTOR "%s: unknown extractor" "$EXTRACTOR_OVERRIDE"
+		fi
+		;;
+	    --cache-dir|--cache-dir=?*)
+		if [ "$1" = "--cache-dir" ] && [ -n "$2" ] ; then
+			CACHE_DIR="$2"
+			shift 2
+		elif [ "$1" != "${1#--cache-dir=}" ]; then
+			CACHE_DIR="${1#--cache-dir=}"
+			shift
+		else
+			error 1 NEEDARG "option requires an argument %s" "$1"
+		fi
+		if [ ! -d "$CACHE_DIR" ] ; then
+			error 1 NOCACHEDIR "%s: No such directory" "$CACHE_DIR"
+		fi
+		if [ ! -z ${CACHE_DIR##/*} ]; then
+			error 1 NOTABSOLUTEPATH "cache directory should be specified with an absolute path"
 		fi
 		;;
 	    --unpack-tarball|--unpack-tarball=?*)
