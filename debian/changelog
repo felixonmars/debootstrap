@@ -1,3 +1,32 @@
+debootstrap (1.0.96) UNRELEASED; urgency=medium
+
+  * Escape spaces to fix debootstrap on path contains space fails
+    Thanks to Tianon Gravi <tianon@debian.org> for the based patch
+    (Closes: #586158, #762431)
+  * Add warning if file specified via --keyring does not exist
+    Thanks to jnqnfe <jnqnfe@gmail.com> for the patch
+    (Closes: #754318, #775474)
+  * Avoid unnecessary keyring warning with --second-stage option
+    (Closes: #734324)
+  * Output warning if falling back to sha1 (Closes: #775444)
+    Thanks to jnqnfe <jnqnfe@gmail.com> for the patch.
+  * Prevent unintended removal with --print-debs option (Closes: #833525)
+    Thanks to Johannes Schauer <josch@debian.org> for the patch
+  * Add scripts for Kali Linux (Closes: #798564)
+
+  * debian/control
+    - Add "Suggests: squid-deb-proxy-client"
+
+  [ Sjoerd Simons ]
+  * Fix multiple components usage for --foreign/--second-stage
+    (Closes: #806780)
+
+  [ Michael Vogt ]
+  * Try to auto-detect proxy if available (e.g. squid-deb-proxy-client)
+    (Closes: #732628)
+
+ -- Hideki Yamane <henrich@debian.org>  Tue, 03 Apr 2018 11:07:02 +0900
+
 debootstrap (1.0.95) unstable; urgency=medium
 
   * Really fix #894415 (Closes: #894415) 
