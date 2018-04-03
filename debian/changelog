@@ -16,6 +16,8 @@ debootstrap (1.0.96) UNRELEASED; urgency=medium
 
   * debian/control
     - Add "Suggests: squid-deb-proxy-client"
+  * debian/rules
+    - Add Kali for ${keyring} pattern
 
   [ Sjoerd Simons ]
   * Fix multiple components usage for --foreign/--second-stage
