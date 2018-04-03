@@ -51,15 +51,16 @@ DEF_HTTPS_MIRROR="https://deb.debian.org/debian"
 
 # do auto proxy discovery
 AUTOPROXY=""
-eval $(apt-config shell AUTOPROXY Acquire::http::ProxyAutoDetect)
-if [ -z "$http_proxy" ] && [ -x "$AUTOPROXY" ]; then
-    http_proxy="$($AUTOPROXY)"
-    if [ -n "$http_proxy" ]; then
-        echo "Using auto-detected proxy: $http_proxy"
-        export http_proxy
+if [ -e /usr/bin/apt-config ]; then
+    eval $(apt-config shell AUTOPROXY Acquire::http::ProxyAutoDetect)
+    if [ -z "$http_proxy" ] && [ -x "$AUTOPROXY" ]; then
+        http_proxy="$($AUTOPROXY)"
+        if [ -n "$http_proxy" ]; then
+            echo "Using auto-detected proxy: $http_proxy"
+            export http_proxy
+        fi
     fi
 fi
-
 export LANG USE_COMPONENTS
 umask 022
 
