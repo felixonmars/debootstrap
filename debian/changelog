@@ -13,6 +13,8 @@ debootstrap (1.0.96) UNRELEASED; urgency=medium
   * Prevent unintended removal with --print-debs option (Closes: #833525)
     Thanks to Johannes Schauer <josch@debian.org> for the patch
   * Add scripts for Kali Linux (Closes: #798564)
+  * Improve manpage description for --{unpack,make}-tarball options
+    (Closes: #563647)
 
   * debian/control
     - Add "Suggests: squid-deb-proxy-client"
