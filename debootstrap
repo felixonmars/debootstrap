@@ -549,6 +549,24 @@ fi
 
 ###########################################################################
 
+if [ -x /usr/bin/arch-test ] && am_doing_phase second_stage; then
+	if doing_variant fakechroot; then
+		ret=0; arch-test "$ARCH" || ret=$?
+	else
+		ret=0; arch-test -c "$TARGET" "$ARCH" || ret=$?
+	fi
+
+	case $ret in
+	0)      info ARCHEXEC "Target architecture can be executed" ;;
+	1)      error 1 ARCHNOTEXEC "Unable to execute target architecture" ;;
+	*)      info ARCHEXECUNKNOWN "Can't verify that target arch works" ;;
+	esac
+fi
+
+###########################################################################
+
+
+
 if [ "$UNPACK_TARBALL" ]; then
 	if [ "${UNPACK_TARBALL#/}" = "$UNPACK_TARBALL" ]; then
 		error 1 TARPATH "Tarball must be given an absolute path"
