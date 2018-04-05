@@ -59,6 +59,8 @@ first_stage_install () {
 }
 
 second_stage_install () {
+	in_target /bin/true
+
 	setup_dynamic_devices
 
 	x_feign_install () {
