@@ -1,4 +1,4 @@
-debootstrap (1.0.96) UNRELEASED; urgency=medium
+debootstrap (1.0.96) unstable; urgency=medium
 
   * Escape spaces to fix debootstrap on path contains space fails
     Thanks to Tianon Gravi <tianon@debian.org> for the based patch
@@ -29,7 +29,7 @@ debootstrap (1.0.96) UNRELEASED; urgency=medium
   * Try to auto-detect proxy if available (e.g. squid-deb-proxy-client)
     (Closes: #732628)
 
- -- Hideki Yamane <henrich@debian.org>  Tue, 03 Apr 2018 11:07:02 +0900
+ -- Hideki Yamane <henrich@debian.org>  Fri, 06 Apr 2018 10:02:20 +0900
 
 debootstrap (1.0.95) unstable; urgency=medium
 
