@@ -1510,7 +1510,7 @@ read_gpg_status () {
 	elif [ "$badsig" ]; then
 		error 1 BADRELSIG "Invalid Release signature (key id %s)" "$badsig"
 	elif [ "$unkkey" ]; then
-		error 1 UNKNOWNRELSIG "Release signed by unknown key (key id %s)" "$unkkey"
+		error 1 UNKNOWNRELSIG "Release signed by unknown key (key id %s)\n   The specified keyring $KEYRING may be incorrect or out of date.\n   You can find the latest Debian release key at https://ftp-master.debian.org/keys.html" "$unkkey"
 	else
 		error 1 SIGCHECK "Error executing gpgv to check Release signature"
 	fi
