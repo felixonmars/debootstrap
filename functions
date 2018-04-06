@@ -676,7 +676,7 @@ download_release_indices () {
 			if get "$m/$path" "$pkgdest" $ext; then break; fi
 		done
 		if [ ! -f "$pkgdest" ]; then
-			error 1 COULDNTDL "Couldn't download %s" "$path"
+			error 1 COULDNTDL "Couldn't download %s" "$m/$path"
 		fi
 		donepkgs="$(($donepkgs + ${i#* }))"
 		progress $donepkgs $totalpkgs DOWNPKGS "Downloading Packages files"
@@ -723,7 +723,7 @@ download_debs () {
 					echo >>"$TARGET/debootstrap/deburis" "$p $ver $m/$fil"
 					echo >>"$TARGET/debootstrap/debpaths" "$p $debdest"
 				else
-					warning COULDNTDL "Couldn't download package %s (ver %s arch %s)" "$p" "$ver" "$arc"
+					warning COULDNTDL "Couldn't download package %s (ver %s arch %s) at %s" "$p" "$ver" "$arc" "$m/$fil"
 					leftover="$leftover $p"
 				fi
 			fi
