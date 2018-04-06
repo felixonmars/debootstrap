@@ -1185,6 +1185,7 @@ setup_devices_simple () {
         mknod_if_needed "$TARGET/dev/random"      c 1 8
         mknod_if_needed "$TARGET/dev/urandom"     c 1 9
         mknod_if_needed "$TARGET/dev/tty" c 5 0
+	mknod_if_needed "$TARGET/dev/console"     c 5 1
 	# To avoid pre-exist directory causes error, specify "-p" option
         mkdir -p "$TARGET/dev/pts/" "$TARGET/dev/shm/"
 	# Inside a container, we might not be allowed to create /dev/ptmx.
