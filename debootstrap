@@ -435,7 +435,7 @@ fi
 ###########################################################################
 
 TARGET_EMPTY=true
-if [ "$(ls -A "$TARGET")" ]; then
+if [ "$(ls -A "$TARGET") > /dev/null" ]; then
 	TARGET_EMPTY=false
 fi
 
