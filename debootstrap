@@ -45,11 +45,6 @@ VERBOSE=""
 CERTIFICATE=""
 CHECKCERTIF=""
 PRIVATEKEY=""
-if [ -d "/var/cache/apt/archives" ]; then
-       CACHE_DIR="/var/cache/apt/archives"
-else
-       CACHE_DIR=""
-fi
 
 DEF_MIRROR="http://deb.debian.org/debian"
 DEF_HTTPS_MIRROR="https://deb.debian.org/debian"
@@ -258,23 +253,6 @@ if [ $# != 0 ] ; then
 			error 1 BADEXTRACTOR "%s: unknown extractor" "$EXTRACTOR_OVERRIDE"
 		fi
 		;;
-	    --cache-dir|--cache-dir=?*)
-		if [ "$1" = "--cache-dir" ] && [ -n "$2" ] ; then
-			CACHE_DIR="$2"
-			shift 2
-		elif [ "$1" != "${1#--cache-dir=}" ]; then
-			CACHE_DIR="${1#--cache-dir=}"
-			shift
-		else
-			error 1 NEEDARG "option requires an argument %s" "$1"
-		fi
-		if [ ! -d "$CACHE_DIR" ] ; then
-			error 1 NOCACHEDIR "%s: No such directory" "$CACHE_DIR"
-		fi
-		if [ ! -z ${CACHE_DIR##/*} ]; then
-			error 1 NOTABSOLUTEPATH "cache directory should be specified with an absolute path"
-		fi
-		;;
 	    --unpack-tarball|--unpack-tarball=?*)
 		if [ "$1" = "--unpack-tarball" -a -n "$2" ] ; then
 			UNPACK_TARBALL="$2"
@@ -339,6 +317,31 @@ if [ $# != 0 ] ; then
 			shift 1
 		else
 			error 1 NEEDARG "option requires an argument %s" "$1"
+		fi
+		;;
+	    --cache-dir|--cache-dir=?*)
+		# When fakechroot & fakeroot run, it cannot save .debs under /var/cache/apt/archives
+		# It must be after --variant option to evaluate $VARIANT
+		if [ ! "$VARIANT" = fakechroot ] && [ -d "/var/cache/apt/archives" ]; then
+		       CACHE_DIR="/var/cache/apt/archives"
+		else
+		       CACHE_DIR=""
+		fi
+		# Okay, let's check user's option
+		if [ "$1" = "--cache-dir" ] && [ -n "$2" ] ; then
+			CACHE_DIR="$2"
+			shift 2
+		elif [ "$1" != "${1#--cache-dir=}" ]; then
+			CACHE_DIR="${1#--cache-dir=}"
+			shift
+		else
+			error 1 NEEDARG "option requires an argument %s" "$1"
+		fi
+		if [ ! -d "$CACHE_DIR" ] ; then
+			error 1 NOCACHEDIR "%s: No such directory" "$CACHE_DIR"
+		fi
+		if [ ! -z ${CACHE_DIR##/*} ]; then
+			error 1 NOTABSOLUTEPATH "cache directory should be specified with an absolute path"
 		fi
 		;;
             --merged-usr)
