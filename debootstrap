@@ -45,7 +45,11 @@ VERBOSE=""
 CERTIFICATE=""
 CHECKCERTIF=""
 PRIVATEKEY=""
-CACHE_DIR=""
+if [ -d "/var/cache/apt/archives" ]; then
+       CACHE_DIR="/var/cache/apt/archives"
+else
+       CACHE_DIR=""
+fi
 
 DEF_MIRROR="http://deb.debian.org/debian"
 DEF_HTTPS_MIRROR="https://deb.debian.org/debian"
@@ -123,6 +127,7 @@ usage()
       --no-resolve-deps      don't try to resolve dependencies automatically
 
       --cache-dir=DIR        Use specified directory as package cache directory
+                             (default: /var/cache/apt/archives)
 
       --unpack-tarball=T     acquire .debs from a tarball instead of http
       --make-tarball=T       download .debs and create a tarball (tgz format)
