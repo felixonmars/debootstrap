@@ -1221,23 +1221,23 @@ setup_devices_fakechroot () {
 }
 
 setup_devices_bind () {
-	mount -t tmpfs nodev $TARGET/dev
+	mount -t tmpfs nodev "$TARGET/dev"
 	umount_on_exit /dev
 	for device in null zero full random urandom tty pts shm ptmx; do
-		if [ -d /dev/$device ]; then
-			mkdir $TARGET/dev/$device
-		elif [ -c /dev/$device ]; then
-			touch $TARGET/dev/$device
+		if [ -d "/dev/$device" ]; then
+			mkdir "$TARGET/dev/$device"
+		elif [ -c "/dev/$device" ]; then
+			touch "$TARGET/dev/$device"
 		else
 			continue
 		fi
-		mount -o bind /dev/$device $TARGET/dev/$device
-		umount_on_exit /dev/$device
+		mount -o bind "/dev/$device" "$TARGET/dev/$device"
+		umount_on_exit "/dev/$device"
 	done
-	ln -s /proc/self/fd   $TARGET/dev/fd
-	ln -s /proc/self/fd/0 $TARGET/dev/stdin
-	ln -s /proc/self/fd/1 $TARGET/dev/stdout
-	ln -s /proc/self/fd/2 $TARGET/dev/stderr
+	ln -s /proc/self/fd   "$TARGET/dev/fd"
+	ln -s /proc/self/fd/0 "$TARGET/dev/stdin"
+	ln -s /proc/self/fd/1 "$TARGET/dev/stdout"
+	ln -s /proc/self/fd/2 "$TARGET/dev/stderr"
 }
 
 setup_dselect_method () {
