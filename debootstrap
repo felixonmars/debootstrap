@@ -18,7 +18,7 @@ if [ -z "$DEBOOTSTRAP_DIR" ]; then
 	fi
 fi
 
-. $DEBOOTSTRAP_DIR/functions
+. "$DEBOOTSTRAP_DIR/functions"
 exec 4>&1
 
 LANG=C
@@ -51,8 +51,8 @@ DEF_HTTPS_MIRROR="https://deb.debian.org/debian"
 
 # do auto proxy discovery
 AUTOPROXY=""
-if [ "apt-config -v > /dev/null" ]; then
-    eval $(apt-config shell AUTOPROXY Acquire::http::ProxyAutoDetect)
+if [ "$(apt-config -v) > /dev/null 2>&1" ]; then
+    eval "$(apt-config shell AUTOPROXY Acquire::http::ProxyAutoDetect)"
     if [ -z "$http_proxy" ] && [ -x "$AUTOPROXY" ]; then
         http_proxy="$($AUTOPROXY)"
         if [ -n "$http_proxy" ]; then
@@ -180,7 +180,7 @@ if [ $# != 0 ] ; then
 		if [ "$SECOND_STAGE_ONLY" != "true" ] ; then
 			error 1 STAGE2ONLY "option %s only applies in the second stage" "$1"
 		fi
-		if [ "$1" = "--second-stage-target" -a -n "$2" ] ; then
+		if [ "$1" = "--second-stage-target" ] && [ -n "$2" ] ; then
 			CHROOTDIR="$2"
 			shift 2
 		elif [ "$1" != "${1#--second-stage-target=}" ]; then
@@ -201,7 +201,7 @@ if [ $# != 0 ] ; then
 		;;
 	    --make-tarball|--make-tarball=?*)
 		WHAT_TO_DO="finddebs dldebs maketarball kill_target"
-		if [ "$1" = "--make-tarball" -a -n "$2" ] ; then
+		if [ "$1" = "--make-tarball" ] && [ -n "$2" ] ; then
 			MAKE_TARBALL="$2"
 			shift 2
 		elif [ "$1" != "${1#--make-tarball=}" ]; then
@@ -225,7 +225,7 @@ if [ $# != 0 ] ; then
 		shift
 		;;
 	    --arch|--arch=?*)
-		if [ "$1" = "--arch" -a -n "$2" ] ; then
+		if [ "$1" = "--arch" ] && [ -n "$2" ] ; then
 			ARCH="$2"
 			shift 2
                 elif [ "$1" != "${1#--arch=}" ]; then
@@ -236,7 +236,7 @@ if [ $# != 0 ] ; then
 		fi
 		;;
 	    --extractor|--extractor=?*)
-		if [ "$1" = "--extractor" -a -n "$2" ] ; then
+		if [ "$1" = "--extractor" ] && [ -n "$2" ] ; then
 			EXTRACTOR_OVERRIDE="$2"
 			shift 2
 		elif [ "$1" != "${1#--extractor=}" ]; then
@@ -254,7 +254,7 @@ if [ $# != 0 ] ; then
 		fi
 		;;
 	    --unpack-tarball|--unpack-tarball=?*)
-		if [ "$1" = "--unpack-tarball" -a -n "$2" ] ; then
+		if [ "$1" = "--unpack-tarball" ] && [ -n "$2" ] ; then
 			UNPACK_TARBALL="$2"
 			shift 2
 		elif [ "$1" != "${1#--unpack-tarball=}" ]; then
@@ -268,7 +268,7 @@ if [ $# != 0 ] ; then
 		fi
 		;;
 	    --include|--include=?*)
-		if [ "$1" = "--include" -a -n "$2" ]; then
+		if [ "$1" = "--include" ] && [ -n "$2" ]; then
 			ADDITIONAL="$2"
 			shift 2
                 elif [ "$1" != "${1#--include=}" ]; then
@@ -280,7 +280,7 @@ if [ $# != 0 ] ; then
 		ADDITIONAL="$(echo "$ADDITIONAL" | tr , " ")"
 		;;
 	    --exclude|--exclude=?*)
-		if [ "$1" = "--exclude" -a -n "$2" ]; then
+		if [ "$1" = "--exclude" ] && [ -n "$2" ]; then
 			EXCLUDE="$2"
 			shift 2
                 elif [ "$1" != "${1#--exclude=}" ]; then
@@ -297,7 +297,7 @@ if [ $# != 0 ] ; then
 		shift 1
 		;;
 	    --components|--components=?*)
-		if [ "$1" = "--components" -a -n "$2" ]; then
+		if [ "$1" = "--components" ] && [ -n "$2" ]; then
 			USE_COMPONENTS="$2"
 			shift 2
                 elif [ "$1" != "${1#--components=}" ]; then
@@ -309,7 +309,7 @@ if [ $# != 0 ] ; then
 		USE_COMPONENTS="$(echo "$USE_COMPONENTS" | tr , "|")"
 		;;
 	    --variant|--variant=?*)
-		if [ "$1" = "--variant" -a -n "$2" ]; then
+		if [ "$1" = "--variant" ] && [ -n "$2" ]; then
 			VARIANT="$2"
 			shift 2
                 elif [ "$1" != "${1#--variant=}" ]; then
@@ -340,7 +340,7 @@ if [ $# != 0 ] ; then
 		if [ ! -d "$CACHE_DIR" ] ; then
 			error 1 NOCACHEDIR "%s: No such directory" "$CACHE_DIR"
 		fi
-		if [ ! -z ${CACHE_DIR##/*} ]; then
+		if [ ! -z "${CACHE_DIR##/*}" ]; then
 			error 1 NOTABSOLUTEPATH "cache directory should be specified with an absolute path"
 		fi
 		;;
@@ -356,7 +356,7 @@ if [ $# != 0 ] ; then
 		if ! gpgv --version >/dev/null 2>&1; then
 			error 1 NEEDGPGV "gpgv not installed, but required for Release verification"
 		fi
-		if [ "$1" = "--keyring" -a -n "$2" ]; then
+		if [ "$1" = "--keyring" ] && [ -n "$2" ]; then
 			KEYRING="$2"
 			shift 2
                 elif [ "$1" != "${1#--keyring=}" ]; then
@@ -378,7 +378,7 @@ if [ $# != 0 ] ; then
 			FORCE_KEYRING=1
 		;;
 	    --certificate|--certificate=?*)
-		if [ "$1" = "--certificate" -a -n "$2" ]; then
+		if [ "$1" = "--certificate" ] && [ -n "$2" ]; then
 			CERTIFICATE="--certificate=$2"
 			shift 2
 		elif [ "$1" != "${1#--certificate=}" ]; then
@@ -389,7 +389,7 @@ if [ $# != 0 ] ; then
 		fi
 		;;
 	    --private-key|--private-key=?*)
-		if [ "$1" = "--private-key" -a -n "$2" ]; then
+		if [ "$1" = "--private-key" ] && [ -n "$2" ]; then
 			PRIVATEKEY="--private-key=$2"
 			shift 2
 		elif [ "$1" != "${1#--private-key=}" ]; then
@@ -415,7 +415,7 @@ fi
 
 ###########################################################################
 
-if [ -n "$DISABLE_KEYRING" -a -n "$FORCE_KEYRING" ]; then
+if [ -n "$DISABLE_KEYRING" ] && [ -n "$FORCE_KEYRING" ]; then
 	error 1 BADARG "Both --no-check-gpg and --force-check-gpg specified, please pick one (at most)"
 fi
 
@@ -444,9 +444,9 @@ else
 	TARGET="${TARGET%/}"
 	if [ "${TARGET#/}" = "${TARGET}" ]; then
 		if [ "${TARGET%/*}" = "$TARGET" ] ; then
-			TARGET="$(echo "`pwd`/$TARGET")"
+			TARGET="$(pwd)/$TARGET"
 		else
-			TARGET="$(cd "${TARGET%/*}"; echo "`pwd`/${TARGET##*/}")"
+			TARGET="$(cd "${TARGET%/*}"; echo "$(pwd)/${TARGET##*/}")"
 		fi
 	fi
 
@@ -463,7 +463,7 @@ fi
 ###########################################################################
 
 TARGET_EMPTY=true
-if [ "$(ls -A "$TARGET") > /dev/null" ]; then
+if [ "$(ls -A "$TARGET" > /dev/null 2>&1)" ]; then
 	TARGET_EMPTY=false
 fi
 
@@ -471,17 +471,17 @@ fi
 
 if in_path dpkg && \
      dpkg --print-architecture >/dev/null 2>&1; then
-	HOST_ARCH=`/usr/bin/dpkg --print-architecture`
+	HOST_ARCH=$(/usr/bin/dpkg --print-architecture)
 elif in_path udpkg && \
      udpkg --print-architecture >/dev/null 2>&1; then
-	HOST_ARCH=`/usr/bin/udpkg --print-architecture`
-elif [ -e $DEBOOTSTRAP_DIR/arch ]; then
-	HOST_ARCH=`cat $DEBOOTSTRAP_DIR/arch`
+	HOST_ARCH=$(/usr/bin/udpkg --print-architecture)
+elif [ -e "$DEBOOTSTRAP_DIR/arch" ]; then
+	HOST_ARCH=$(cat "$DEBOOTSTRAP_DIR/arch")
 fi
 HOST_OS="$HOST_ARCH"
 # basic host OS guessing for non-Debian systems
 if [ -z "$HOST_OS" ]; then
-	case `uname` in
+	case $(uname) in
 		Linux)
 			HOST_OS=linux
 		;;
@@ -498,7 +498,7 @@ if [ -z "$HOST_OS" ]; then
 fi
 
 if [ -z "$ARCH" ]; then
-	ARCH=$HOST_ARCH
+	ARCH="$HOST_ARCH"
 fi
 
 if [ -z "$ARCH" ] || [ -z "$HOST_OS" ]; then
@@ -518,7 +518,7 @@ else
 	CHROOT_CMD="chroot \"$TARGET\""
 fi
 
-if grep -q container=lxc-libvirt /proc/1/environ; then
+if grep -q container="lxc-libvirt" /proc/1/environ; then
        CHROOT_CMD="unshare --net $CHROOT_CMD"
 fi
 
@@ -534,7 +534,7 @@ DEBOOTSTRAP_CHECKSUM_FIELD="SHA$SHA_SIZE"
 export ARCH SUITE TARGET CHROOT_CMD SHA_SIZE DEBOOTSTRAP_CHECKSUM_FIELD
 
 if am_doing_phase first_stage second_stage; then
-	if in_path id && [ `id -u` -ne 0 ]; then
+	if in_path id && [ "$(id -u)" -ne 0 ]; then
 		error 1 NEEDROOT "debootstrap can only run as root"
 	fi
 	# Ensure that we can create working devices and executables on the target.
@@ -630,9 +630,9 @@ export MIRRORS
 
 ok=false
 for v in $SUPPORTED_VARIANTS; do
-	if doing_variant $v; then ok=true; fi
+	if doing_variant "$v"; then ok=true; fi
 done
-if ! $ok; then
+if ! "$ok"; then
 	error 1 UNSUPPVARIANT "unsupported variant"
 fi
 
@@ -650,8 +650,8 @@ if am_doing_phase finddebs; then
 	base=$(without "$base $ADDITIONAL" "$EXCLUDE")
 
 	if [ "$RESOLVE_DEPS" = true ]; then
-		requiredX=$(echo $(echo $required | tr ' ' '\n' | sort | uniq))
-		baseX=$(echo $(echo $base | tr ' ' '\n' | sort | uniq))
+		requiredX=$(echo "$required" | tr ' ' '\n' | sort | uniq)
+		baseX=$(echo "$base" | tr ' ' '\n' | sort | uniq)
 
 		baseN=$(without "$baseX" "$requiredX")
 		baseU=$(without "$baseX" "$baseN")
@@ -661,9 +661,9 @@ if am_doing_phase finddebs; then
 		fi
 
 		info RESOLVEREQ "Resolving dependencies of required packages..."
-		required=$(resolve_deps $requiredX)
+		required=$(resolve_deps "$requiredX")
 		info RESOLVEBASE "Resolving dependencies of base packages..."
-		base=$(resolve_deps $baseX)
+		base=$(resolve_deps "$baseX")
 		base=$(without "$base" "$required")
 
 		requiredX=$(without "$required" "$requiredX")
@@ -687,12 +687,12 @@ if am_doing_phase dldebs; then
 	if [ "$GOT_INDICES" != "true" ]; then
 		download_indices
 	fi
-	download $all_debs
+	download "$all_debs"
 fi
 
 if am_doing_phase maketarball; then
 	(cd "$TARGET";
-	 tar czf - var/lib/apt var/cache/apt) >$MAKE_TARBALL
+	 tar czf - var/lib/apt var/cache/apt) >"$MAKE_TARBALL"
 fi
 
 if am_doing_phase first_stage; then
@@ -705,8 +705,8 @@ if am_doing_phase first_stage; then
 
 	if ! am_doing_phase second_stage; then
 		cp "$0"				 "$TARGET/debootstrap/debootstrap"
-		cp $DEBOOTSTRAP_DIR/functions	 "$TARGET/debootstrap/functions"
-		cp $SCRIPT			 "$TARGET/debootstrap/suite-script"
+		cp "$DEBOOTSTRAP_DIR/functions"	 "$TARGET/debootstrap/functions"
+		cp "$SCRIPT"			 "$TARGET/debootstrap/suite-script"
 		# pick up common setting scripts
 		cp "$DEBOOTSTRAP_DIR"/scripts/*-common	"$TARGET/debootstrap/"
 		echo "$ARCH"			>"$TARGET/debootstrap/arch"
