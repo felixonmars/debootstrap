@@ -518,7 +518,8 @@ else
 	CHROOT_CMD="chroot \"$TARGET\""
 fi
 
-if grep -q container="lxc-libvirt" /proc/1/environ; then
+# fakeroot cannot check /proc/1/environ
+if [ ! "$VARIANT" = fakechroot ] && [ "$(grep -q container="lxc-libvirt" /proc/1/environ)" ]; then
        CHROOT_CMD="unshare --net $CHROOT_CMD"
 fi
 
