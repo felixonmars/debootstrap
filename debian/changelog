@@ -13,6 +13,7 @@ debootstrap (1.0.97) UNRELEASED; urgency=medium
   * Use wget --non-verbose option instead of --quiet
   * Improve error message on Release signed by unknown key (Closes: #698677)
   * Add --cache-dir feature (Closes: #844118)
+    It is enabled by default and use /var/cache/apt/archives as default value
 
   [ Adam Borowski ]
   * Use arch-test if installed to check whether second stage is possible.
