@@ -49,18 +49,6 @@ PRIVATEKEY=""
 DEF_MIRROR="http://deb.debian.org/debian"
 DEF_HTTPS_MIRROR="https://deb.debian.org/debian"
 
-# do auto proxy discovery
-AUTOPROXY=""
-if [ "$(apt-config -v) > /dev/null 2>&1" ]; then
-    eval "$(apt-config shell AUTOPROXY Acquire::http::ProxyAutoDetect)"
-    if [ -z "$http_proxy" ] && [ -x "$AUTOPROXY" ]; then
-        http_proxy="$($AUTOPROXY)"
-        if [ -n "$http_proxy" ]; then
-            echo "Using auto-detected proxy: $http_proxy"
-            export http_proxy
-        fi
-    fi
-fi
 export LANG USE_COMPONENTS
 umask 022
 
@@ -414,7 +402,20 @@ if [ $# != 0 ] ; then
 fi
 
 ###########################################################################
+# do auto proxy discovery
+AUTOPROXY=""
+if [ ! "$VARIANT" = fakechroot ] && [ "$(apt-config -v) > /dev/null 2>&1" ]; then
+    eval "$(apt-config shell AUTOPROXY Acquire::http::ProxyAutoDetect)"
+    if [ -z "$http_proxy" ] && [ -x "$AUTOPROXY" ]; then
+        http_proxy="$($AUTOPROXY)"
+        if [ -n "$http_proxy" ]; then
+            echo "Using auto-detected proxy: $http_proxy"
+            export http_proxy
+        fi
+    fi
+fi
 
+###########################################################################
 if [ -n "$DISABLE_KEYRING" ] && [ -n "$FORCE_KEYRING" ]; then
 	error 1 BADARG "Both --no-check-gpg and --force-check-gpg specified, please pick one (at most)"
 fi
