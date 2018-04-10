@@ -404,7 +404,7 @@ fi
 ###########################################################################
 # do auto proxy discovery
 AUTOPROXY=""
-if [ ! "$VARIANT" = fakechroot ] && [ "$(apt-config -v) > /dev/null 2>&1" ]; then
+if [ ! "$VARIANT" = fakechroot ] && [ "$(apt-config -v > /dev/null 2>&1)" ]; then
     eval "$(apt-config shell AUTOPROXY Acquire::http::ProxyAutoDetect)"
     if [ -z "$http_proxy" ] && [ -x "$AUTOPROXY" ]; then
         http_proxy="$($AUTOPROXY)"
