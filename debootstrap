@@ -456,9 +456,12 @@ fi
 
 ###########################################################################
 
-TARGET_EMPTY=true
-if [ "$(ls -A "$TARGET" > /dev/null 2>&1)" ]; then
-	TARGET_EMPTY=false
+if am_doing_phase kill_target; then
+	# Require empty target when we are going to remove it afterwards
+	if [ -d "$TARGET" ] && [ -n "$(ls -A "$TARGET")" ] && \
+	   [ "$KEEP_DEBOOTSTRAP_DIR" != "true" ]; then
+		error 1 BADTARGET "Target directory '$TARGET' is not empty and it would be wiped"
+	fi
 fi
 
 ###########################################################################
@@ -766,12 +769,7 @@ if am_doing_phase second_stage; then
 fi
 
 if am_doing_phase kill_target; then
-	if [ "$KEEP_DEBOOTSTRAP_DIR" = true ]; then
-		true
-	# prevent removal when print-deb option was specified and its directory doesn't empty
-	elif [ "$PRINT_DEBS" = true ] && [ "$TARGET_EMPTY" != true ]; then
-		true
-	else
+	if [ "$KEEP_DEBOOTSTRAP_DIR" != true ]; then
                 info KILLTARGET "Deleting target directory"
 		rm -rf --one-file-system "$TARGET"
 	fi

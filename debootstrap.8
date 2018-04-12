@@ -105,11 +105,10 @@ Produce more info about downloading.
 .IP
 .IP "\fB\-\-print\-debs\fP"
 Print the packages to be installed, and exit.
-Note that a TARGET directory must be specified so debootstrap can
-download Packages files to determine which packages should be installed,
-and to resolve dependencies.
-The TARGET directory will be deleted unless \-\-keep\-debootstrap\-dir
-is specified.
+Note that an empty or non-existing TARGET directory must be specified so
+that debootstrap can download Packages files to determine which packages
+should be installed, and to resolve dependencies. The TARGET directory
+will be deleted unless \-\-keep\-debootstrap\-dir is specified.
 .IP
 .IP "\fB\-\-download\-only\fP"
 Download packages, but don't perform installation.
@@ -146,6 +145,9 @@ Instead of bootstrapping, make a gzipped tarball (written to FILE) of the
 downloaded packages.
 The resulting tarball may be passed to a later
 .BR \-\-unpack\-tarball .
+Note that an empty or non-existing TARGET directory must be specified so
+that debootstrap can download packages to prepare the tarball. The TARGET
+directory will be deleted unless \-\-keep\-debootstrap\-dir is specified.
 .IP
 .IP "\fB\-\-debian\-installer\fP"
 Used for internal purposes by the debian-installer
