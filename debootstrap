@@ -521,7 +521,7 @@ fi
 
 # fakeroot cannot check /proc/1/environ
 if [ "$HOST_OS" = Linux ] && ! doing_variant fakechroot && \
-   grep -q container="lxc-libvirt" /proc/1/environ; then
+   grep -q container=lxc-libvirt /proc/1/environ; then
        CHROOT_CMD="unshare --net $CHROOT_CMD"
 fi
 
