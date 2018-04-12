@@ -9,7 +9,7 @@ debootstrap (1.0.97) UNRELEASED; urgency=medium
   * Improve manpage "what is calls a Debian base system" (Closes: #872948)
     Thanks to Emmanuel Kasper <manu@debian.org> for the patch
   * Improve error message when download fails (Closes: #866401)
-    Thanks to phael Hertzog <hertzog@debian.org> for the patch
+    Thanks to Raphaël Hertzog <hertzog@debian.org> for the patch
   * Use wget --non-verbose option instead of --quiet
   * Improve error message on Release signed by unknown key (Closes: #698677)
   * Add --cache-dir feature (Closes: #844118)
@@ -22,7 +22,11 @@ debootstrap (1.0.97) UNRELEASED; urgency=medium
   [ Lubomir Rintel ]
   * Fix boostrapping libvirt LXC containers (Closes: #890419)
 
- -- Hideki Yamane <henrich@debian.org>  Sun, 08 Apr 2018 13:32:17 +0900
+  [ Raphaël Hertzog ]
+  * Use "command -v apt-config" to check for apt-config's presence
+    (Closes: #895466)
+
+ -- Raphaël Hertzog <hertzog@debian.org>  Thu, 12 Apr 2018 09:44:00 +0200
 
 debootstrap (1.0.96) unstable; urgency=medium
 
