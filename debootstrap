@@ -45,6 +45,7 @@ VERBOSE=""
 CERTIFICATE=""
 CHECKCERTIF=""
 PRIVATEKEY=""
+CACHE_DIR=""
 
 DEF_MIRROR="http://deb.debian.org/debian"
 DEF_HTTPS_MIRROR="https://deb.debian.org/debian"
@@ -110,7 +111,6 @@ usage()
       --no-resolve-deps      don't try to resolve dependencies automatically
 
       --cache-dir=DIR        Use specified directory as package cache directory
-                             (default: /var/cache/apt/archives)
 
       --unpack-tarball=T     acquire .debs from a tarball instead of http
       --make-tarball=T       download .debs and create a tarball (tgz format)
@@ -308,13 +308,6 @@ if [ $# != 0 ] ; then
 		fi
 		;;
 	    --cache-dir|--cache-dir=?*)
-		# When fakechroot & fakeroot run, it cannot save .debs under /var/cache/apt/archives
-		# It must be after --variant option to evaluate $VARIANT
-		if [ ! "$VARIANT" = fakechroot ] && [ -d "/var/cache/apt/archives" ]; then
-		       CACHE_DIR="/var/cache/apt/archives"
-		else
-		       CACHE_DIR=""
-		fi
 		# Okay, let's check user's option
 		if [ "$1" = "--cache-dir" ] && [ -n "$2" ] ; then
 			CACHE_DIR="$2"
