@@ -113,7 +113,7 @@ usage()
       --cache-dir=DIR        Use specified directory as package cache directory
 
       --unpack-tarball=T     acquire .debs from a tarball instead of http
-      --make-tarball=T       download .debs and create a tarball (tgz format)
+      --make-tarball=T       download .debs and create a gzipped tarball
       --second-stage-target=DIR
                              Run second stage in a subdirectory instead of root
                                (can be used to create a foreign chroot)
@@ -604,10 +604,12 @@ if [ "$UNPACK_TARBALL" ]; then
 	fi
 	if [ "${UNPACK_TARBALL%.tar}" != "$UNPACK_TARBALL" ]; then
 		(cd "$TARGET" && tar -xf "$UNPACK_TARBALL")
+	elif [ "${UNPACK_TARBALL%.tar.[g|x]z}" != "$UNPACK_TARBALL" ]; then
+		(cd "$TARGET" && tar -xf "$UNPACK_TARBALL")
 	elif [ "${UNPACK_TARBALL%.tgz}" != "$UNPACK_TARBALL" ]; then
 		(cd "$TARGET" && zcat "$UNPACK_TARBALL" | tar -xf -)
 	else
-		error 1 NOTTAR "Unknown tarball: must be either .tar or .tgz"
+		error 1 NOTTAR "Unknown tarball: must be .tar.[gz,xz], .tar or .tgz"
 	fi
 fi
 
