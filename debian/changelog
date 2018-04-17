@@ -1,4 +1,4 @@
-debootstrap (1.0.97) UNRELEASED; urgency=medium
+debootstrap (1.0.97) unstable; urgency=medium
 
   [ Dan Nicholson ]
   * Handle existing /dev (Closes: #872577)
@@ -25,8 +25,12 @@ debootstrap (1.0.97) UNRELEASED; urgency=medium
   [ Raphaël Hertzog ]
   * Use "command -v apt-config" to check for apt-config's presence
     (Closes: #895466)
+  * Drop default value for --cache-dir parameter
+  * Forbid the usage of non-empty directories with --print-debs and
+    --make-tarball
+  * Do not use HTTPS for Kali bootstrap script
 
- -- Raphaël Hertzog <hertzog@debian.org>  Thu, 12 Apr 2018 09:44:00 +0200
+ -- Hideki Yamane <henrich@debian.org>  Tue, 17 Apr 2018 11:06:32 +0900
 
 debootstrap (1.0.96) unstable; urgency=medium
 
