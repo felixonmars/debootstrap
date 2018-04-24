@@ -80,10 +80,10 @@ wgetprogress () {
 	[ ! "$VERBOSE" ] && NVSWITCH="-nv"
 	local ret=0
 	if [ "$USE_DEBIANINSTALLER_INTERACTION" ] && [ "$PROGRESS_NEXT" ]; then
-		wget "$@" 2>&1 >/dev/null | "$PKGDETAILS" "WGET%" "$PROGRESS_NOW" "$PROGRESS_NEXT" "$PROGRESS_END" >&3
+		wget $@ 2>&1 >/dev/null | "$PKGDETAILS" "WGET%" "$PROGRESS_NOW" "$PROGRESS_NEXT" "$PROGRESS_END" >&3
 		ret=$?
 	else
-		wget $NVSWITCH "$@"
+		wget $NVSWITCH $@
 		ret=$?
 	fi
 	return $ret
