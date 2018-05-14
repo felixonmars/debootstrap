@@ -1,4 +1,4 @@
-debootstrap (1.0.98) UNRELEASED; urgency=medium
+debootstrap (1.0.98) unstable; urgency=medium
 
   [ Cyril Brulebois ]
   * Update Vcs-{Browser,Git} to point to salsa (alioth's replacement).
@@ -16,7 +16,7 @@ debootstrap (1.0.98) UNRELEASED; urgency=medium
     to debootstrap. Thanks to jhcha54008 for the patch. (Closes: #741964)
   * Properly print proxy auto-detection message.
 
- -- Philipp Kern <pkern@debian.org>  Mon, 14 May 2018 00:53:57 +0200
+ -- Philipp Kern <pkern@debian.org>  Mon, 14 May 2018 11:22:35 +0200
 
 debootstrap (1.0.97) unstable; urgency=medium
 
