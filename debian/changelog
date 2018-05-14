@@ -1,6 +1,7 @@
 debootstrap (1.0.99) UNRELEASED; urgency=medium
 
   * Add (Ubuntu) cosmic as a symlink to gutsy.
+  * Bump Standards-Version to 4.1.4.
 
  -- Luca Falavigna <dktrkranz@debian.org>  Mon, 14 May 2018 11:59:10 +0200
 

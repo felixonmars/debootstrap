@@ -5,7 +5,7 @@ Maintainer: Debian Install System Team <debian-boot@lists.debian.org>
 Uploaders: Junichi Uekawa <dancer@debian.org>, Colin Watson <cjwatson@debian.org>, Christian Perrier <bubulle@debian.org>, Steve McIntyre <93sam@debian.org>,
            Hideki Yamane <henrich@debian.org>,
 Build-Depends: debhelper (>= 9)
-Standards-Version: 4.1.1
+Standards-Version: 4.1.4
 Vcs-Browser: https://salsa.debian.org/installer-team/debootstrap
 Vcs-Git: https://salsa.debian.org/installer-team/debootstrap.git
 
