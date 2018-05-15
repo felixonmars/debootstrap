@@ -681,6 +681,7 @@ download_release_indices () {
 		bz2i="$(get_release_checksum "$reldest" "$subpath.bz2")"
 		gzi="$(get_release_checksum "$reldest" "$subpath.gz")"
 		normi="$(get_release_checksum "$reldest" "$subpath")"
+		ext=""
 		if [ "$acquirebyhash" != "" ]; then
 			ext="$ext byhash"
 		fi
