@@ -5,10 +5,10 @@ variants - buildd fakechroot minbase
 keyring /usr/share/keyrings/debian-archive-keyring.gpg
 
 # include common settings
-if [ -d /usr/share/debootstrap/scripts ]; then
- . /usr/share/debootstrap/scripts/debian-common
-elif [ -e "$DEBOOTSTRAP_DIR/scripts/debian-common" ]; then
+if [ -e "$DEBOOTSTRAP_DIR/scripts/debian-common" ]; then
  . "$DEBOOTSTRAP_DIR/scripts/debian-common"
-else
+elif [ -e /debootstrap/debian-common ]; then
  . /debootstrap/debian-common
+else
+ error 1 NOCOMMON "File not found: debian-common"
 fi
