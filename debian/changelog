@@ -1,9 +1,14 @@
-debootstrap (1.0.99) UNRELEASED; urgency=medium
+debootstrap (1.0.99) unstable; urgency=medium
 
+  [ Luca Falavigna ]
   * Add (Ubuntu) cosmic as a symlink to gutsy.
   * Bump Standards-Version to 4.1.4.
 
- -- Luca Falavigna <dktrkranz@debian.org>  Mon, 14 May 2018 11:59:10 +0200
+  [ Hideki Yamane ]
+  * Fix download failure when specifying multiple components (Closes: #898738)
+    - Also add multiple components to test case
+
+ -- Hideki Yamane <henrich@debian.org>  Thu, 17 May 2018 10:57:52 +0900
 
 debootstrap (1.0.98) unstable; urgency=medium
 
