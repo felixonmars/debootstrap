@@ -1,3 +1,10 @@
+debootstrap (1.0.100) UNRELEASED; urgency=medium
+
+  * Specify https mirror to check https mirror specific problem
+    (See #896071)
+
+ -- Hideki Yamane <henrich@debian.org>  Thu, 17 May 2018 17:48:55 +0900
+
 debootstrap (1.0.99) unstable; urgency=medium
 
   [ Luca Falavigna ]
