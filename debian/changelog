@@ -1,9 +1,15 @@
-debootstrap (1.0.100) UNRELEASED; urgency=medium
+debootstrap (1.0.100) unstable; urgency=medium
 
+  [ Hideki Yamane ]
   * Specify https mirror to check https mirror specific problem
     (See #896071)
+  * Quote $DEBOOTSTRP_DIR properly (Closes: #586158)
+  * Simpify checking debian-common file (Closes: #897379)
 
- -- Hideki Yamane <henrich@debian.org>  Thu, 17 May 2018 17:48:55 +0900
+  [ Philipp Kern ]
+  * Add an initial Gitlab CI config file.
+
+ -- Hideki Yamane <henrich@debian.org>  Tue, 22 May 2018 20:15:26 +0900
 
 debootstrap (1.0.99) unstable; urgency=medium
 
