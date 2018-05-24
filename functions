@@ -1183,11 +1183,6 @@ setup_devices () {
 		return 0
 	fi
 
-	if grep -q container=lxc-libvirt /proc/1/environ; then
-		setup_devices_bind
-		return 0
-	fi
-
 	case "$HOST_OS" in
 	    kfreebsd*)
 		;;
@@ -1196,6 +1191,11 @@ setup_devices () {
 	    hurd*)
 		;;
 	    *)
+		if grep -q container=lxc-libvirt /proc/1/environ; then
+			setup_devices_bind
+			return 0
+		fi
+
 		setup_devices_simple
 		;;
 	esac
