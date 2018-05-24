@@ -32,6 +32,16 @@ sub capture {
     return $output;
 }
 
+my @maybe_unshare_mount_ns;
+
+if (verbose_run(['unshare', '-m', 'true'])) {
+    diag('can unshare mount namespace');
+    @maybe_unshare_mount_ns = ('unshare', '-m');
+}
+else {
+    diag('cannot unshare mount namespace, are we in a container?');
+}
+
 sub check_fake_schroot {
     my %params = @_;
     my $reference = $params{reference};
@@ -40,7 +50,7 @@ sub check_fake_schroot {
 
     # Use unshare -m to make sure the /dev mount gets cleaned up on exit, even
     # on failures
-    my $response = capture([qw(unshare -m),
+    my $response = capture([@maybe_unshare_mount_ns,
         "$srcdir/debian/tests/fake/schroot-$version", @{$extra_argv},
             $params{chroot},
         qw(runuser -u nobody --),
@@ -54,7 +64,7 @@ sub check_fake_pbuilder {
     my $reference = $params{reference};
     my $version = $params{version} || '0.228.4-1';
 
-    my $response = capture([qw(unshare -m),
+    my $response = capture([@maybe_unshare_mount_ns,
         "$srcdir/debian/tests/fake/pbuilder-$version", $params{chroot},
         qw(runuser -u nobody --),
         qw(script -q -c), 'cat /etc/debian_version', '/dev/null']);
