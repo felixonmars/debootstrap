@@ -1183,7 +1183,7 @@ setup_devices () {
 		return 0
 	fi
 
-	if [ "$HOST_OS" = Linux ] && grep -q container=lxc-libvirt /proc/1/environ; then
+	if grep -q container=lxc-libvirt /proc/1/environ; then
 		setup_devices_bind
 		return 0
 	fi
