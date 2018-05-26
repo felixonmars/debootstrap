@@ -5,7 +5,7 @@ variables:
 
 stages:
    - build
-   - autopkgtest
+#   - autopkgtest
 
 package_build:
   stage: build
@@ -19,11 +19,11 @@ package_build:
     paths:
       - build/*
 
-autopkgtest:
-  stage: autopkgtest
-  script:
-    - apt update -qq
-    - apt install -y -qq autopkgtest
-    - autopkgtest build/*.changes -- null
-  dependencies:
-    - package_build
+#autopkgtest:
+#  stage: autopkgtest
+#  script:
+#    - apt update -qq
+#    - apt install -y -qq autopkgtest
+#    - autopkgtest build/*.changes -- null
+#  dependencies:
+#    - package_build
