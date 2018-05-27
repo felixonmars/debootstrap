@@ -279,7 +279,7 @@ else {
         BAIL_OUT("debootstrap wrapped in systemd-nspawn failed: $?");
     }
 
-    check_chroot(chroot => 'from-nspawn.d', can_mknod_ptmx => 0,
+    check_chroot(chroot => "$ENV{ADTTMP}/from-nspawn.d", can_mknod_ptmx => 0,
         kernel => $kernel, container => "nspawn");
 }
 
