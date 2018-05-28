@@ -32,6 +32,16 @@ sub capture {
     return $output;
 }
 
+my $check_non_docker_env;
+if (run([qw(grep "\ \/docker.*cgroup" /proc/1/mountinfo)], '&>', '/dev/null')) {
+    diag("it seems docker environment");
+    $check_non_docker_env = 0;
+}
+else {
+    diag("okay, it's not docker environment");
+    $check_non_docker_env = 1;
+}
+
 my @maybe_unshare_mount_ns;
 
 if (verbose_run(['unshare', '-m', 'true'])) {
@@ -255,8 +265,10 @@ if (!verbose_run(['debootstrap',
     BAIL_OUT("debootstrap failed: $?");
 }
 
-check_chroot(chroot => 'chroot.d', can_mknod_ptmx => $can_mknod_ptmx,
-    kernel => $kernel, container => $container);
+if ($check_non_docker_env) {
+    check_chroot(chroot => 'chroot.d', can_mknod_ptmx => $can_mknod_ptmx,
+        kernel => $kernel, container => $container);
+}
 
 if ($^O ne 'linux') {
     diag("Cannot use systemd-nspawn on non-Linux");
