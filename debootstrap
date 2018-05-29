@@ -450,7 +450,11 @@ else
 		SUPPORTED_VARIANTS="$VARIANT"
 	fi
 	if [ "$4" != "" ]; then
-		SCRIPT="$4"
+		if [ -e "$DEBOOTSTRAP_DIR/scripts/$4" ]; then
+			SCRIPT="$DEBOOTSTRAP_DIR/scripts/$4"
+		else
+			SCRIPT="$4"
+		fi
 	fi
 fi
 
