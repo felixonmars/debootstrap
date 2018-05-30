@@ -1183,11 +1183,6 @@ setup_devices () {
 		return 0
 	fi
 
-	if [ "$HOST_OS" = Linux ] && grep -q container=lxc-libvirt /proc/1/environ; then
-		setup_devices_bind
-		return 0
-	fi
-
 	case "$HOST_OS" in
 	    kfreebsd*)
 		;;
@@ -1196,6 +1191,11 @@ setup_devices () {
 	    hurd*)
 		;;
 	    *)
+		if grep -q container=lxc-libvirt /proc/1/environ; then
+			setup_devices_bind
+			return 0
+		fi
+
 		setup_devices_simple
 		;;
 	esac
@@ -1242,7 +1242,9 @@ setup_devices_simple () {
 	mknod_if_needed "$TARGET/dev/random"      c 1 8
 	mknod_if_needed "$TARGET/dev/urandom"     c 1 9
 	mknod_if_needed "$TARGET/dev/tty"         c 5 0
-	mknod_if_needed "$TARGET/dev/console"     c 5 1
+	if ! grep -q container=systemd-nspawn /proc/1/environ; then
+		mknod_if_needed "$TARGET/dev/console"     c 5 1
+	fi
 	# To avoid pre-exist directory causes error, specify "-p" option
         mkdir -p "$TARGET/dev/pts/" "$TARGET/dev/shm/"
 	# Inside a container, we might not be allowed to create /dev/ptmx.
