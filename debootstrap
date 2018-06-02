@@ -653,6 +653,7 @@ if am_doing_phase finddebs; then
 	work_out_debs
 
 	base=$(without "$base $ADDITIONAL" "$EXCLUDE")
+	required=$(without "$required" "$EXCLUDE")
 
 	if [ "$RESOLVE_DEPS" = true ]; then
 		requiredX=$(echo "$required" | tr ' ' '\n' | sort | uniq)
