@@ -109,7 +109,7 @@ usage()
                              (also disables automatic fallback to HTTPS in case
                              of a missing keyring), aborting otherwise
       --no-resolve-deps      don't try to resolve dependencies automatically
-
+      --log-extra-deps       record extra dependency info in debootstrap.log
       --cache-dir=DIR        Use specified directory as package cache directory
 
       --unpack-tarball=T     acquire .debs from a tarball instead of http
@@ -206,6 +206,10 @@ if [ $# != 0 ] ; then
 		;;
 	    --no-resolve-deps)
 		RESOLVE_DEPS=false
+		shift
+		;;
+	    --log-extra-deps)
+		LOG_EXTRA_DEPS=true
 		shift
 		;;
 	    --keep-debootstrap-dir)
@@ -653,17 +657,11 @@ if am_doing_phase finddebs; then
 	work_out_debs
 
 	base=$(without "$base $ADDITIONAL" "$EXCLUDE")
+	required=$(without "$required" "$EXCLUDE")
 
 	if [ "$RESOLVE_DEPS" = true ]; then
 		requiredX=$(echo "$required" | tr ' ' '\n' | sort | uniq)
 		baseX=$(echo "$base" | tr ' ' '\n' | sort | uniq)
-
-		baseN=$(without "$baseX" "$requiredX")
-		baseU=$(without "$baseX" "$baseN")
-
-		if [ "$baseU" != "" ]; then
-			info REDUNDANTBASE "Found packages in base already in required: %s" "$baseU"
-		fi
 
 		info RESOLVEREQ "Resolving dependencies of required packages..."
 		required=$(resolve_deps "$requiredX")
@@ -671,13 +669,26 @@ if am_doing_phase finddebs; then
 		base=$(resolve_deps "$baseX")
 		base=$(without "$base" "$required")
 
-		requiredX=$(without "$required" "$requiredX")
-		baseX=$(without "$base" "$baseX")
-		if [ "$requiredX" != "" ]; then
-			info NEWREQUIRED "Found additional required dependencies: %s" "$requiredX"
-		fi
-		if [ "$baseX" != "" ]; then
-			info NEWBASE "Found additional base dependencies: %s" "$baseX"
+		# Check exclude package again since it may be added after resolution
+		base=$(without "$base" "$EXCLUDE")
+		required=$(without "$required" "$EXCLUDE")
+
+		if [ "$LOG_EXTRA_DEPS" = true ]; then
+			baseN=$(without "$baseX" "$requiredX")
+			baseU=$(without "$baseX" "$baseN")
+
+			if [ "$baseU" != "" ]; then
+		  		info REDUNDANTBASE "Found packages in base already in required: %s" "$baseU"
+			fi
+
+			requiredX=$(without "$required" "$requiredX")
+			baseX=$(without "$base" "$baseX")
+			if [ "$requiredX" != "" ]; then
+				info NEWREQUIRED "Found additional required dependencies: %s" "$requiredX"
+			fi
+			if [ "$baseX" != "" ]; then
+				info NEWBASE "Found additional base dependencies: %s" "$baseX"
+			fi
 		fi
 	fi
 
