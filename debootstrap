@@ -669,6 +669,10 @@ if am_doing_phase finddebs; then
 		base=$(resolve_deps "$baseX")
 		base=$(without "$base" "$required")
 
+		# Check exclude package again since it may be added after resolution
+		base=$(without "$base" "$EXCLUDE")
+		required=$(without "$required" "$EXCLUDE")
+
 		if [ "$LOG_EXTRA_DEPS" = true ]; then
 			baseN=$(without "$baseX" "$requiredX")
 			baseU=$(without "$baseX" "$baseN")
