@@ -1,3 +1,34 @@
+debootstrap (1.0.101) unstable; urgency=medium
+
+  [ Hideki Yamane ]
+  * debian/test
+    - Don't use unshare on some environment
+    - Fix chroot dir location
+    - Just ignore tests under docker environment
+  * scripts
+    - Add "bookworm" (Debian12) to script
+  * README
+    - Update git info to point to salsa repo
+
+  * Fix wrong assumptions for $HOST_OS
+  * Move container=lxc-libvirt check to work properly
+  * Avoid mknod $TARGET/dev/console failure with systemd-nspawn
+  * Fix exclude to work with --no-resolve-deps option
+  * Add "--log-extra-deps" option to reduce time
+  * Add 2nd exclude package check to really exclude packages even if
+    it breaks dependencies (Closes: #830794, #557322, #783589)
+
+  [ Philipp Kern ]
+  * Gitlab CI: Disable the broken autopkgtest step.
+
+  [ Tianon Gravi ]
+  * Allow "script" argument to be specified as either an absolute path
+    as before, or as a raw codename such as "sid", assumed to be
+    relative to "/usr/share/debootstrap/scripts" (Closes: #742672)
+
+
+ -- Hideki Yamane <henrich@debian.org>  Sun, 03 Jun 2018 19:41:23 +0900
+
 debootstrap (1.0.100) unstable; urgency=medium
 
   [ Hideki Yamane ]
