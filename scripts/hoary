@@ -53,7 +53,7 @@ install_debs () {
 }
 
 first_stage_install () {
-    extract $required
+    extract $(cat "$TARGET/debootstrap/required_pkgs")
 
     mkdir -p "$TARGET/var/lib/dpkg"
     : >"$TARGET/var/lib/dpkg/status"
