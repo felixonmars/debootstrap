@@ -34,7 +34,6 @@ HOST_OS=""
 KEEP_DEBOOTSTRAP_DIR=""
 USE_DEBIANINSTALLER_INTERACTION=""
 SECOND_STAGE_ONLY=""
-PRINT_DEBS=""
 CHROOTDIR=""
 MAKE_TARBALL=""
 EXTRACTOR_OVERRIDE=""
@@ -154,13 +153,22 @@ if [ $# != 0 ] ; then
 		shift
 		;;
 	    --foreign)
-		if [ "$PRINT_DEBS" != "true" ]; then
-			WHAT_TO_DO="finddebs dldebs first_stage"
+		if [ ! -z "$set_what_to_do" ]; then
+			echo "$set_what_to_do is specified with $1, please use one of those options"
+			exit 1
 		fi
+		WHAT_TO_DO="finddebs dldebs first_stage"
+		set_what_to_do="$1"
 		shift
 		;;
 	    --second-stage)
+		if [ ! -z "$set_what_to_do" ]; then
+			echo "$set_what_to_do is specified with $1, please use one of those options"
+			exit 1
+		fi
 		WHAT_TO_DO="second_stage"
+		set_what_to_do="$1"
+
 		SECOND_STAGE_ONLY=true
 		shift
 		;;
@@ -179,16 +187,30 @@ if [ $# != 0 ] ; then
 		fi
 		;;
 	    --print-debs)
+		if [ ! -z "$set_what_to_do" ]; then
+			echo "$set_what_to_do is specified with $1, please use one of those options"
+			exit 1
+		fi
 		WHAT_TO_DO="finddebs printdebs kill_target"
-		PRINT_DEBS=true
+		set_what_to_do="$1"
 		shift
 		;;
 	    --download-only)
+		if [ ! -z "$set_what_to_do" ]; then
+			echo "$set_what_to_do is specified with $1, please use one of those options"
+			exit 1
+		fi
 		WHAT_TO_DO="finddebs dldebs"
+		set_what_to_do="$1"
 		shift
 		;;
 	    --make-tarball|--make-tarball=?*)
+		if [ ! -z "$set_what_to_do" ]; then
+			echo "$set_what_to_do is specified with $1, please use one of those options"
+			exit 1
+		fi
 		WHAT_TO_DO="finddebs dldebs maketarball kill_target"
+		set_what_to_do="$1"
 		if [ "$1" = "--make-tarball" ] && [ -n "$2" ] ; then
 			MAKE_TARBALL="$2"
 			shift 2
@@ -247,12 +269,24 @@ if [ $# != 0 ] ; then
 		;;
 	    --unpack-tarball|--unpack-tarball=?*)
 		if [ "$1" = "--unpack-tarball" ] && [ -n "$2" ] ; then
+			if [ ! -z "$set_what_to_do" ]; then
+				echo "$set_what_to_do is specified with $1, please use one of those options"
+				exit 1
+			fi
+			WHAT_TO_DO="first_stage second_stage"
+			set_what_to_do="$1"
+			
 			UNPACK_TARBALL="$2"
-			WHAT_TO_DO=$(echo "$WHAT_TO_DO"|sed -e s/dldebs//)
 			shift 2
 		elif [ "$1" != "${1#--unpack-tarball=}" ]; then
+			if [ ! -z "$set_what_to_do" ]; then
+				echo "$set_what_to_do is specified with $1, please use one of those options"
+				exit 1
+			fi
+			WHAT_TO_DO="first_stage second_stage"
+			set_what_to_do="$1"
+			
 			UNPACK_TARBALL="${1#--unpack-tarball=}"
-			WHAT_TO_DO=$(echo "$WHAT_TO_DO" | sed -e s/dldebs//)
 			shift
 		else
 			error 1 NEEDARG "option requires an argument %s" "$1"
