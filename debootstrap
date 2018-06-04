@@ -275,7 +275,7 @@ if [ $# != 0 ] ; then
 			fi
 			WHAT_TO_DO="first_stage second_stage"
 			set_what_to_do="$1"
-			
+
 			UNPACK_TARBALL="$2"
 			shift 2
 		elif [ "$1" != "${1#--unpack-tarball=}" ]; then
@@ -285,7 +285,7 @@ if [ $# != 0 ] ; then
 			fi
 			WHAT_TO_DO="first_stage second_stage"
 			set_what_to_do="$1"
-			
+
 			UNPACK_TARBALL="${1#--unpack-tarball=}"
 			shift
 		else
@@ -728,6 +728,10 @@ if am_doing_phase finddebs; then
 		fi
 	fi
 
+	# Save for --unpack-tarball
+	echo "$base" > "$TARGET/debootstrap/base_pkgs"
+	echo "$required" > "$TARGET/debootstrap/required_pkgs"
+
 	all_debs="$required $base"
 fi
 
@@ -744,7 +748,7 @@ fi
 
 if am_doing_phase maketarball; then
 	(cd "$TARGET";
-	 tar czf - var/lib/apt var/cache/apt) >"$MAKE_TARBALL"
+	 tar czf - var/lib/apt var/cache/apt debootstrap) >"$MAKE_TARBALL"
 fi
 
 if am_doing_phase first_stage; then
@@ -776,6 +780,10 @@ if am_doing_phase second_stage; then
 	if [ "$SECOND_STAGE_ONLY" = true ]; then
 		required=$(cat "$DEBOOTSTRAP_DIR/required")
 		base=$(cat "$DEBOOTSTRAP_DIR/base")
+		all_debs="$required $base"
+	else
+		required=$(cat "$TARGET/debootstrap/required_pkgs")
+		base=$(cat "$TARGET/debootstrap/base_pkgs")
 		all_debs="$required $base"
 	fi
 
