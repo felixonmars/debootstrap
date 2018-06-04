@@ -248,9 +248,11 @@ if [ $# != 0 ] ; then
 	    --unpack-tarball|--unpack-tarball=?*)
 		if [ "$1" = "--unpack-tarball" ] && [ -n "$2" ] ; then
 			UNPACK_TARBALL="$2"
+			WHAT_TO_DO=$(echo "$WHAT_TO_DO"|sed -e s/dldebs//)
 			shift 2
 		elif [ "$1" != "${1#--unpack-tarball=}" ]; then
 			UNPACK_TARBALL="${1#--unpack-tarball=}"
+			WHAT_TO_DO=$(echo "$WHAT_TO_DO" | sed -e s/dldebs//)
 			shift
 		else
 			error 1 NEEDARG "option requires an argument %s" "$1"
