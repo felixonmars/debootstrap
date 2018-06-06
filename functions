@@ -475,28 +475,11 @@ apt_dest () {
 		;;
 	    pkg)
 		local m="$5"
-		m="debootstrap.invalid"
-		#if [ "${m#http://}" != "$m" ]; then
-		#	m="${m#http://}"
-		#elif [ "${m#file://}" != "$m" ]; then
-		#	m="file_localhost_${m#file://*/}"
-		#elif [ "${m#file:/}" != "$m" ]; then
-		#	m="file_localhost_${m#file:/}"
-		#fi
-
 		printf "%s" "$APTSTATE/lists/"
 		echo "${m}_$6" | sed 's/\//_/g'
 		;;
 	    rel)
 		local m="$3"
-		m="debootstrap.invalid"
-		#if [ "${m#http://}" != "$m" ]; then
-		#	m="${m#http://}"
-		#elif [ "${m#file://}" != "$m" ]; then
-		#	m="file_localhost_${m#file://*/}"
-		#elif [ "${m#file:/}" != "$m" ]; then
-		#	m="file_localhost_${m#file:/}"
-		#fi
 		printf "%s" "$APTSTATE/lists/"
 		echo "${m}_$4" | sed 's/\//_/g'
 		;;
@@ -1070,16 +1053,6 @@ conditional_cp () {
 	fi
 }
 
-mv_invalid_to () {
-	local m="$1"
-	m="$(echo "${m#http://}" | tr '/' '_' | sed 's/_*//')"
-	(cd "$TARGET/$APTSTATE/lists" || exit 1
-	 for a in debootstrap.invalid_*; do
-		 mv "$a" "${m}_${a#*_}"
-	 done
-	)
-}
-
 setup_apt_sources () {
 	mkdir -p "$TARGET/etc/apt"
 	for m in "$@"; do
@@ -1098,10 +1071,6 @@ setup_etc () {
 
 	conditional_cp /etc/resolv.conf "$TARGET"
 	conditional_cp /etc/hostname "$TARGET"
-
-	if [ "$DLDEST" = apt_dest ] && [ ! -e "$TARGET/etc/apt/sources.list" ]; then
-		setup_apt_sources "http://debootstrap.invalid/"
-	fi
 }
 
 UMOUNT_DIRS=
