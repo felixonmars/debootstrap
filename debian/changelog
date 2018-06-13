@@ -11,7 +11,7 @@ debootstrap (1.0.102) unstable; urgency=medium
 debootstrap (1.0.101) unstable; urgency=medium
 
   [ Hideki Yamane ]
-  * debian/test
+  * debian/tests
     - Don't use unshare on some environment
     - Fix chroot dir location
     - Just ignore tests under docker environment
