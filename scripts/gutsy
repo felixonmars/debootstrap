@@ -67,7 +67,8 @@ work_out_debs () {
 
 first_stage_install () {
 	case "$CODENAME" in
-		etch|etch-m68k|jessie|jessie-kfreebsd|lenny|squeeze|wheezy) ;;
+		gutsy|hardy|intrepid|jaunty|karmic|lucid|maverick|natty|oneiric|precise|quantal|raring|saucy|utopic|vivid|wily|yakkety|zesty|artful|bionic|cosmic)
+			;;
 		*)
 			EXTRACT_DEB_TAR_OPTIONS="$EXTRACT_DEB_TAR_OPTIONS -k"
 			setup_merged_usr
