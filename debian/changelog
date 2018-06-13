@@ -2,7 +2,7 @@ debootstrap (1.0.102) unstable; urgency=medium
 
   * Enable merged-/usr by default (Closes: #839046)
     This is applied for buster and later.
-  * Fix "debootstrap does not carry --components across --foreign/--second-stage"
+  * Fix "debootstrap doesn't carry --components across --foreign/--second-stage"
     (Closes: #877855)
   * Fix debian-common path with tarball and --second-stage (Closes: #897379)
 
