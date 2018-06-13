@@ -154,7 +154,11 @@ if [ $# != 0 ] ; then
 		;;
 	    --foreign)
 		check_conflicting_option "$1"
-		WHAT_TO_DO="finddebs dldebs save_variables first_stage"
+		if [ -n "$LOOSEN_CONFLICTING_RESTRICTION" ]; then
+			WHAT_TO_DO="first_stage"
+		else
+			WHAT_TO_DO="finddebs dldebs save_variables first_stage"
+			fi
 		shift
 		;;
 	    --second-stage)
@@ -249,12 +253,20 @@ if [ $# != 0 ] ; then
 	    --unpack-tarball|--unpack-tarball=?*)
 		if [ "$1" = "--unpack-tarball" ] && [ -n "$2" ] ; then
 			check_conflicting_option "$1"
-			WHAT_TO_DO="first_stage second_stage"
+			if [ -n "$LOOSEN_CONFLICTING_RESTRICTION" ]; then
+				WHAT_TO_DO="first_stage"
+			else
+				WHAT_TO_DO="first_stage second_stage"
+			fi
 			UNPACK_TARBALL="$2"
 			shift 2
 		elif [ "$1" != "${1#--unpack-tarball=}" ]; then
 			check_conflicting_option "$1"
-			WHAT_TO_DO="first_stage second_stage"
+			if [ -n "$LOOSEN_CONFLICTING_RESTRICTION" ]; then
+				WHAT_TO_DO="first_stage"
+			else
+				WHAT_TO_DO="first_stage second_stage"
+			fi
 			UNPACK_TARBALL="${1#--unpack-tarball=}"
 			shift
 		else
