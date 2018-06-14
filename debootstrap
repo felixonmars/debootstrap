@@ -591,8 +591,11 @@ fi
 if [ -x /usr/bin/arch-test ] && am_doing_phase second_stage; then
 	if doing_variant fakechroot; then
 		ret=0; arch-test "$ARCH" || ret=$?
-	else
+	# Avoid failure with old arch-test package
+	elif arch-test --version > /dev/null 2>&1; then
 		ret=0; arch-test -c "$TARGET" "$ARCH" || ret=$?
+	else
+		ret=3
 	fi
 
 	case $ret in
