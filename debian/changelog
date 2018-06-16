@@ -44,8 +44,8 @@ debootstrap (1.0.100) unstable; urgency=medium
   [ Hideki Yamane ]
   * Specify https mirror to check https mirror specific problem
     (See #896071)
-  * Quote $DEBOOTSTRP_DIR properly (Closes: #586158)
-  * Simpify checking debian-common file (Closes: #897379)
+  * Quote $DEBOOTSTRAP_DIR properly (Closes: #586158)
+  * Simplify checking debian-common file (Closes: #897379)
 
   [ Philipp Kern ]
   * Add an initial Gitlab CI config file.
