@@ -67,14 +67,17 @@ work_out_debs () {
 
 first_stage_install () {
 	case "$CODENAME" in
+		# "merged-usr" blacklist for past releases
 		gutsy|hardy|intrepid|jaunty|karmic|lucid|maverick|natty|oneiric|precise|quantal|raring|saucy|utopic|vivid|wily|yakkety|zesty|artful|bionic|cosmic)
+			[ -z "$MERGED_USR" ] && MERGED_USR="no"
 			;;
 		*)
+			# see https://bugs.debian.org/838388
 			EXTRACT_DEB_TAR_OPTIONS="$EXTRACT_DEB_TAR_OPTIONS -k"
-			setup_merged_usr
 			;;
 	esac
 
+	setup_merged_usr
 	extract $required
 
 	mkdir -p "$TARGET/var/lib/dpkg"
