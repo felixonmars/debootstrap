@@ -36,14 +36,21 @@ work_out_debs () {
 
 first_stage_install () {
 	case "$CODENAME" in
-		etch*|lenny|squeeze|wheezy|jessie*|stretch)
+		# "merged-usr" blacklist for past releases
+		etch*|lenny|squeeze|wheezy|jessie*)
+			[ -z "$MERGED_USR" ] && MERGED_USR="no"
 			;;
 		*)
+			# see https://bugs.debian.org/838388
 			EXTRACT_DEB_TAR_OPTIONS="$EXTRACT_DEB_TAR_OPTIONS -k"
-			setup_merged_usr
 			;;
 	esac
 
+	if [ "$CODENAME" = "stretch" ] && [ -z "$MERGED_USR" ]; then
+		MERGED_USR="no"
+	fi
+		
+	setup_merged_usr
 	extract $required
 
 	mkdir -p "$TARGET/var/lib/dpkg"
