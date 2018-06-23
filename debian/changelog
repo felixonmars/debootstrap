@@ -1,3 +1,12 @@
+debootstrap (1.0.103) unstable; urgency=medium
+
+  * Avoid failure with old arch-test package (Closes: #900925)
+    Thanks to jhcha54008 <jhcha54008@free.fr>
+  * Relax merged-usr blacklist restriction (Closes: #901808)
+    Thanks to Tianon Gravi <tianon@debian.org>
+
+ -- Hideki Yamane <henrich@debian.org>  Sat, 23 Jun 2018 11:44:57 +0900
+
 debootstrap (1.0.102) unstable; urgency=medium
 
   * Enable merged-/usr by default (Closes: #839046)
