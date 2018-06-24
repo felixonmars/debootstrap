@@ -1125,14 +1125,17 @@ setup_proc () {
 		umount "$TARGET/proc" 2>/dev/null || true
 		# if systemd-nspawn is used at second-stage, it already treats /proc and so on
 		# and also fix failure on lxc environment
-		if [ ! -n "$(ls -A /proc)" ]; then
+		if [ -z "$(ls -A "$TARGET/proc")" ]; then
 			in_target mount -t proc proc /proc
-			if [ -d "$TARGET/sys" ] && \
-			   grep -q '[[:space:]]sysfs' /proc/filesystems 2>/dev/null; then
+			umount_on_exit /proc
+		fi
+		if [ -n "$(ls -A "$TARGET/sys")" ] && \
+			grep -q '[[:space:]]sysfs' "$TARGET/proc/filesystems" 2>/dev/null; then
 				umount_on_exit /sys
 				umount "$TARGET/sys" 2>/dev/null || true
-				in_target mount -t sysfs sysfs /sys
-			fi
+		else
+			in_target mount -t sysfs sysfs /sys
+			umount_on_exit /sys
 		fi
 		on_exit clear_mtab
 		;;
