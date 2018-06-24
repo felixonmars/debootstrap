@@ -1,3 +1,10 @@
+debootstrap (1.0.104) unstable; urgency=medium
+
+  * Fix /etc/machine-id mount issue (Closes: #899155)
+  * Fix regression with file:/// mirror (Closes: #901717)
+
+ -- Hideki Yamane <henrich@debian.org>  Sun, 24 Jun 2018 20:41:13 +0900
+
 debootstrap (1.0.103) unstable; urgency=medium
 
   * Avoid failure with old arch-test package (Closes: #900925)
