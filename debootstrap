@@ -422,6 +422,7 @@ fi
 if [ "$SECOND_STAGE_ONLY" = "true" ]; then
 	SUITE=$(cat "$DEBOOTSTRAP_DIR/suite")
 	ARCH=$(cat "$DEBOOTSTRAP_DIR/arch")
+	USER_MIRROR=$(cat "$DEBOOTSTRAP_DIR/mirror")
 	if [ -e "$DEBOOTSTRAP_DIR/variant" ]; then
 		VARIANT=$(cat "$DEBOOTSTRAP_DIR/variant")
 		SUPPORTED_VARIANTS="$VARIANT"
@@ -725,6 +726,7 @@ if am_doing_phase first_stage; then
 		cp "$DEBOOTSTRAP_DIR"/scripts/*-common	"$TARGET/debootstrap/"
 		echo "$ARCH"			>"$TARGET/debootstrap/arch"
 		echo "$SUITE"			>"$TARGET/debootstrap/suite"
+		echo "$USER_MIRROR"		>"$TARGET/debootstrap/mirror"
 		[ "" = "$VARIANT" ] ||
 		echo "$VARIANT"			>"$TARGET/debootstrap/variant"
 		echo "$required"		>"$TARGET/debootstrap/required"
