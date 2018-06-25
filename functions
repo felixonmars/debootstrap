@@ -1163,7 +1163,7 @@ setup_devices () {
 	    hurd*)
 		;;
 	    *)
-		if grep -q container=lxc-libvirt /proc/1/environ; then
+		if env | grep container=lxc-libvirt; then
 			setup_devices_bind
 			return 0
 		fi
@@ -1214,7 +1214,7 @@ setup_devices_simple () {
 	mknod_if_needed "$TARGET/dev/random"      c 1 8
 	mknod_if_needed "$TARGET/dev/urandom"     c 1 9
 	mknod_if_needed "$TARGET/dev/tty"         c 5 0
-	if ! grep -q container=systemd-nspawn /proc/1/environ; then
+	if ! env | grep container=systemd-nspawn; then
 		mknod_if_needed "$TARGET/dev/console"     c 5 1
 	fi
 	# To avoid pre-exist directory causes error, specify "-p" option
@@ -1519,7 +1519,7 @@ check_sane_mount () {
 	    *freebsd*|hurd*)
 		;;
 	    *)
-		if ! doing_variant fakechroot &&  ! grep -q container=lxc-libvirt /proc/1/environ > /dev/null 2>&1; then
+		if ! doing_variant fakechroot &&  ! env | grep container=lxc-libvirt > /dev/null 2>&1; then
 			mknod "$1/test-dev-null" c 1 3 || return 1
 			if ! echo test > "$1/test-dev-null"; then
 				rm -f "$1/test-dev-null"
