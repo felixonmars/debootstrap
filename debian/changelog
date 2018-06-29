@@ -1,3 +1,10 @@
+debootstrap (1.0.105) UNRELEASED; urgency=medium
+
+  * Improve wording for --log-extra-deps in the manpage, thanks to
+    intrigeri for the report.
+
+ -- Cyril Brulebois <kibi@debian.org>  Fri, 29 Jun 2018 17:13:15 +0200
+
 debootstrap (1.0.104) unstable; urgency=medium
 
   * Fix /etc/machine-id mount issue (Closes: #899155)
