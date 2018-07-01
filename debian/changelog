@@ -7,6 +7,11 @@ debootstrap (1.0.105) UNRELEASED; urgency=medium
   [ Hideki Yamane ]
   * Use $container to detect systemd-nspawn and lxc{-libvirt} (Closes: #902350)
   * cache-dir option: change error detection order
+  * Rervert "Add 2nd exclude package check to really exclude packages even if
+    it breaks dependencies" since it doesn't work as expected and cause
+    regression (Closes: #901977) and (Reopen: #830794, #557322, #783589)
+    To make it proper, just remove "--exclude" packages twice but do not
+    exec dependencies resolution in 2nd time, I guess.
 
  -- Hideki Yamane <henrich@debian.org>  Sun, 01 Jul 2018 23:05:14 +0900
 
