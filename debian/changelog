@@ -1,9 +1,13 @@
 debootstrap (1.0.105) UNRELEASED; urgency=medium
 
+  [ Cyril Brulebois ]
   * Improve wording for --log-extra-deps in the manpage, thanks to
     intrigeri for the report.
 
- -- Cyril Brulebois <kibi@debian.org>  Fri, 29 Jun 2018 17:13:15 +0200
+  [ Hideki Yamane ]
+  * Use $container to detect systemd-nspawn and lxc{-libvirt} (Closes: #902350)
+
+ -- Hideki Yamane <henrich@debian.org>  Sun, 01 Jul 2018 18:32:18 +0900
 
 debootstrap (1.0.104) unstable; urgency=medium
 
