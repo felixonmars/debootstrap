@@ -1061,6 +1061,14 @@ detect_lxc () {
 	fi
 }
 
+detect_systemd_nspawn () {
+	if grep -qs ^systemd-nspawn$ /run/systemd/container || [ ! "$container" = "systemd-nspawn" ]; then
+		true
+	else
+		false
+	fi
+}
+
 setup_apt_sources () {
 	mkdir -p "$TARGET/etc/apt"
 	for m in "$@"; do
@@ -1226,7 +1234,7 @@ setup_devices_simple () {
 	mknod_if_needed "$TARGET/dev/random"      c 1 8
 	mknod_if_needed "$TARGET/dev/urandom"     c 1 9
 	mknod_if_needed "$TARGET/dev/tty"         c 5 0
-	if ! grep -qs ^systemd-nspawn$ /run/systemd/container || [ ! "$container" = "systemd-nspawn" ]; then
+	if ! detect_systemd_nspawn; then
 		mknod_if_needed "$TARGET/dev/console"     c 5 1
 	fi
 	# To avoid pre-exist directory causes error, specify "-p" option
