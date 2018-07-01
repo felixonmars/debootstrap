@@ -6,8 +6,9 @@ debootstrap (1.0.105) UNRELEASED; urgency=medium
 
   [ Hideki Yamane ]
   * Use $container to detect systemd-nspawn and lxc{-libvirt} (Closes: #902350)
+  * cache-dir option: change error detection order
 
- -- Hideki Yamane <henrich@debian.org>  Sun, 01 Jul 2018 18:32:18 +0900
+ -- Hideki Yamane <henrich@debian.org>  Sun, 01 Jul 2018 23:05:14 +0900
 
 debootstrap (1.0.104) unstable; urgency=medium
 
