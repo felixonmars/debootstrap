@@ -1,4 +1,4 @@
-debootstrap (1.0.105) UNRELEASED; urgency=medium
+debootstrap (1.0.105) unstable; urgency=medium
 
   [ Cyril Brulebois ]
   * Improve wording for --log-extra-deps in the manpage, thanks to
@@ -13,7 +13,7 @@ debootstrap (1.0.105) UNRELEASED; urgency=medium
     To make it proper, just remove "--exclude" packages twice but do not
     exec dependencies resolution in 2nd time, I guess.
 
- -- Hideki Yamane <henrich@debian.org>  Sun, 01 Jul 2018 23:05:14 +0900
+ -- Hideki Yamane <henrich@debian.org>  Sun, 01 Jul 2018 23:09:10 +0900
 
 debootstrap (1.0.104) unstable; urgency=medium
 
