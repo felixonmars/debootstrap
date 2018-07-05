@@ -1,3 +1,10 @@
+debootstrap (1.0.106) unstable; urgency=medium
+
+  * Improve related to container (Closes: #902924)
+  * Add docker support (Closes: #890867)
+
+ -- Hideki Yamane <henrich@debian.org>  Thu, 05 Jul 2018 17:48:22 +0900
+
 debootstrap (1.0.105) unstable; urgency=medium
 
   [ Cyril Brulebois ]
