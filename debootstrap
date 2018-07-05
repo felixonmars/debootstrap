@@ -437,6 +437,9 @@ if [ "$SECOND_STAGE_ONLY" = "true" ]; then
 	fi
 	SCRIPT="$DEBOOTSTRAP_DIR/suite-script"
 else
+	if ! in_path wget; then
+		error 1 NEEDWGET "You must install wget to download packages."
+	fi
 	if [ -z "$1" ] || [ -z "$2" ]; then
 		usage_err 1 NEEDSUITETARGET "You must specify a suite and a target."
 	fi
