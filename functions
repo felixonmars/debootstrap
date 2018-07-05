@@ -226,6 +226,8 @@ detect_container () {
 		CONTAINER="lxc-libvirt"
 	elif grep -qs ^systemd-nspawn$ /run/systemd/container || [ "$container" = "systemd-nspawn" ]; then
 		CONTAINER="systemd-nspawn"
+	elif grep -qs '[[:space:]]/docker/.*/sys/fs/cgroup' /proc/1/mountinfo; then
+		CONTAINER="docker"
 	else
 		CONTAINER=""
 	fi
@@ -1143,7 +1145,8 @@ setup_proc () {
 			umount_on_exit /proc
 		fi
 		if [ -n "$(ls -A "$TARGET/sys")" ] && \
-			grep -qs '[[:space:]]sysfs' "$TARGET/proc/filesystems"; then
+			grep -qs '[[:space:]]sysfs' "$TARGET/proc/filesystems" || \
+                   [ "$CONTAINER" = "docker" ]; then
 				umount_on_exit /sys
 				umount "$TARGET/sys" 2>/dev/null || true
 		else
@@ -1156,7 +1159,7 @@ setup_proc () {
 	umount_on_exit /lib/init/rw
 }
 
-setup_proc_fakechroot () {
+setup_proc_symlink () {
 	rm -rf "$TARGET/proc"
 	ln -s /proc "$TARGET"
 }

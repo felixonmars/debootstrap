@@ -65,8 +65,8 @@ first_stage_install () {
 
 	setup_devices
 
-	if doing_variant fakechroot; then
-		setup_proc_fakechroot
+	if doing_variant fakechroot || [ "$CONTAINER" = "docker" ]; then
+		setup_proc_symlink
 	fi
 }
 
