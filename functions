@@ -219,6 +219,18 @@ keyring () {
 	fi
 }
 
+detect_container () {
+	if [ "$container" = lxc ]; then
+		CONTAINER="lxc"
+	elif grep -qs container=lxc-libvirt /proc/1/environ; then
+		CONTAINER="lxc-libvirt"
+	elif grep -qs ^systemd-nspawn$ /run/systemd/container || [ "$container" = "systemd-nspawn" ]; then
+		CONTAINER="systemd-nspawn"
+	else
+		CONTAINER=""
+	fi
+}
+
 ########################################################## variant handling
 
 doing_variant () {
@@ -1053,21 +1065,6 @@ conditional_cp () {
 	fi
 }
 
-detect_lxc () {
-	if [ "$container" = lxc ] || [ "$container" = lxc-libvirt ]; then
-		true
-	else
-		false
-	fi
-}
-
-detect_systemd_nspawn () {
-	if grep -qs ^systemd-nspawn$ /run/systemd/container || [ ! "$container" = "systemd-nspawn" ]; then
-		true
-	else
-		false
-	fi
-}
 
 setup_apt_sources () {
 	mkdir -p "$TARGET/etc/apt"
@@ -1140,10 +1137,8 @@ setup_proc () {
 		umount_on_exit /proc/bus/usb
 		umount "$TARGET/proc" 2>/dev/null || true
 
-		if detect_lxc; then
-			true
-		# if systemd-nspawn is used at second-stage, it already treats /proc and so on
-		elif [ -z "$(ls -A "$TARGET/proc")" ]; then
+		# some container environment are used at second-stage, it already treats /proc and so on
+		if [ -z "$(ls -A "$TARGET/proc")" ]; then
 			in_target mount -t proc proc /proc
 			umount_on_exit /proc
 		fi
@@ -1151,8 +1146,6 @@ setup_proc () {
 			grep -qs '[[:space:]]sysfs' "$TARGET/proc/filesystems"; then
 				umount_on_exit /sys
 				umount "$TARGET/sys" 2>/dev/null || true
-		elif detect_lxc; then
-			true
 		else
 			in_target mount -t sysfs sysfs /sys
 			umount_on_exit /sys
@@ -1183,7 +1176,7 @@ setup_devices () {
 	    hurd*)
 		;;
 	    *)
-		if detect_lxc; then
+		if [ "$CONTAINER" = "lxc" ] || [ "$CONTAINER" = "lxc-libvirt" ]; then
 			setup_devices_bind
 			return 0
 		fi
@@ -1234,7 +1227,7 @@ setup_devices_simple () {
 	mknod_if_needed "$TARGET/dev/random"      c 1 8
 	mknod_if_needed "$TARGET/dev/urandom"     c 1 9
 	mknod_if_needed "$TARGET/dev/tty"         c 5 0
-	if ! detect_systemd_nspawn; then
+	if [ ! "$CONTAINER" = "systemd-nspawn" ]; then
 		mknod_if_needed "$TARGET/dev/console"     c 5 1
 	fi
 	# To avoid pre-exist directory causes error, specify "-p" option
@@ -1539,15 +1532,20 @@ check_sane_mount () {
 	    *freebsd*|hurd*)
 		;;
 	    *)
-		if ! doing_variant fakechroot && ! detect_lxc; then
-			mknod "$1/test-dev-null" c 1 3 || return 1
-			if ! echo test > "$1/test-dev-null"; then
-				rm -f "$1/test-dev-null"
-				return 1
-			fi
+		if ! doing_variant fakechroot; then
+		case "$CONTAINER" in
+		  lxc|lxc-libvirt)
+		    ;;
+		  *)
+		    mknod "$1/test-dev-null" c 1 3 || return 1
+		    if ! echo test > "$1/test-dev-null"; then
 			rm -f "$1/test-dev-null"
+				return 1
+		    fi
+		    rm -f "$1/test-dev-null"
+		    ;;
+		esac
 		fi
-		;;
 	esac
 
 	SH="/bin/sh"

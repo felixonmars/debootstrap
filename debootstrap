@@ -50,6 +50,9 @@ CACHE_DIR=""
 DEF_MIRROR="http://deb.debian.org/debian"
 DEF_HTTPS_MIRROR="https://deb.debian.org/debian"
 
+# set $CONTAINER
+detect_container
+
 export LANG USE_COMPONENTS
 umask 022
 
@@ -525,8 +528,7 @@ else
 fi
 
 # fakeroot cannot check /proc/1/environ
-if [ "$HOST_OS" = Linux ] && ! doing_variant fakechroot && \
-   grep -q container=lxc-libvirt /proc/1/environ; then
+if [ "$HOST_OS" = Linux ] && ! doing_variant fakechroot && [ "$CONTAINER" = "lxc-libvirt" ]; then
        CHROOT_CMD="unshare --net $CHROOT_CMD"
 fi
 
