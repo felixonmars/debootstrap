@@ -500,12 +500,12 @@ apt_dest () {
 	    pkg)
 		local m="$5"
 		printf "%s" "$APTSTATE/lists/"
-		echo "${m}_$6" | sed 's/\//_/g'
+		echo "${m}_$6" | sed -e 's,^[^:]\+://,,' -e 's/\//_/g'
 		;;
 	    rel)
 		local m="$3"
 		printf "%s" "$APTSTATE/lists/"
-		echo "${m}_$4" | sed 's/\//_/g'
+		echo "${m}_$4" | sed -e 's,^[^:]\+://,,' -e 's/\//_/g'
 		;;
 	esac
 }
