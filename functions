@@ -1190,7 +1190,9 @@ setup_devices () {
 		;;
 	    *)
 		if [ "$CONTAINER" = "lxc" ] || [ "$CONTAINER" = "lxc-libvirt" ]; then
-			setup_devices_bind
+			if ! setup_devices_simple; then
+				setup_devices_bind
+			fi
 			return 0
 		fi
 
