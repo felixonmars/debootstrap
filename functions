@@ -1151,7 +1151,8 @@ setup_proc () {
 
 		# some container environment are used at second-stage, it already treats /proc and so on
 		if [ -z "$(ls -A "$TARGET/proc")" ]; then
-			in_target mount -t proc proc /proc
+			# second-stage in docker, we cannot detect it is inside docker... just ignore warning
+			in_target mount -t proc proc /proc || true
 			umount_on_exit /proc
 		fi
 		if [ -n "$(ls -A "$TARGET/sys")" ] && \
@@ -1160,7 +1161,8 @@ setup_proc () {
 				umount_on_exit /sys
 				umount "$TARGET/sys" 2>/dev/null || true
 		else
-			in_target mount -t sysfs sysfs /sys
+			# second-stage in docker, we cannot detect it is inside docker... just ignore warning
+			in_target mount -t sysfs sysfs /sys || true
 			umount_on_exit /sys
 		fi
 		on_exit clear_mtab
