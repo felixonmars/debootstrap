@@ -1,3 +1,22 @@
+debootstrap (1.0.107) unstable; urgency=medium
+
+  [ Patrick McDermott ]
+  * Fix wgetprogress() with --debian-installer (Closes: #829725)
+
+  [ Dan Nicholson ]
+  * Strip URL scheme from apt lists (Closes: #903481)
+
+  [ Hideki Yamane ]
+  * Fix docker detection breaks QEMU's binfmt_misc bootstraping 
+    (Closes: #903657)
+    - Avoid removing host's /proc on some environment
+    - Add workaround for second-stage inside docker
+  * Align scripts/gutsy to scripts/debian-common
+  * Remove unnecessary script files from udeb package 
+    (Closes: #618839, #893713)
+
+ -- Hideki Yamane <henrich@debian.org>  Thu, 26 Jul 2018 19:12:20 +0900
+
 debootstrap (1.0.106) unstable; urgency=medium
 
   * Improve related to container (Closes: #902924)
