@@ -91,9 +91,15 @@ first_stage_install () {
 	fi
 
 	setup_devices
+
+        if doing_variant fakechroot || [ "$CONTAINER" = "docker" ]; then
+		setup_proc_symlink
+	fi
 }
 
 second_stage_install () {
+	in_target /bin/true
+
 	setup_dynamic_devices
 
 	x_feign_install () {
@@ -122,9 +128,7 @@ Status: install ok installed" >> "$TARGET/var/lib/dpkg/status"
 		baseprog="$(($baseprog + ${1:-1}))"
 	}
 
-	if doing_variant fakechroot || [ "$CONTAINER" = "docker" ]; then
-		setup_proc_symlink
-	else
+	if ! doing_variant fakechroot; then
 		setup_proc
 		in_target /sbin/ldconfig
 	fi
