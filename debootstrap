@@ -27,7 +27,7 @@ KEYRING=""
 DISABLE_KEYRING=""
 FORCE_KEYRING=""
 VARIANT=""
-MERGED_USR="no"
+MERGED_USR=""
 ARCH=""
 HOST_ARCH=""
 HOST_OS=""
@@ -48,6 +48,9 @@ CACHE_DIR=""
 
 DEF_MIRROR="http://deb.debian.org/debian"
 DEF_HTTPS_MIRROR="https://deb.debian.org/debian"
+
+# set $CONTAINER
+detect_container
 
 export LANG USE_COMPONENTS
 umask 022
@@ -101,7 +104,7 @@ usage()
       --variant=X            use variant X of the bootstrap scripts
                              (currently supported variants: buildd, fakechroot,
                               minbase)
-      --merged-usr           make /{bin,sbin,lib}/ symlinks to /usr/
+      --no-merged-usr        do not make /{bin,sbin,lib}/ symlinks to /usr/
       --keyring=K            check Release files against keyring K
       --no-check-gpg         avoid checking Release file signatures
       --force-check-gpg      force checking Release file signatures
@@ -339,11 +342,11 @@ if [ $# != 0 ] ; then
 		else
 			error 1 NEEDARG "option requires an argument %s" "$1"
 		fi
-		if [ ! -d "$CACHE_DIR" ] ; then
-			error 1 NOCACHEDIR "%s: No such directory" "$CACHE_DIR"
-		fi
 		if [ ! -z "${CACHE_DIR##/*}" ]; then
 			error 1 NOTABSOLUTEPATH "cache directory should be specified with an absolute path"
+		fi
+		if [ ! -d "$CACHE_DIR" ] ; then
+			error 1 NOCACHEDIR "%s: No such directory" "$CACHE_DIR"
 		fi
 		;;
             --merged-usr)
@@ -439,6 +442,7 @@ fi
 if [ "$SECOND_STAGE_ONLY" = "true" ]; then
 	SUITE=$(cat "$DEBOOTSTRAP_DIR/suite")
 	ARCH=$(cat "$DEBOOTSTRAP_DIR/arch")
+	USER_MIRROR=$(cat "$DEBOOTSTRAP_DIR/mirror")
 	if [ -e "$DEBOOTSTRAP_DIR/variant" ]; then
 		VARIANT=$(cat "$DEBOOTSTRAP_DIR/variant")
 		SUPPORTED_VARIANTS="$VARIANT"
@@ -450,6 +454,9 @@ if [ "$SECOND_STAGE_ONLY" = "true" ]; then
 	fi
 	SCRIPT="$DEBOOTSTRAP_DIR/suite-script"
 else
+	if ! in_path wget; then
+		error 1 NEEDWGET "You must install wget to download packages."
+	fi
 	if [ -z "$1" ] || [ -z "$2" ]; then
 		usage_err 1 NEEDSUITETARGET "You must specify a suite and a target."
 	fi
@@ -541,8 +548,7 @@ else
 fi
 
 # fakeroot cannot check /proc/1/environ
-if [ "$HOST_OS" = Linux ] && ! doing_variant fakechroot && \
-   grep -q container=lxc-libvirt /proc/1/environ; then
+if [ "$HOST_OS" = Linux ] && ! doing_variant fakechroot && [ "$CONTAINER" = "lxc-libvirt" ]; then
        CHROOT_CMD="unshare --net $CHROOT_CMD"
 fi
 
@@ -608,8 +614,11 @@ fi
 if [ -x /usr/bin/arch-test ] && am_doing_phase second_stage; then
 	if doing_variant fakechroot; then
 		ret=0; arch-test "$ARCH" || ret=$?
-	else
+	# Avoid failure with old arch-test package
+	elif arch-test --version > /dev/null 2>&1; then
 		ret=0; arch-test -c "$TARGET" "$ARCH" || ret=$?
+	else
+		ret=3
 	fi
 
 	case $ret in
@@ -681,10 +690,6 @@ if am_doing_phase finddebs; then
 		base=$(resolve_deps "$baseX")
 		base=$(without "$base" "$required")
 
-		# Check exclude package again since it may be added after resolution
-		base=$(without "$base" "$EXCLUDE")
-		required=$(without "$required" "$EXCLUDE")
-
 		if [ "$LOG_EXTRA_DEPS" = true ]; then
 			baseN=$(without "$baseX" "$requiredX")
 			baseU=$(without "$baseX" "$baseN")
@@ -742,15 +747,32 @@ fi
 if am_doing_phase first_stage; then
 	choose_extractor
 
-	# first stage sets up the chroot -- no calls should be made to
-	# "chroot $TARGET" here; but they should be possible by the time it's
-	# finished
 	if [ -n "$UNPACK_TARBALL" ]; then
 		required=$(cat "$TARGET/debootstrap/required")
 		base=$(cat "$TARGET/debootstrap/base")
 		all_debs="$required $base"
-	fi
+
+	# first stage sets up the chroot -- no calls should be made to
+	# "chroot $TARGET" here; but they should be possible by the time it's
+	# finished
 	first_stage_install
+
+	if ! am_doing_phase second_stage; then
+		cp "$0"				 "$TARGET/debootstrap/debootstrap"
+		cp "$DEBOOTSTRAP_DIR/functions"	 "$TARGET/debootstrap/functions"
+		cp "$SCRIPT"			 "$TARGET/debootstrap/suite-script"
+		# pick up common setting scripts
+		cp "$DEBOOTSTRAP_DIR"/scripts/*-common	"$TARGET/debootstrap/"
+		echo "$ARCH"			>"$TARGET/debootstrap/arch"
+		echo "$SUITE"			>"$TARGET/debootstrap/suite"
+		echo "$USER_MIRROR"		>"$TARGET/debootstrap/mirror"
+		[ "" = "$VARIANT" ] ||
+		echo "$VARIANT"			>"$TARGET/debootstrap/variant"
+		echo "$required"		>"$TARGET/debootstrap/required"
+		echo "$base"			>"$TARGET/debootstrap/base"
+
+		chmod 755 "$TARGET/debootstrap/debootstrap"
+	fi
 
 	# create sources.list
 	if [ "${MIRRORS#http*://}" != "$MIRRORS" ]; then

@@ -72,8 +72,8 @@ rely on this option.
 With this option set, this behaviour is disabled.
 .IP
 .IP "\fB\-\-log\-extra\-deps\fP"
-If you want to record additional dependency at resolving package dependenies,
-set this option to track it into debootstrap.log.
+If you want to record additional dependencies when resolving package dependencies,
+set this option to track them through debootstrap.log.
 .IP
 .IP "\fB\-\-variant=minbase|buildd|fakechroot\fP"
 Name of the bootstrap script variant to use.
@@ -86,10 +86,10 @@ base Debian installation with all packages of priority \fIrequired\fR and
 .IP
 .IP "\fB\-\-merged-usr\fP"
 Create /{bin,sbin,lib}/ symlinks pointing to their counterparts in /usr/.
+(Default.)
 .IP
 .IP "\fB\-\-no-merged-usr\fP"
 Do not create /{bin,sbin,lib}/ symlinks pointing to their counterparts in /usr/.
-(Default.)
 .IP
 .IP "\fB\-\-keyring=KEYRING\fP"
 Override the default keyring for the distribution being bootstrapped,

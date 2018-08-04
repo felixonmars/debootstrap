@@ -11,6 +11,8 @@ if [ -e "$DEBOOTSTRAP_DIR/scripts/debian-common" ]; then
  . "$DEBOOTSTRAP_DIR/scripts/debian-common"
 elif [ -e /debootstrap/debian-common ]; then
  . /debootstrap/debian-common
+elif [ -e "$DEBOOTSTRAP_DIR/debian-common" ]; then
+ . "$DEBOOTSTRAP_DIR/debian-common"
 else
  error 1 NOCOMMON "File not found: debian-common"
 fi

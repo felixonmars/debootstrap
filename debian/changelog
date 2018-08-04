@@ -1,7 +1,79 @@
+debootstrap (1.0.107) unstable; urgency=medium
+
+  [ Patrick McDermott ]
+  * Fix wgetprogress() with --debian-installer (Closes: #829725)
+
+  [ Dan Nicholson ]
+  * Strip URL scheme from apt lists (Closes: #903481)
+
+  [ Hideki Yamane ]
+  * Fix docker detection breaks QEMU's binfmt_misc bootstraping 
+    (Closes: #903657)
+    - Avoid removing host's /proc on some environment
+    - Add workaround for second-stage inside docker
+  * Align scripts/gutsy to scripts/debian-common
+  * Remove unnecessary script files from udeb package 
+    (Closes: #618839, #893713)
+
+ -- Hideki Yamane <henrich@debian.org>  Thu, 26 Jul 2018 19:12:20 +0900
+
+debootstrap (1.0.106) unstable; urgency=medium
+
+  * Improve related to container (Closes: #902924)
+  * Add docker support (Closes: #890867)
+  * Add wget check for non-package environment
+  * debian/control
+    - set Standards-Version: 4.1.5 with no change
+
+ -- Hideki Yamane <henrich@debian.org>  Thu, 05 Jul 2018 17:48:22 +0900
+
+debootstrap (1.0.105) unstable; urgency=medium
+
+  [ Cyril Brulebois ]
+  * Improve wording for --log-extra-deps in the manpage, thanks to
+    intrigeri for the report.
+
+  [ Hideki Yamane ]
+  * Use $container to detect systemd-nspawn and lxc{-libvirt} (Closes: #902350)
+  * cache-dir option: change error detection order
+  * Rervert "Add 2nd exclude package check to really exclude packages even if
+    it breaks dependencies" since it doesn't work as expected and cause
+    regression (Closes: #901977) and (Reopen: #830794, #557322, #783589)
+    To make it proper, just remove "--exclude" packages twice but do not
+    exec dependencies resolution in 2nd time, I guess.
+
+ -- Hideki Yamane <henrich@debian.org>  Sun, 01 Jul 2018 23:09:10 +0900
+
+debootstrap (1.0.104) unstable; urgency=medium
+
+  * Fix /etc/machine-id mount issue (Closes: #899155)
+  * Fix regression with file:/// mirror (Closes: #901717)
+
+ -- Hideki Yamane <henrich@debian.org>  Sun, 24 Jun 2018 20:41:13 +0900
+
+debootstrap (1.0.103) unstable; urgency=medium
+
+  * Avoid failure with old arch-test package (Closes: #900925)
+    Thanks to jhcha54008 <jhcha54008@free.fr>
+  * Relax merged-usr blacklist restriction (Closes: #901808)
+    Thanks to Tianon Gravi <tianon@debian.org>
+
+ -- Hideki Yamane <henrich@debian.org>  Sat, 23 Jun 2018 11:44:57 +0900
+
+debootstrap (1.0.102) unstable; urgency=medium
+
+  * Enable merged-/usr by default (Closes: #839046)
+    This is applied for buster and later.
+  * Fix "debootstrap doesn't carry --components across --foreign/--second-stage"
+    (Closes: #877855)
+  * Fix debian-common path with tarball and --second-stage (Closes: #897379)
+
+ -- Hideki Yamane <henrich@debian.org>  Wed, 13 Jun 2018 22:00:11 +0900
+
 debootstrap (1.0.101) unstable; urgency=medium
 
   [ Hideki Yamane ]
-  * debian/test
+  * debian/tests
     - Don't use unshare on some environment
     - Fix chroot dir location
     - Just ignore tests under docker environment
@@ -34,8 +106,8 @@ debootstrap (1.0.100) unstable; urgency=medium
   [ Hideki Yamane ]
   * Specify https mirror to check https mirror specific problem
     (See #896071)
-  * Quote $DEBOOTSTRP_DIR properly (Closes: #586158)
-  * Simpify checking debian-common file (Closes: #897379)
+  * Quote $DEBOOTSTRAP_DIR properly (Closes: #586158)
+  * Simplify checking debian-common file (Closes: #897379)
 
   [ Philipp Kern ]
   * Add an initial Gitlab CI config file.
