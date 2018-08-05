@@ -260,6 +260,17 @@ variants () {
 	error 1 UNSUPPVARIANT "unsupported variant"
 }
 
+########################################################### option handling
+check_conflicting_option () {
+	if [ "$set_what_to_do" = --foreign ] && [ "${1%%=*}" = --unpack-tarball ] || \
+	   [ "${set_what_to_do%%=*}" = "--unpack-tarball" ] && [ "$1" == --foreign ]; then
+		LOOSEN_CONFLICTING_RESTRICTION="true"
+	elif [ -n "$set_what_to_do" ]; then
+		error 1 ARG_CONFLICTING "$set_what_to_do is specified with $1, please use only one of those options."
+	fi
+	set_what_to_do="$1"
+}
+
 ################################################# work out names for things
 
 mirror_style () {

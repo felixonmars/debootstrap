@@ -34,7 +34,6 @@ HOST_OS=""
 KEEP_DEBOOTSTRAP_DIR=""
 USE_DEBIANINSTALLER_INTERACTION=""
 SECOND_STAGE_ONLY=""
-PRINT_DEBS=""
 CHROOTDIR=""
 MAKE_TARBALL=""
 EXTRACTOR_OVERRIDE=""
@@ -59,11 +58,11 @@ umask 022
 ###########################################################################
 
 ## phases:
-##   finddebs dldebs printdebs first_stage second_stage
+##   finddebs dldebs printdebs save_variables first_stage second_stage
 
 RESOLVE_DEPS=true
 
-WHAT_TO_DO="finddebs dldebs first_stage second_stage"
+WHAT_TO_DO="finddebs dldebs save_variables first_stage second_stage"
 am_doing_phase () {
 	# usage:   if am_doing_phase finddebs; then ...; fi
 	local x;
@@ -157,12 +156,16 @@ if [ $# != 0 ] ; then
 		shift
 		;;
 	    --foreign)
-		if [ "$PRINT_DEBS" != "true" ]; then
-			WHAT_TO_DO="finddebs dldebs first_stage"
-		fi
+		check_conflicting_option "$1"
+		if [ -n "$LOOSEN_CONFLICTING_RESTRICTION" ]; then
+			WHAT_TO_DO="first_stage"
+		else
+			WHAT_TO_DO="finddebs dldebs save_variables first_stage"
+			fi
 		shift
 		;;
 	    --second-stage)
+		check_conflicting_option "$1"
 		WHAT_TO_DO="second_stage"
 		SECOND_STAGE_ONLY=true
 		shift
@@ -182,16 +185,18 @@ if [ $# != 0 ] ; then
 		fi
 		;;
 	    --print-debs)
+		check_conflicting_option "$1"
 		WHAT_TO_DO="finddebs printdebs kill_target"
-		PRINT_DEBS=true
 		shift
 		;;
 	    --download-only)
+		check_conflicting_option "$1"
 		WHAT_TO_DO="finddebs dldebs"
 		shift
 		;;
 	    --make-tarball|--make-tarball=?*)
-		WHAT_TO_DO="finddebs dldebs maketarball kill_target"
+		check_conflicting_option "$1"
+		WHAT_TO_DO="finddebs dldebs save_variables maketarball kill_target"
 		if [ "$1" = "--make-tarball" ] && [ -n "$2" ] ; then
 			MAKE_TARBALL="$2"
 			shift 2
@@ -250,9 +255,21 @@ if [ $# != 0 ] ; then
 		;;
 	    --unpack-tarball|--unpack-tarball=?*)
 		if [ "$1" = "--unpack-tarball" ] && [ -n "$2" ] ; then
+			check_conflicting_option "$1"
+			if [ -n "$LOOSEN_CONFLICTING_RESTRICTION" ]; then
+				WHAT_TO_DO="first_stage"
+			else
+				WHAT_TO_DO="first_stage second_stage"
+			fi
 			UNPACK_TARBALL="$2"
 			shift 2
 		elif [ "$1" != "${1#--unpack-tarball=}" ]; then
+			check_conflicting_option "$1"
+			if [ -n "$LOOSEN_CONFLICTING_RESTRICTION" ]; then
+				WHAT_TO_DO="first_stage"
+			else
+				WHAT_TO_DO="first_stage second_stage"
+			fi
 			UNPACK_TARBALL="${1#--unpack-tarball=}"
 			shift
 		else
@@ -706,13 +723,34 @@ if am_doing_phase dldebs; then
 	download "$all_debs"
 fi
 
+if am_doing_phase save_variables; then
+	cp "$0"				 "$TARGET/debootstrap/debootstrap"
+	cp "$DEBOOTSTRAP_DIR/functions"	 "$TARGET/debootstrap/functions"
+	cp "$SCRIPT"			 "$TARGET/debootstrap/suite-script"
+	# pick up common setting scripts
+	cp "$DEBOOTSTRAP_DIR"/scripts/*-common	"$TARGET/debootstrap/"
+	echo "$ARCH"			>"$TARGET/debootstrap/arch"
+	echo "$SUITE"			>"$TARGET/debootstrap/suite"
+	[ "" = "$VARIANT" ] ||
+	echo "$VARIANT"			>"$TARGET/debootstrap/variant"
+	echo "$required"		>"$TARGET/debootstrap/required"
+	echo "$base"			>"$TARGET/debootstrap/base"
+
+	chmod 755 "$TARGET/debootstrap/debootstrap"
+fi
+
 if am_doing_phase maketarball; then
 	(cd "$TARGET";
-	 tar czf - var/lib/apt var/cache/apt) >"$MAKE_TARBALL"
+	 tar czf - var/lib/apt var/cache/apt debootstrap) >"$MAKE_TARBALL"
 fi
 
 if am_doing_phase first_stage; then
 	choose_extractor
+
+	if [ -n "$UNPACK_TARBALL" ]; then
+		required=$(cat "$TARGET/debootstrap/required")
+		base=$(cat "$TARGET/debootstrap/base")
+		all_debs="$required $base"
 
 	# first stage sets up the chroot -- no calls should be made to
 	# "chroot $TARGET" here; but they should be possible by the time it's
