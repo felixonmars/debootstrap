@@ -68,7 +68,7 @@ work_out_debs () {
 first_stage_install () {
 	case "$CODENAME" in
 		# "merged-usr" blacklist for past releases
-		gutsy|hardy|intrepid|jaunty|karmic|lucid|maverick|natty|oneiric|precise|quantal|raring|saucy|utopic|vivid|wily|yakkety|zesty|artful|bionic|cosmic)
+		gutsy|hardy|intrepid|jaunty|karmic|lucid|maverick|natty|oneiric|precise|quantal|raring|saucy|trusty|utopic|vivid|wily|xenial|yakkety|zesty|artful|bionic|cosmic)
 			[ -z "$MERGED_USR" ] && MERGED_USR="no"
 			;;
 		*)
