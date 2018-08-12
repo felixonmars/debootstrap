@@ -1,3 +1,14 @@
+debootstrap (1.0.108) unstable; urgency=medium
+
+  * Fix "Do not download packages with --unpack-tarball option"
+    (Closes: #551838)
+    - Also make some options exclusive each
+  * Let debootstrap shows error if there's a file already before extraction,
+    not die silently (Closes: #728344)
+  * Add Trusty and Xenial for merged-usr blacklist (Closes: #905864, #905873)
+
+ -- Hideki Yamane <henrich@debian.org>  Sun, 12 Aug 2018 17:58:37 +0900
+
 debootstrap (1.0.107) unstable; urgency=medium
 
   [ Patrick McDermott ]
