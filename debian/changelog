@@ -1,9 +1,13 @@
 debootstrap (1.0.109) unstable; urgency=medium
 
+  [ Raphaël Hertzog ]
   * Keep all script files in the udeb so that derivatives can use the
     udeb built by Debian. Related to #893713.
 
- -- Raphaël Hertzog <hertzog@debian.org>  Wed, 22 Aug 2018 18:44:51 +0200
+  [ Hideki Yamane ]
+  * Just set Standards-Version: 4.2.1 without change
+
+ -- Hideki Yamane <henrich@debian.org>  Mon, 10 Sep 2018 02:42:58 +0900
 
 debootstrap (1.0.108) unstable; urgency=medium
 
