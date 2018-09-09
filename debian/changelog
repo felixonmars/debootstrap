@@ -1,3 +1,10 @@
+debootstrap (1.0.109) UNRELEASED; urgency=medium
+
+  * Keep all script files in the udeb so that derivatives can use the
+    udeb built by Debian. Related to #893713.
+
+ -- Raphaël Hertzog <hertzog@debian.org>  Wed, 22 Aug 2018 18:44:51 +0200
+
 debootstrap (1.0.108) unstable; urgency=medium
 
   * Fix "Do not download packages with --unpack-tarball option"
