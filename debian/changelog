@@ -1,4 +1,4 @@
-debootstrap (1.0.109) UNRELEASED; urgency=medium
+debootstrap (1.0.109) unstable; urgency=medium
 
   * Keep all script files in the udeb so that derivatives can use the
     udeb built by Debian. Related to #893713.
