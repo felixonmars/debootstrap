@@ -3,6 +3,10 @@ debootstrap (1.0.110) unstable; urgency=medium
   [ Luca Falavigna ]
   * Add (Ubuntu) disco as a symlink to gutsy.
 
+  [ Hideki Yamane ]
+  * Add debian/source/lintian-overrides to ignore lintian warnings
+    since it is really necessary for debootstrap
+
  -- Hideki Yamane <henrich@debian.org>  Thu, 08 Nov 2018 07:16:42 +0900
 
 debootstrap (1.0.109) unstable; urgency=medium
