@@ -1319,6 +1319,10 @@ setup_dselect_method () {
 # either installs the RTLD in a directory different from /lib or builds
 # multilib library packages.
 setup_merged_usr() {
+	if doing_variant buildd && [ -z "$MERGED_USR" ]; then
+		MERGED_USR="no"
+	fi
+
 	if [ "$MERGED_USR" = "no" ]; then return 0; fi
 
 	local link_dir
