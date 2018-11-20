@@ -1,3 +1,10 @@
+debootstrap (1.0.111) UNRELEASED; urgency=medium
+
+  [ Simon McVittie ]
+  * Disable merged /usr by default when making a buildd chroot (closes: #914208)
+
+ -- Julien Cristau <jcristau@debian.org>  Tue, 20 Nov 2018 19:56:26 +0100
+
 debootstrap (1.0.110) unstable; urgency=medium
 
   [ Luca Falavigna ]
