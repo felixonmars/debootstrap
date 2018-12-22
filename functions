@@ -1360,15 +1360,24 @@ setup_merged_usr() {
 if in_path perl; then
 	PKGDETAILS=pkgdetails_perl
 
+	# test if grep supports --perl-regexp
+	set +e
+	echo x | grep --perl-regexp . >/dev/null 2>&1
+	if [ $? -eq 2 ]; then
+	    gropt=-E
+        else
+	    gropt=--perl-regexp
+	fi
+	set -e
+
 	pkgdetails_field () {
 		# uniq field mirror Packages values...
 		perl -le '
 $unique = shift @ARGV; $field = lc(shift @ARGV); $mirror = shift @ARGV;
 %fields = map { $_, 0 } @ARGV;
 $prevpkg = "";
+$chksumfield = lc($ENV{DEBOOTSTRAP_CHECKSUM_FIELD}).":";
 while (<STDIN>) {
-	chomp;
-	next if (/^ /);
 	if (/^([^:]*:)\s*(.*)$/) {
 		$f = lc($1); $v = $2;
 		if ($f eq "package:") {
@@ -1389,7 +1398,7 @@ while (<STDIN>) {
 		$ver = $v if ($f eq "version:");
 		$arc = $v if ($f eq "architecture:");
 		$fil = $v if ($f eq "filename:");
-		$chk = $v if (lc $f eq lc($ENV{DEBOOTSTRAP_CHECKSUM_FIELD}).":");
+		$chk = $v if ($f eq $chksumfield);
 		$siz = $v if ($f eq "size:");
 		$val = $v if ($f eq $field);
 	} elsif (/^$/) {
@@ -1431,53 +1440,49 @@ while (read STDIN, $x, 1) {
 }' "$@"
 		elif [ "$1" = "GETDEPS" ]; then
 			local pkgdest="$2"; shift; shift
-			perl -e '
-$prevpkg = "";
-@d = ();
+LC_ALL=C grep "$gropt" '^$|^Package:|^Depends:|^Pre-Depends:'  $pkgdest | perl -e '
+%seen = map { $_ => 1 } @ARGV;
 while (<STDIN>) {
-	chomp;
 	if (/^Package: (.*)$/) {
 		$pkg = $1;
-		if ($pkg ne $prevpkg) {
-			for my $d (@d) {
-				print "$d\n";
-			}
-		}
-		$prevpkg = $1;
-		@d = ();
-	}
-	$in = 1 if (grep {$_ eq $pkg} @ARGV);
-	$in = 0 if (/^$/);
+		next;
+	} elsif (/^$/) {
+                $in = 0;
+                next;
+        }
+	$in = 1 if $seen{$pkg};
 	if ($in and (/^Depends: (.*)$/ or /^Pre-Depends: (.*)$/)) {
 		for $d (split /\s*,\s*/, $1) {
 			$d =~ s/\s*[|].*$//;
 			$d =~ s/\s*[(].*[)]\s*//;
 			$d =~ s/:.*//;
-			push @d, $d;
+			$depends{$d} = 1;
 		}
 	}
 }
-for my $d (@d) {
-	print "$d\n";
-}' <"$pkgdest" "$@" | sort | uniq
+	foreach (sort keys %depends) {
+	  print "$_\n";
+	}
+' "$@"
 		elif [ "$1" = "PKGS" ]; then
 			local m="$2"
 			local p="$3"
 			shift; shift; shift
-			pkgdetails_field 1 Package: "$m" "$@" < "$p"
+			LC_ALL=C grep "$gropt" '^$|^Architecture:|^Filename:|^MD5sum:|^Package:|^Priority:|^SHA256:|^Size:|^Version:|^Depends:|^Pre-Depends:' "$p" | pkgdetails_field 1 Package: "$m" "$@"
 		elif [ "$1" = "FIELD" ]; then
 			local f="$2"
 			local m="$3"
 			local p="$4"
 			shift; shift; shift; shift
-			pkgdetails_field 0 "$f" "$m" "$@" < "$p"
+			LC_ALL=C grep "$gropt" '^$|^Package:|^Priority:' "$p" | pkgdetails_field 0 "$f" "$m" "$@"
 		elif [ "$1" = "STANZAS" ]; then
 			local pkgdest="$2"; shift; shift
 			perl -e '
 my $accum = "";
+%seen = map { $_ => 1 } @ARGV;
 while (<STDIN>) {
 	$accum .= $_;
-	$in = 1 if (/^Package: (.*)$/ && grep {$_ eq $1} @ARGV);
+	$in = 1 if (/^Package: (.*)$/ && $seen{$1});
 	if ($in and /^$/) {
 		print $accum;
 		if (substr($accum, -1) != "\n") {
