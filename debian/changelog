@@ -1,3 +1,22 @@
+debootstrap (1.0.112) UNRELEASED; urgency=medium
+
+  [ Thomas Lange ]
+  * optimize code, make debootstrap faster (Closes: #871835)
+    - use hash instead of grep for each line we read
+    - we can use elsif, because the line can't match both patterns
+    - There's no need to print the dependencies for each package separately,
+      if when later do sort|uniq, so just collect all dependencies in a hash
+      and print them at the end
+    - do not read all lines of the Packages file into the perl scripts,
+      egrep is used for filtering only the lines we need to read, since egrep
+      is faster than perl, this save a lot of time
+    - speed up by using grep -P and setting LC_ALL=C
+    - automatic detect if grep support perl regex
+    - in this part, we only need the package name and priority this makes
+      another little speedup, since the perl part need less lines to parse
+
+ -- Hideki Yamane <henrich@debian.org>  Sat, 22 Dec 2018 23:35:49 +0900
+
 debootstrap (1.0.111) unstable; urgency=medium
 
   * Team upload
