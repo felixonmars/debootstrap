@@ -1,4 +1,4 @@
-debootstrap (1.0.112) UNRELEASED; urgency=medium
+debootstrap (1.0.112) unstable; urgency=low
 
   [ Thomas Lange ]
   * optimize code, make debootstrap faster (Closes: #871835)
@@ -15,7 +15,7 @@ debootstrap (1.0.112) UNRELEASED; urgency=medium
     - in this part, we only need the package name and priority this makes
       another little speedup, since the perl part need less lines to parse
 
- -- Hideki Yamane <henrich@debian.org>  Sat, 22 Dec 2018 23:35:49 +0900
+ -- Hideki Yamane <henrich@debian.org>  Sun, 23 Dec 2018 18:24:00 +0900
 
 debootstrap (1.0.111) unstable; urgency=medium
 
