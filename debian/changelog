@@ -1,3 +1,11 @@
+debootstrap (1.0.113) UNRELEASED; urgency=medium
+
+  * Fail if its repository is expired (in InRelease file) since creating
+    base image from such repository is insecure. If you want to use such
+    repo with notice, please use "--no-check-valid-until" option
+
+ -- Hideki Yamane <henrich@debian.org>  Sat, 05 Jan 2019 20:11:33 +0900
+
 debootstrap (1.0.112) unstable; urgency=low
 
   [ Thomas Lange ]
