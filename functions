@@ -626,6 +626,13 @@ download_release_sig () {
 	if get "$m1/dists/$SUITE/InRelease" "$inreldest" nocache; then
 		split_inline_sig "$inreldest" "$reldest" "$relsigdest"
 		progress 100 100 DOWNREL "Downloading Release file"
+
+		# Check InRelease file expired date
+		current_date="$(date +%s)"
+		expired_date="$(date -d "$(sed -n 's/^Valid-Until: *//p' "$inreldest")" +%s)"
+		if [ "$current_date" -gt "$expired_date" ] && [ -z "$NO_CHECK_VALID_UNTIL"  ]; then
+			error 1 EXPIRESIG "InRelease file $m1/dists/$SUITE/InRelease is expired since ($(date -d @"$expired_date" -R))"
+		fi
 	else
 		get "$m1/dists/$SUITE/Release" "$reldest" nocache ||
 			error 1 NOGETREL "Failed getting release file %s" "$m1/dists/$SUITE/Release"
