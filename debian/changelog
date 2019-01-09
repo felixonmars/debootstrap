@@ -1,3 +1,9 @@
+debootstrap (1.0.114) unstable; urgency=medium
+
+  * Revert changes from 1.0.113 (closes: #918722)
+
+ -- Julien Cristau <jcristau@debian.org>  Wed, 09 Jan 2019 14:00:04 +0100
+
 debootstrap (1.0.113) unstable; urgency=low
 
   * Fail if its repository is expired (in InRelease file) since creating
