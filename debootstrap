@@ -45,7 +45,7 @@ CERTIFICATE=""
 CHECKCERTIF=""
 PRIVATEKEY=""
 CACHE_DIR=""
-NO_CHECK_VALID_UNTIL=""
+IGNORE_REPO_EXPIRE=""
 
 DEF_MIRROR="http://deb.debian.org/debian"
 DEF_HTTPS_MIRROR="https://deb.debian.org/debian"
@@ -127,7 +127,7 @@ usage()
       --private-key=file     read the private key from file
       --certificate=file     use the client certificate stored in file (PEM)
       --no-check-certificate do not check certificate against certificate authorities
-      --no-check-valid-until do not check when repository is valid time,
+      --ignore-repo-expire   do not check whether repository is valid time or not,
                              it is useful to use snapshot.debian.org, etc
 EOF
 }
@@ -411,8 +411,8 @@ if [ $# != 0 ] ; then
 		CHECKCERTIF="--no-check-certificate"
 		shift
 		;;
-	    --no-check-valid-until)
-		NO_CHECK_VALID_UNTIL="--no-check-valid-until"
+	    --ignore-repo-expire)
+		IGNORE_REPO_EXPIRE="--ignore-repo-expire"
 		shift
 		;;
 	    -*)

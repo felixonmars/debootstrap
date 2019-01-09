@@ -630,7 +630,7 @@ download_release_sig () {
 		# Check InRelease file expired date
 		current_date="$(date +%s)"
 		expired_date="$(date -d "$(sed -n 's/^Valid-Until: *//p' "$inreldest")" +%s)"
-		if [ "$current_date" -gt "$expired_date" ] && [ -z "$NO_CHECK_VALID_UNTIL"  ]; then
+		if [ "$current_date" -gt "$expired_date" ] && [ -z "$IGNORE_REPO_EXPIRE"  ]; then
 			error 1 EXPIRESIG "InRelease file $m1/dists/$SUITE/InRelease is expired since ($(date -d @"$expired_date" -R))"
 		fi
 	else
