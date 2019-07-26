@@ -356,7 +356,7 @@ debootstrap (1.0.93+nmu1) unstable; urgency=medium
   * Change repository URI for old Ubuntu releases (Closes: #676370, #839073)
     Archived Ubuntu releases are at old-releases.ubuntu.com/ubuntu
   * Set correct keyring and default mirror for old debian releases.
-    Now you can fetch popato/woody/sarge/etch/lenny/squeeze if you want.
+    Now you can fetch potato/woody/sarge/etch/lenny/squeeze if you want.
     (Closes: #891404, #600647, #792729)
 
  -- Hideki Yamane <henrich@debian.org>  Mon, 05 Mar 2018 22:28:22 +0900
