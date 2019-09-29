@@ -1,3 +1,15 @@
+debootstrap (1.0.116) unstable; urgency=medium
+
+  [ Hideki Yamane ]
+  * use salsa-pipeline for CI, instead of custom rule
+  * disalbe unnecessary blhc and test-build-any CI test
+
+  [ Philip Hands ]
+  * disable the failing autopkgtest job
+  * provide support for Devuan release names
+
+ -- Hideki Yamane <henrich@debian.org>  Sun, 29 Sep 2019 10:56:48 +0900
+
 debootstrap (1.0.115) unstable; urgency=medium
 
   [ Cyril Brulebois ]
