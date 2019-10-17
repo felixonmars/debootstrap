@@ -1,3 +1,9 @@
+debootstrap (1.0.117) UNRELEASED; urgency=medium
+
+  * Add (Ubuntu) focal as a symlink to gutsy.
+
+ -- Simon Quigley <tsimonq2@debian.org>  Thu, 17 Oct 2019 12:40:56 -0500
+
 debootstrap (1.0.116) unstable; urgency=medium
 
   [ Hideki Yamane ]
