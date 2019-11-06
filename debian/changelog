@@ -2,6 +2,9 @@ debootstrap (1.0.117) UNRELEASED; urgency=medium
 
   * Add (Ubuntu) focal as a symlink to gutsy.
 
+  [ Holger Wansing ]
+  * Remove trailing whitespaces from changelog file, to fix lintian tag.
+
  -- Simon Quigley <tsimonq2@debian.org>  Thu, 17 Oct 2019 12:40:56 -0500
 
 debootstrap (1.0.116) unstable; urgency=medium
@@ -14,10 +17,7 @@ debootstrap (1.0.116) unstable; urgency=medium
   * disable the failing autopkgtest job
   * provide support for Devuan release names
 
-  [ Holger Wansing ]
-  * Remove trailing whitespaces from changelog file, to fix lintian tag.
-
- -- Holger Wansing <hwansing@mailbox.org>  Sun, 13 Oct 2019 10:22:46 +0200
+ -- Hideki Yamane <henrich@debian.org>  Sun, 29 Sep 2019 10:56:48 +0900
 
 debootstrap (1.0.115) unstable; urgency=medium
 
