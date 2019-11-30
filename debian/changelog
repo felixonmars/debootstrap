@@ -11,7 +11,7 @@ debootstrap (1.0.116) unstable; urgency=medium
 
   [ Hideki Yamane ]
   * use salsa-pipeline for CI, instead of custom rule
-  * disalbe unnecessary blhc and test-build-any CI test
+  * disable unnecessary blhc and test-build-any CI test
 
   [ Philip Hands ]
   * disable the failing autopkgtest job
