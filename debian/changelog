@@ -5,6 +5,10 @@ debootstrap (1.0.117) UNRELEASED; urgency=medium
   [ Holger Wansing ]
   * Remove trailing whitespaces from changelog file, to fix lintian tag.
 
+  [ James Clarke ]
+  * Add a new --extra-suites option to support debootstrapping Debian Ports
+    architectures with essential/required packages in its unreleased suite.
+
  -- Simon Quigley <tsimonq2@debian.org>  Thu, 17 Oct 2019 12:40:56 -0500
 
 debootstrap (1.0.116) unstable; urgency=medium
