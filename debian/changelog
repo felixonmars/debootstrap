@@ -1,6 +1,7 @@
-debootstrap (1.0.117) UNRELEASED; urgency=medium
+debootstrap (1.0.117) unstable; urgency=medium
 
-  * Add (Ubuntu) focal as a symlink to gutsy.
+  [ Simon Quigley ]
+  * Add (Ubuntu) focal as a symlink to gutsy. (Closes: #944976, #946815)
 
   [ Holger Wansing ]
   * Remove trailing whitespaces from changelog file, to fix lintian tag.
@@ -9,7 +10,12 @@ debootstrap (1.0.117) UNRELEASED; urgency=medium
   * Add a new --extra-suites option to support debootstrapping Debian Ports
     architectures with essential/required packages in its unreleased suite.
 
- -- Simon Quigley <tsimonq2@debian.org>  Thu, 17 Oct 2019 12:40:56 -0500
+  [ Hideki Yamane ]
+  * Fix "Fails when run from path containing space character" (Closes: #947173)
+  * Remove some quote for variables since somehow wget fails with ""
+    (double quote with no value)
+
+ -- Hideki Yamane <henrich@debian.org>  Tue, 11 Feb 2020 21:15:26 +0900
 
 debootstrap (1.0.116) unstable; urgency=medium
 
