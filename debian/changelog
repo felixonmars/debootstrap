@@ -1,6 +1,6 @@
 debootstrap (1.0.118) UNRELEASED; urgency=medium
 
-  * rename .gitlab-ci.yml to salsa-ci.yml and enable AUTOPKGTEST again
+  * rename .gitlab-ci.yml to salsa-ci.yml
   * debian/control
     - use debhelper-compat (= 12) and drop debian/compat
     - set Standards-Version 4.5.0
