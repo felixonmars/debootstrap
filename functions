@@ -448,8 +448,8 @@ just_get () {
 			return 1
 		fi
 	elif [ "${from#https://}" != "$from" ] ; then
-		# http/ftp mirror
-		if wgetprogress "$CHECKCERTIF" "$CERTIFICATE" "$PRIVATEKEY" -O "$dest" "$from"; then
+		# https mirror
+		if wgetprogress $CHECKCERTIF $CERTIFICATE $PRIVATEKEY -O "$dest" "$from"; then
 			return 0
 		else
 			rm -f "$dest"
