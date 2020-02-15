@@ -6,6 +6,8 @@ debootstrap (1.0.118) UNRELEASED; urgency=medium
     - set Standards-Version 4.5.0
   * debian/tests/debian-testing
     - use AUTOPKGTEST_TMP instead of obsolete ADTTMP
+  * debian/tests/fake/schroot-1.6.10-3
+    - fix to work with lxc environment
 
  -- Hideki Yamane <henrich@debian.org>  Tue, 11 Feb 2020 21:41:28 +0900
 
