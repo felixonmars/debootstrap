@@ -439,17 +439,9 @@ just_get () {
 	mkdir -p "${dest%/*}"
 	if [ "${from#null:}" != "$from" ]; then
 		error 1 NOTPREDL "%s was not pre-downloaded" "${from#null:}"
-	elif [ "${from#http://}" != "$from" ] || [ "${from#ftp://}" != "$from" ]; then
-		# http/ftp mirror
-		if wgetprogress -O "$dest" "$from"; then
-			return 0
-		else
-			rm -f "$dest"
-			return 1
-		fi
-	elif [ "${from#https://}" != "$from" ] ; then
-		# https mirror
-		if wgetprogress $CHECKCERTIF $CERTIFICATE $PRIVATEKEY -O "$dest" "$from"; then
+	elif [ "${from#http://}" != "$from" ] || [ "${from#https://}" != "$from" ] || [ "${from#ftp://}" != "$from" ]; then
+		# http/https/ftp mirror
+		if wgetprogress ${CHECKCERTIF:+"$CHECKCERTIF"} ${CERTIFICATE:+"$CERTIFICATE"} ${PRIVATEKEY:+"$PRIVATEKEY"} -O "$dest" "$from"; then
 			return 0
 		else
 			rm -f "$dest"
