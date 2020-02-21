@@ -1,4 +1,4 @@
-debootstrap (1.0.118) UNRELEASED; urgency=medium
+debootstrap (1.0.118) unstable; urgency=medium
 
   * rename .gitlab-ci.yml to salsa-ci.yml
   * debian/control
@@ -6,10 +6,11 @@ debootstrap (1.0.118) UNRELEASED; urgency=medium
     - set Standards-Version 4.5.0
   * debian/tests/debian-testing
     - use AUTOPKGTEST_TMP instead of obsolete ADTTMP
-  * debian/tests/fake/schroot-1.6.10-3
-    - fix to work with lxc environment
+  * fix /dev/ptmx mount on chroot and re-enable autopkgtest
+  * fix: don't pass an empty arg to wget when --verbose is applied
+    (Closes: #951367)
 
- -- Hideki Yamane <henrich@debian.org>  Tue, 11 Feb 2020 21:41:28 +0900
+ -- Hideki Yamane <henrich@debian.org>  Fri, 21 Feb 2020 21:16:39 +0900
 
 debootstrap (1.0.117) unstable; urgency=medium
 
