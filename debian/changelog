@@ -1,3 +1,15 @@
+debootstrap (1.0.119) unstable; urgency=medium
+
+  [ Hideki Yamane ]
+  * Fix: specify --foreign and --unpack-tarball at the same time
+    Thanks to Cel Skeggs <cela@mit.edu> for the patch (Closes: #946783)
+  * Add check rule for systemd-nspawn
+
+  [ Jeremiah C. Foster ]
+  * Adding PureOS 'amber' to scripts dir (Closes: #946476)
+
+ -- Hideki Yamane <henrich@debian.org>  Thu, 27 Feb 2020 21:16:24 +0900
+
 debootstrap (1.0.118) unstable; urgency=medium
 
   * rename .gitlab-ci.yml to salsa-ci.yml
