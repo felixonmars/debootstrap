@@ -1,3 +1,10 @@
+debootstrap (1.0.120) unstable; urgency=medium
+
+  * Check codename for apt-transport-https (Closes: #920255, #879755)
+  * Add security mirror setting (Closes: #939852, #543819)
+
+ -- Hideki Yamane <henrich@debian.org>  Sun, 08 Mar 2020 02:01:59 +0900
+
 debootstrap (1.0.119) unstable; urgency=medium
 
   [ Hideki Yamane ]
