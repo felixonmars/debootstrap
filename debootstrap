@@ -50,6 +50,8 @@ CACHE_DIR=""
 DEF_MIRROR="http://deb.debian.org/debian"
 DEF_HTTPS_MIRROR="https://deb.debian.org/debian"
 
+SECURITY_MIRROR="http://security.debian.org/debian-security"
+
 # set $CONTAINER
 detect_container
 
@@ -816,6 +818,11 @@ if am_doing_phase second_stage; then
 	# work from entirely within the chroot (in case we've booted into it,
 	# possibly over NFS eg)
 	second_stage_install
+
+	if [ "$enable_security_mirror" = true ]; then
+		chroot "$TARGET" /usr/bin/apt-get update
+		chroot "$TARGET" /usr/bin/apt-get -y upgrade
+	fi
 
 	if [ -e "$TARGET/debootstrap/debootstrap.log" ]; then
 		if [ "$KEEP_DEBOOTSTRAP_DIR" = true ]; then

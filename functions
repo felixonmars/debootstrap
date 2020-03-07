@@ -557,6 +557,10 @@ validate_suite () {
 	CODENAME=$(sed -n "s/^Codename: *//p" "$reldest")
 	suite=$(sed -n "s/^Suite: *//p" "$reldest")
 
+	if [ "$suite" = oldstable ] || [ "$suite" = stable ] || [ "$suite" = testing ]; then
+		enable_security_mirror="true"
+	fi
+
 	for s in $SUITE $EXTRA_SUITES; do
 		if [ "$s" = "$suite" ] || [ "$s" = "$CODENAME" ]; then
 			return 0
@@ -1118,6 +1122,25 @@ setup_apt_sources () {
 			if [ "$cs" != "" ]; then echo "deb $m $s$cs"; fi
 		done
 	done > "$TARGET/etc/apt/sources.list"
+
+	# for security mirror
+	if [ "$enable_security_mirror" = true ]; then
+		if [ "$SUITE" = stretch ] || [ "$SUITE" = buster ]; then
+			SECURITY_SUITE="$SUITE"/updates
+		else
+			SECURITY_SUITE="$SUITE"-security
+		fi
+
+		for c in ${COMPONENTS:-$USE_COMPONENTS}; do
+			local cs c path pkgdest
+			path="dists/$SECURITY_SUITE/$c/binary-$ARCH/Packages"
+			pkgdest="$TARGET/$($DLDEST pkg "$SECUIRTY_SUITE" "$c" "$ARCH" "$SECURITY_MIRROR" "$path")"
+			if [ -e "$pkgdest" ]; then cs="$cs $c"; fi
+		done
+		if [ "$cs" != "" ]; then
+			echo "deb $SECURITY_MIRROR $SECURITY_SUITE$cs" >> "$TARGET/etc/apt/sources.list"
+		fi
+	fi
 }
 
 setup_etc () {
