@@ -1191,7 +1191,7 @@ setup_proc () {
 		# firmlink $TARGET/{dev,servers,proc} to the system ones.
 		settrans -a "$TARGET/dev" /hurd/firmlink /dev
 		settrans -a "$TARGET/servers" /hurd/firmlink /servers
-	        settrans -a "$TARGET/proc" /hurd/firmlink /proc
+		settrans -a "$TARGET/proc" /hurd/firmlink /proc
 		;;
 	    *)
 		umount_on_exit /dev/pts
