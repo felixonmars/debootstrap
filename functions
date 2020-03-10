@@ -1125,10 +1125,10 @@ setup_apt_sources () {
 
 	# for security mirror
 	if [ "$enable_security_mirror" = true ]; then
-		if [ "$SUITE" = stretch ] || [ "$SUITE" = buster ]; then
-			SECURITY_SUITE="$SUITE"/updates
+		if [ "$CODENAME" = stretch ] || [ "$CODENAME" = buster ]; then
+			SECURITY_SUITE="$CODENAME"/updates
 		else
-			SECURITY_SUITE="$SUITE"-security
+			SECURITY_SUITE="$CODENAME"-security
 		fi
 
 		for c in ${COMPONENTS:-$USE_COMPONENTS}; do
