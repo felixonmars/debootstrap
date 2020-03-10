@@ -820,8 +820,12 @@ if am_doing_phase second_stage; then
 	second_stage_install
 
 	if [ "$enable_security_mirror" = true ]; then
-		chroot "$TARGET" /usr/bin/apt-get update
-		chroot "$TARGET" /usr/bin/apt-get -y upgrade
+		if [ "$CODENAME" = jessie ]; then
+			info JESSIEBUG "Avoid mount /proc bug, please run apt-get for security update manually"
+		else
+			chroot "$TARGET" /usr/bin/apt-get update
+			chroot "$TARGET" /usr/bin/apt-get -y upgrade
+		fi
 	fi
 
 	if [ -e "$TARGET/debootstrap/debootstrap.log" ]; then

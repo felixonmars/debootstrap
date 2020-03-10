@@ -1,3 +1,10 @@
+debootstrap (1.0.121) unstable; urgency=medium
+
+  * Fix "debootstrapping testing and stable results in exit 100",
+    use CODENAME for check properly (Closes: #953404)
+
+ -- Hideki Yamane <henrich@debian.org>  Tue, 10 Mar 2020 21:42:03 +0900
+
 debootstrap (1.0.120) unstable; urgency=medium
 
   * Check codename for apt-transport-https (Closes: #920255, #879755)
