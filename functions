@@ -557,7 +557,7 @@ validate_suite () {
 	CODENAME=$(sed -n "s/^Codename: *//p" "$reldest")
 	suite=$(sed -n "s/^Suite: *//p" "$reldest")
 
-	if [ "$suite" = oldstable ] || [ "$suite" = stable ] || [ "$suite" = testing ]; then
+	if [ "$suite" = oldoldstable ] || [ "$suite" = oldstable ] || [ "$suite" = stable ] || [ "$suite" = testing ]; then
 		enable_security_mirror="true"
 	fi
 
@@ -1125,7 +1125,13 @@ setup_apt_sources () {
 
 	# for security mirror
 	if [ "$enable_security_mirror" = true ]; then
-		if [ "$CODENAME" = stretch ] || [ "$CODENAME" = buster ]; then
+		if [ "$SUITE" = oldoldstable ] ||[ "$SUITE" = oldstable ] ||[ "$SUITE" = stable ] ||[ "$SUITE" = testing ]; then
+			if [ "$CODENAME" = jessie ] || [ "$CODENAME" = stretch ] || [ "$CODENAME" = buster ]; then
+				SECURITY_SUITE="$SUITE"/updates
+			else
+				SECURITY_SUITE="$SUITE"-security
+			fi
+		elif [ "$CODENAME" = stretch ] || [ "$CODENAME" = buster ]; then
 			SECURITY_SUITE="$CODENAME"/updates
 		else
 			SECURITY_SUITE="$CODENAME"-security
