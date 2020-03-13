@@ -1,4 +1,4 @@
-debootstrap (1.0.122) UNRELEASED; urgency=medium
+debootstrap (1.0.122) unstable; urgency=medium
 
   * Revert the addition of (mandatory) security support as debootstrap's
     goal is to provide with a basic Debian system that many provisioning
@@ -7,7 +7,7 @@ debootstrap (1.0.122) UNRELEASED; urgency=medium
     not seeming to be a good idea, that triggers regressions for a number
     of use cases (Closes: #953759, #953588, #953593, #953594, #953617).
 
- -- Cyril Brulebois <kibi@debian.org>  Fri, 13 Mar 2020 05:26:16 +0100
+ -- Cyril Brulebois <kibi@debian.org>  Fri, 13 Mar 2020 05:43:24 +0100
 
 debootstrap (1.0.121) unstable; urgency=medium
 
