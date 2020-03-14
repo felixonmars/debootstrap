@@ -1,10 +1,10 @@
-debootstrap (1.0.123) UNRELEASED; urgency=medium
+debootstrap (1.0.123) unstable; urgency=medium
 
   * Reinstate safeguard removed in 1.0.121, which is absolutely needed
     to avoid unmounting target entirely, as seen when running in d-i
     with default parameters (Closes: #953849). Vielen Dank, Johannes!
 
- -- Cyril Brulebois <kibi@debian.org>  Sat, 14 Mar 2020 02:04:12 +0100
+ -- Cyril Brulebois <kibi@debian.org>  Sat, 14 Mar 2020 02:07:20 +0100
 
 debootstrap (1.0.122) unstable; urgency=medium
 
