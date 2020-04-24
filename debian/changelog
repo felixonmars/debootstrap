@@ -1,3 +1,9 @@
+debootstrap (1.0.124) UNRELEASED; urgency=medium
+
+  * Add (Ubuntu) groovy as a symlink to gutsy.
+
+ -- Colin Watson <cjwatson@debian.org>  Fri, 24 Apr 2020 16:29:10 +0100
+
 debootstrap (1.0.123) unstable; urgency=medium
 
   * Reinstate safeguard removed in 1.0.121, which is absolutely needed
