@@ -7,6 +7,7 @@ smallyes() {
 
 in_path () {
 	local OLD_IFS="$IFS"
+	local dir
 	IFS=":"
 	for dir in $PATH; do
 		if [ -x "$dir/$1" ]; then
@@ -22,7 +23,7 @@ in_path () {
 
 error () {
 	# <error code> <name> <string> <args>
-	local err name fmt
+	local err name fmt x
 	err="$1"
 	name="$2"
 	fmt="$3"
@@ -39,7 +40,7 @@ error () {
 
 warning () {
 	# <name> <string> <args>
-	local name fmt
+	local name fmt x
 	name="$1"
 	fmt="$2"
 	shift; shift
@@ -54,7 +55,7 @@ warning () {
 
 info () {
 	# <name> <string> <args>
-	local name fmt
+	local name fmt x
 	name="$1"
 	fmt="$2"
 	shift; shift
@@ -101,7 +102,7 @@ wgetprogress () {
 
 progress () {
 	# <now> <end> <name> <string> <args>
-	local now end name fmt
+	local now end name fmt x
 	now="$1"
 	end="$2"
 	name="$3"
@@ -253,6 +254,7 @@ doing_variant () {
 
 SUPPORTED_VARIANTS="-"
 variants () {
+	local v
 	SUPPORTED_VARIANTS="$*"
 	for v in $*; do
 		if doing_variant "$v"; then return 0; fi
@@ -334,6 +336,7 @@ get () {
 	local dest_base
 	local nocache=""
 	local byhash=""
+	local a
 	from_base="$1"; shift
 	dest_base="$1"; shift
 	if [ "$1" = "nocache" ]; then
@@ -531,6 +534,7 @@ get_release_checksum () {
 }
 
 extract_release_components () {
+	local c
 	local reldest="$1"; shift
 	TMPCOMPONENTS="$(sed -n 's/Components: *//p' "$reldest")"
 	for c in $TMPCOMPONENTS ; do
@@ -551,7 +555,7 @@ extract_release_components () {
 
 CODENAME=""
 validate_suite () {
-	local reldest suite
+	local reldest suite s
 	reldest="$1"
 
 	CODENAME=$(sed -n "s/^Codename: *//p" "$reldest")
@@ -653,7 +657,7 @@ download_release_sig () {
 download_release_indices () {
 	local m1 inreldest reldest relsigdest totalpkgs \
 	      subpath xzi bz2i gzi normi i ext \
-	      donepkgs pkgdest acquirebyhash
+	      donepkgs pkgdest acquirebyhash s c m
 	m1="${MIRRORS%% *}"
 	for s in $SUITE $EXTRA_SUITES; do
 		inreldest="$TARGET/$($DLDEST rel "$s" "$m1" "dists/$s/InRelease")"
@@ -792,7 +796,8 @@ download_debs () {
 }
 
 download_release () {
-	local m1 numdebs countdebs totaldebs leftoverdebs path pkgdest dloaddebs
+	local m1 numdebs countdebs totaldebs leftoverdebs path pkgdest \
+	      dloaddebs s c m
 	m1="${MIRRORS%% *}"
 
 	numdebs="$#"
@@ -859,7 +864,7 @@ download_release () {
 }
 
 download_main_indices () {
-	local m1 comp path pkgdest 
+	local m1 comp path pkgdest m s c
 	m1="${MIRRORS%% *}"
 	comp="${USE_COMPONENTS}"
 	progress 0 100 DOWNMAINPKGS "Downloading Packages file"
@@ -887,7 +892,7 @@ download_main_indices () {
 }
 
 download_main () {
-	local m1 path pkgdest debdest
+	local m1 path pkgdest debdest p s c m
 	m1="${MIRRORS%% *}"
 
 	:>"$TARGET/debootstrap/debpaths"
@@ -930,7 +935,7 @@ download_main () {
 ###################################################### deb choosing support
 
 get_debs () {
-	local field m1 c path pkgdest
+	local field m1 s c path pkgdest
 	field="$1"
 	shift
 	for m1 in $MIRRORS; do
@@ -1009,6 +1014,7 @@ extract_ar_deb_data () {
 
 valid_extractor () {
 	local extractor="$1"
+	local E
 
 	for E in $EXTRACTORS_SUPPORTED; do
 		if [ "$extractor" = "$E" ]; then
@@ -1045,7 +1051,7 @@ choose_extractor () {
 
 extract () { (
 	cd "$TARGET" || exit 1
-	local p cat_cmd
+	local p cat_cmd pkg
 	p=0
 	for pkg in $(debfor "$@"); do
 		p=$(($p + 1))
@@ -1106,6 +1112,7 @@ conditional_cp () {
 
 
 setup_apt_sources () {
+	local m s c
 	mkdir -p "$TARGET/etc/apt"
 	for m in "$@"; do
 		for s in $SUITE $EXTRA_SUITES; do
@@ -1130,7 +1137,7 @@ setup_etc () {
 UMOUNT_DIRS=
 
 umount_exit_function () {
-	local realdir
+	local realdir dir
 	for dir in $UMOUNT_DIRS; do
 		realdir="$(in_target_nofail readlink -f "$dir")"
 		[ "$realdir" ] || continue
@@ -1296,6 +1303,7 @@ setup_devices_fakechroot () {
 }
 
 setup_devices_bind () {
+	local device
 	mount -t tmpfs nodev "$TARGET/dev"
 	umount_on_exit /dev
 	for device in null zero full random urandom tty pts shm ptmx; do
@@ -1530,6 +1538,7 @@ resolve_deps () {
 	local PKGS="$*"
 	local ALLPKGS="$PKGS";
 	local ALLPKGS2="";
+	local s c
 	while [ "$PKGS" != "" ]; do
 		local NEWPKGS=""
 		for s in $SUITE $EXTRA_SUITES; do

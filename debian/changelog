@@ -1,6 +1,10 @@
 debootstrap (1.0.124) UNRELEASED; urgency=medium
 
+  [ Colin Watson ]
   * Add (Ubuntu) groovy as a symlink to gutsy.
+
+  [ Samuel Thibault ]
+  * functions: Turn for loops variables into locals, suggested by jhcha54008.
 
  -- Colin Watson <cjwatson@debian.org>  Fri, 24 Apr 2020 16:29:10 +0100
 
