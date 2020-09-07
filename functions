@@ -1183,7 +1183,12 @@ setup_proc () {
 		umount_on_exit /dev/shm
 		umount_on_exit /proc
 		umount_on_exit /proc/bus/usb
-		umount "$TARGET/proc" 2>/dev/null || true
+		if [ -L "$TARGET/proc" ];then
+			rm -f $TARGET/proc
+			mkdir $TARGET/proc
+		else
+			umount "$TARGET/proc" 2>/dev/null || true
+		fi
 
 		# some container environment are used at second-stage, it already treats /proc and so on
 		if [ -z "$(ls -A "$TARGET/proc")" ]; then
