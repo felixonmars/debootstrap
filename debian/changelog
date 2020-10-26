@@ -9,6 +9,9 @@ debootstrap (1.0.124) UNRELEASED; urgency=medium
   [ YunQiang Su ]
   * stage1: re-mkdir /proc if it is a symlink instead of umount. (Closes: #968927)
 
+  [ Luca Falavigna ]
+  * Add (Ubuntu) hirsute as a symlink to gutsy.
+
  -- Colin Watson <cjwatson@debian.org>  Fri, 24 Apr 2020 16:29:10 +0100
 
 debootstrap (1.0.123) unstable; urgency=medium
