@@ -1007,6 +1007,7 @@ extract_ar_deb_data () {
 		data.tar.gz)  cat_cmd=zcat ;;
 		data.tar.bz2) cat_cmd=bzcat ;;
 		data.tar.xz)  cat_cmd=xzcat ;;
+		data.tar.zst) cat_cmd=zstdcat ;;
 		data.tar)     cat_cmd=cat ;;
 		*) error 1 UNKNOWNDATACOMP "Unknown compression type for %s in %s" "$tarball" "$pkg" ;;
 	esac
