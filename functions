@@ -627,7 +627,13 @@ download_release_sig () {
 
 	progress 0 100 DOWNREL "Downloading Release file"
 	progress_next 100
-	if get "$m1/dists/$suite/InRelease" "$inreldest" nocache; then
+	if [ -n "$INRELEASE_PATH" ]; then
+		get "$m1/dists/$suite/$INRELEASE_PATH" "$inreldest" nocache ||
+			error 1 NOGETREL "Failed getting release file %s" \
+			"$m1/dists/$suite/$INRELEASE_PATH"
+		split_inline_sig "$inreldest" "$reldest" "$relsigdest"
+		progress 100 100 DOWNREL "Downloading Release file"
+	elif get "$m1/dists/$suite/InRelease" "$inreldest" nocache; then
 		split_inline_sig "$inreldest" "$reldest" "$relsigdest"
 		progress 100 100 DOWNREL "Downloading Release file"
 	else
