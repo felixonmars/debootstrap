@@ -16,7 +16,10 @@ debootstrap (1.0.124) UNRELEASED; urgency=medium
   * Add --inrelease-path option to allow specifying by-hash InRelease
     location.
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Wed, 07 Apr 2021 16:09:18 +0100
+  [ Dimitri John Ledkov ]
+  * functions: add zstd support to the ar extractor
+
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 16 Apr 2021 11:14:18 +0100
 
 debootstrap (1.0.123) unstable; urgency=medium
 
