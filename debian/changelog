@@ -23,6 +23,8 @@ debootstrap (1.0.124) UNRELEASED; urgency=medium
     merged-usr.
   * gutsy: use --extractor=ar if dpkg-deb has no zstd support (i.e. on
     Debian & non-Ubuntu derivatives).
+  * rules,control: adjust Recommends/Suggests to be appropriate on each
+    distro.
 
  -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 16 Apr 2021 11:14:18 +0100
 
