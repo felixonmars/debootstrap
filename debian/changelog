@@ -1,4 +1,4 @@
-debootstrap (1.0.124) UNRELEASED; urgency=medium
+debootstrap (1.0.124) experimental; urgency=medium
 
   [ Colin Watson ]
   * Add (Ubuntu) groovy as a symlink to gutsy.
@@ -26,7 +26,7 @@ debootstrap (1.0.124) UNRELEASED; urgency=medium
   * rules,control: adjust Recommends/Suggests to be appropriate on each
     distro.
 
- -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 16 Apr 2021 11:14:18 +0100
+ -- Dimitri John Ledkov <xnox@ubuntu.com>  Mon, 26 Apr 2021 15:02:44 +0100
 
 debootstrap (1.0.123) unstable; urgency=medium
 
