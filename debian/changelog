@@ -17,7 +17,7 @@ debootstrap (1.0.124) UNRELEASED; urgency=medium
     location.
 
   [ Dimitri John Ledkov ]
-  * functions: add zstd support to the ar extractor
+  * functions: add zstd control&data support to the ar extractor LP: #1923845
   * Add (Ubuntu) impish as a symlink to gutsy.
   * gutsy: sync changes from Ubuntu, to ensure that impish+ are always
     merged-usr.
