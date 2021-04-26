@@ -12,9 +12,8 @@ Vcs-Git: https://salsa.debian.org/installer-team/debootstrap.git
 Package: debootstrap
 Architecture: all
 Depends: ${misc:Depends}, wget
-Recommends: gnupg, ${keyring}, arch-test (>= 0.11~),
-Suggests: ubuntu-archive-keyring,
-          squid-deb-proxy-client,
+Recommends: gnupg, ${debootstrap:Recommends}
+Suggests: squid-deb-proxy-client, ${debootstrap:Suggests}
 Description: Bootstrap a basic Debian system
  debootstrap is used to create a Debian base system from scratch,
  without requiring the availability of dpkg or apt. It does this by
