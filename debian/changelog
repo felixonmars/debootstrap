@@ -21,6 +21,8 @@ debootstrap (1.0.124) UNRELEASED; urgency=medium
   * Add (Ubuntu) impish as a symlink to gutsy.
   * gutsy: sync changes from Ubuntu, to ensure that impish+ are always
     merged-usr.
+  * gutsy: use --extractor=ar if dpkg-deb has no zstd support (i.e. on
+    Debian & non-Ubuntu derivatives).
 
  -- Dimitri John Ledkov <xnox@ubuntu.com>  Fri, 16 Apr 2021 11:14:18 +0100
 

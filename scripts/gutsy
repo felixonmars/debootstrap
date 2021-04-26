@@ -40,6 +40,18 @@ case $ARCH in
 	*)          LIBC="libc6" ;;
 esac
 
+case $SUITE in
+	gutsy|hardy|intrepid|jaunty|karmic|lucid|maverick|natty|oneiric|precise|quantal|raring|saucy|trusty|utopic|vivid|wily|xenial|yakkety|zesty|artful|bionic|cosmic|disco|eoan|focal|groovy|hirsute) ;;
+	*)
+		# impish+ will use zstd compression, check if supported
+		dpkg_zstd="$(dpkg-deb --help 2>/dev/null | grep ' zstd,' || :)"
+		if [ -z "$EXTRACTOR_OVERRIDE" ] && [ -z "$dpkg_zstd" ]; then
+			info CHOSENEXTRACTOR "%s uses zstd compression, setting --extractor=ar option" "$SUITE"
+			export EXTRACTOR_OVERRIDE=ar
+		fi
+	;;
+esac
+
 work_out_debs () {
 	required="$(get_debs Priority: required)"
 
