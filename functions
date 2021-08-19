@@ -922,6 +922,8 @@ download_main () {
 						echo >>"$TARGET/debootstrap/debpaths" "$p $debdest"
 						details="done"
 						break
+					else
+						details=""
 					fi
 				done
 				if [ "$details" != "" ]; then
