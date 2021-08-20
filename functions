@@ -1131,6 +1131,7 @@ setup_apt_sources () {
 	for m in "$@"; do
 		for s in $SUITE $EXTRA_SUITES; do
 			local cs c path pkgdest
+			cs=""
 			for c in ${COMPONENTS:-$USE_COMPONENTS}; do
 				path="dists/$s/$c/binary-$ARCH/Packages"
 				pkgdest="$TARGET/$($DLDEST pkg "$s" "$c" "$ARCH" "$m" "$path")"
