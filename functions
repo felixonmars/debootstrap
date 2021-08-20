@@ -538,6 +538,10 @@ extract_release_components () {
 	local reldest="$1"; shift
 	TMPCOMPONENTS="$(sed -n 's/Components: *//p' "$reldest")"
 	for c in $TMPCOMPONENTS ; do
+		case " $COMPONENTS " in
+			*" $c "*) continue ;;
+		esac;
+
 		eval "
 		case \"\$c\" in
 		    $USE_COMPONENTS)
