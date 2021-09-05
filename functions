@@ -1366,7 +1366,7 @@ setup_merged_usr() {
 
 	if [ "$MERGED_USR" = "no" ]; then return 0; fi
 
-	local link_dir
+	local link_dir=""
 	case $ARCH in
 	    hurd-*)	return 0 ;;
 	    amd64)	link_dir="lib32 lib64 libx32" ;;
