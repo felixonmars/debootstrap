@@ -1,8 +1,12 @@
 debootstrap (1.0.125) UNRELEASED; urgency=medium
 
+  [ Samuel Thibault ]
   * functions (download_main): Let the loops try the different components and
     suites when the checksum doesn't match. This is needed when several of
     them contain the same package name.
+
+  [ Arnaud Rebillout ]
+  * Fix auto proxy discovery (Closes: #985811)
 
  -- Samuel Thibault <sthibault@debian.org>  Thu, 19 Aug 2021 13:49:19 +0200
 
