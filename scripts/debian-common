@@ -43,10 +43,9 @@ work_out_debs () {
 }
 
 first_stage_install () {
+	# Set up correct EXTRACT_DEB_TAR_OPTIONS
 	case "$CODENAME" in
-		# "merged-usr" blacklist for past releases
 		etch*|lenny|squeeze|wheezy|jessie*)
-			[ -z "$MERGED_USR" ] && MERGED_USR="no"
 			;;
 		*)
 			# see https://bugs.debian.org/838388
@@ -54,10 +53,17 @@ first_stage_install () {
 			;;
 	esac
 
-	if [ "$CODENAME" = "stretch" ] && [ -z "$MERGED_USR" ]; then
-		MERGED_USR="no"
-	fi
-		
+	case "$CODENAME" in
+		# If not specified, default to split-usr on older releases
+		etch*|lenny|squeeze|wheezy|jessie*|stretch|ascii|buster|beowulf|bullseye)
+			[ -z "$MERGED_USR" ] && MERGED_USR="no"
+			;;
+		# Always use merged-usr on bookworm+ and its derivatives
+		*)
+			MERGED_USR="yes"
+			;;
+	esac
+
 	setup_merged_usr
 	extract $required
 
