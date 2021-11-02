@@ -12,6 +12,9 @@ debootstrap (1.0.125) UNRELEASED; urgency=medium
   [ Johannes 'josch' Schauer ]
   * functions: define link_dir before using it.
 
+  [ Hideki Yamane ]
+  * Add (Debian) trixie as a symlink to sid.
+
   [ Dimitri John Ledkov ]
   * Add (Ubuntu) jammy as a symlink to gutsy.
 
