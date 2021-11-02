@@ -1,4 +1,4 @@
-debootstrap (1.0.125) UNRELEASED; urgency=medium
+debootstrap (1.0.125) unstable; urgency=medium
 
   [ Samuel Thibault ]
   * functions (download_main): Let the loops try the different components and
@@ -17,6 +17,7 @@ debootstrap (1.0.125) UNRELEASED; urgency=medium
 
   [ Dimitri John Ledkov ]
   * Add (Ubuntu) jammy as a symlink to gutsy.
+  * Upload to unstable.
 
  -- Samuel Thibault <sthibault@debian.org>  Thu, 19 Aug 2021 13:49:19 +0200
 
