@@ -19,7 +19,7 @@ debootstrap (1.0.125) unstable; urgency=medium
   * Add (Ubuntu) jammy as a symlink to gutsy.
   * Upload to unstable.
 
- -- Samuel Thibault <sthibault@debian.org>  Thu, 19 Aug 2021 13:49:19 +0200
+ -- Dimitri John Ledkov <dimitri.ledkov@canonical.com>  Tue, 02 Nov 2021 11:35:00 +0000
 
 debootstrap (1.0.124) experimental; urgency=medium
 
