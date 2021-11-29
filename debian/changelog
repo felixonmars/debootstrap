@@ -1,3 +1,10 @@
+debootstrap (1.0.126+nmu1) unstable; urgency=medium
+
+  * Non-maintainer upload.
+  * Undo the changes of the last upload. (Closes: #998867)
+
+ -- Johannes Schauer Marin Rodrigues <josch@debian.org>  Sun, 28 Nov 2021 12:38:15 +0100
+
 debootstrap (1.0.126) unstable; urgency=low
 
   * Ensure bookworm+ suites are set up with merged-usr. (Closes: #978636)
