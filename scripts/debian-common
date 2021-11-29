@@ -57,7 +57,7 @@ first_stage_install () {
 	if [ "$CODENAME" = "stretch" ] && [ -z "$MERGED_USR" ]; then
 		MERGED_USR="no"
 	fi
-		
+
 	setup_merged_usr
 	extract $required
 
