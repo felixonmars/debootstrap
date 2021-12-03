@@ -1375,6 +1375,8 @@ setup_merged_usr() {
 			link_dir="lib32 lib64" ;;
 	    mips64*|mipsn32*)
 			link_dir="lib32 lib64 libo32" ;;
+	    loongarch64*)
+			link_dir="lib32 lib64" ;;
 	    powerpc)	link_dir="lib64" ;;
 	    ppc64)	link_dir="lib32 lib64" ;;
 	    ppc64el)	link_dir="lib64" ;;
