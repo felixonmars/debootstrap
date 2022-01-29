@@ -538,6 +538,10 @@ extract_release_components () {
 	local reldest="$1"; shift
 	TMPCOMPONENTS="$(sed -n 's/Components: *//p' "$reldest")"
 	for c in $TMPCOMPONENTS ; do
+		case " $COMPONENTS " in
+			*" $c "*) continue ;;
+		esac;
+
 		eval "
 		case \"\$c\" in
 		    $USE_COMPONENTS)
@@ -1127,6 +1131,7 @@ setup_apt_sources () {
 	for m in "$@"; do
 		for s in $SUITE $EXTRA_SUITES; do
 			local cs c path pkgdest
+			cs=""
 			for c in ${COMPONENTS:-$USE_COMPONENTS}; do
 				path="dists/$s/$c/binary-$ARCH/Packages"
 				pkgdest="$TARGET/$($DLDEST pkg "$s" "$c" "$ARCH" "$m" "$path")"
