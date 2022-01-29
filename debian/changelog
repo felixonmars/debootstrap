@@ -1,3 +1,10 @@
+debootstrap (1.0.127) UNRELEASED; urgency=medium
+
+  [ Heysion Yuan ]
+  * add usrmerge support loongarch64.
+
+ -- Samuel Thibault <sthibault@debian.org>  Sat, 29 Jan 2022 21:07:44 +0100
+
 debootstrap (1.0.126+nmu1) unstable; urgency=medium
 
   * Non-maintainer upload.
