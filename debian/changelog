@@ -11,6 +11,7 @@ debootstrap (1.0.127) UNRELEASED; urgency=medium
 
   [ Debian Janitor ]
   * Bump debhelper from old 12 to 13.
+  * Update renamed lintian tag names in lintian overrides.
 
  -- Samuel Thibault <sthibault@debian.org>  Sat, 29 Jan 2022 21:07:44 +0100
 
